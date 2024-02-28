@@ -3,8 +3,8 @@
 import { FormFieldInfo } from '@/@types/globals';
 import { useId } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-import ArrayInput from './ArrayInput';
-import Input from './Input';
+import FormFieldArray from './FirmFieldArray';
+import FormField from './FormField';
 import { toast } from 'react-toastify';
 
 const formFieldsInfo: FormFieldInfo[] = [
@@ -24,13 +24,13 @@ const formFieldsInfo: FormFieldInfo[] = [
     name: 'Keyword',
     type: 'text',
     label: 'Keyword',
-    options: { minLength: 1, maxLength: 255 },
+    options: { required: true, minLength: 1, maxLength: 255 },
   },
   {
     name: 'DictionaryCode',
     type: 'number',
     label: 'DictionaryCode',
-    options: { min: 1, max: 214 },
+    options: { required: true, min: 1, max: 214 },
   },
   {
     name: 'OtherVariants',
@@ -46,8 +46,6 @@ const RadicalAddForm = () => {
   const { register, control, formState, handleSubmit, reset } = useForm();
 
   const onValid = async (fieldValues: FieldValues) => {
-    console.log(fieldValues);
-
     const newRadical: any = {};
     newRadical.Character = fieldValues.Character;
     if (fieldValues.CorrespondingKanjiId?.length)
@@ -85,7 +83,7 @@ const RadicalAddForm = () => {
       <h1 className="header">Добавить радикал</h1>
       {formFieldsInfo.map((fieldInfo, index) =>
         fieldInfo.array ? (
-          <ArrayInput
+          <FormFieldArray
             key={index}
             register={register}
             control={control}
@@ -94,7 +92,7 @@ const RadicalAddForm = () => {
             formState={formState}
           />
         ) : (
-          <Input
+          <FormField
             key={index}
             register={register}
             formId={formId}

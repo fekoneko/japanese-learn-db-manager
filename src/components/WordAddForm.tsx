@@ -3,8 +3,8 @@
 import { FormFieldInfo } from '@/@types/globals';
 import { useId } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-import ArrayInput from './ArrayInput';
-import Input from './Input';
+import FormFieldArray from './FirmFieldArray';
+import FormField from './FormField';
 import { toast } from 'react-toastify';
 
 const formFieldsInfo: FormFieldInfo[] = [
@@ -54,8 +54,6 @@ const WordAddForm = () => {
   const { register, control, formState, handleSubmit, reset } = useForm();
 
   const onValid = async (fieldValues: FieldValues) => {
-    console.log(fieldValues);
-
     const newWord: any = {};
     newWord.Word = fieldValues.Word;
     newWord.Reading = fieldValues.Reading;
@@ -95,7 +93,7 @@ const WordAddForm = () => {
       <h1 className="header">Добавить слово</h1>
       {formFieldsInfo.map((fieldInfo, index) =>
         fieldInfo.array ? (
-          <ArrayInput
+          <FormFieldArray
             key={index}
             register={register}
             control={control}
@@ -104,7 +102,7 @@ const WordAddForm = () => {
             formState={formState}
           />
         ) : (
-          <Input
+          <FormField
             key={index}
             register={register}
             formId={formId}

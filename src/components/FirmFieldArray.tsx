@@ -3,7 +3,7 @@
 import { FormFieldInfo } from '@/@types/globals';
 import { Fragment } from 'react';
 import { Control, FieldValues, FormState, UseFormRegister, useFieldArray } from 'react-hook-form';
-import InputError from './InputError';
+import FormFieldError from './FormFieldError';
 
 interface ArrayInputProps {
   register: UseFormRegister<FieldValues>;
@@ -12,7 +12,7 @@ interface ArrayInputProps {
   fieldInfo: FormFieldInfo;
   formState: FormState<FieldValues>;
 }
-const ArrayInput = ({ register, control, formId, fieldInfo, formState }: ArrayInputProps) => {
+const FormFieldArray = ({ register, control, formId, fieldInfo, formState }: ArrayInputProps) => {
   const { fields, append, remove } = useFieldArray({
     name: fieldInfo.name,
     control,
@@ -37,7 +37,7 @@ const ArrayInput = ({ register, control, formId, fieldInfo, formState }: ArrayIn
                 x
               </button>
             </div>
-            <InputError
+            <FormFieldError
               errorType={
                 typeof formState?.errors[fieldInfo.name] === 'object'
                   ? (formState?.errors[fieldInfo.name] as any)[index]?.type
@@ -56,4 +56,4 @@ const ArrayInput = ({ register, control, formId, fieldInfo, formState }: ArrayIn
     </fieldset>
   );
 };
-export default ArrayInput;
+export default FormFieldArray;

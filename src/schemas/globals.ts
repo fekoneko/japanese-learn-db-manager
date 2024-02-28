@@ -24,6 +24,12 @@ export const WordSchema: Schema = {
       maxItems: 10,
       required: false,
     },
+    KanjiIds: {
+      type: 'array',
+      items: { type: 'integer', minimum: 1, maximum: 2147483648 },
+      maxItems: 20,
+      required: false,
+    },
   },
 };
 
@@ -45,6 +51,12 @@ export const KanjiSchema: Schema = {
     },
     Meaning: { type: 'string', minLength: 1, maxLength: 255, required: false },
     Popularity: { type: 'integer', minimum: 1, maximum: 2147483648, required: false },
+    RadicalIds: {
+      type: 'array',
+      items: { type: 'integer', minimum: 1, maximum: 2147483648 },
+      maxItems: 20,
+      required: false,
+    },
   },
 };
 
@@ -53,8 +65,8 @@ export const RadicalSchema: Schema = {
   properties: {
     Character: { type: 'string', minLength: 1, maxLength: 1, required: true },
     CorrespondingKanjiId: { type: 'integer', minimum: 1, maximum: 2147483648, required: false },
-    Keyword: { type: 'string', minLength: 1, maxLength: 255, required: false },
-    DictionaryCode: { type: 'integer', minimum: 1, maximum: 214, required: false },
+    Keyword: { type: 'string', minLength: 1, maxLength: 255, required: true },
+    DictionaryCode: { type: 'integer', minimum: 1, maximum: 214, required: true },
     OtherVariants: {
       type: 'array',
       items: { type: 'string', minLength: 1, maxLength: 1 },

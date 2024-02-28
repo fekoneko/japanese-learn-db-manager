@@ -17,13 +17,11 @@ interface RootLayoutProps {
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="ru">
-      <body>
-        <div className="flex h-dvh w-screen flex-col bg-slate-300">
-          <Header />
-          <Navigation />
-          <main className="grow overflow-y-scroll">{children}</main>
-          <Footer />
-        </div>
+      <body className="flex h-dvh w-screen flex-col bg-slate-300">
+        <Header />
+        <Navigation />
+        <main className="grow overflow-y-scroll">{children}</main>
+        <Footer />
         <ToastContainer
           position="bottom-center"
           autoClose={1000}

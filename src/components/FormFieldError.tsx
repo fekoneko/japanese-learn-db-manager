@@ -1,7 +1,7 @@
-interface InputErrorProps {
+interface FieldErrorProps {
   errorType: any;
 }
-const InputError = ({ errorType }: InputErrorProps) => {
+const FormFieldError = ({ errorType }: FieldErrorProps) => {
   if (!errorType) return null;
 
   if (errorType === 'required')
@@ -29,4 +29,4 @@ const InputError = ({ errorType }: InputErrorProps) => {
       </p>
     );
 };
-export default InputError;
+export default FormFieldError;

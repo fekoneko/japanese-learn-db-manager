@@ -3,8 +3,8 @@
 import { FormFieldInfo } from '@/@types/globals';
 import { useId } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-import ArrayInput from './ArrayInput';
-import Input from './Input';
+import FormFieldArray from './FirmFieldArray';
+import FormField from './FormField';
 import { toast } from 'react-toastify';
 
 const formFieldsInfo: FormFieldInfo[] = [
@@ -47,8 +47,6 @@ const KanjiAddForm = () => {
   const { register, control, formState, handleSubmit, reset } = useForm();
 
   const onValid = async (fieldValues: FieldValues) => {
-    console.log(fieldValues);
-
     const newKanji: any = {};
     newKanji.Character = fieldValues.Character;
     if (fieldValues.Onyomi?.length)
@@ -84,7 +82,7 @@ const KanjiAddForm = () => {
       <h1 className="header">Добавить кандзи</h1>
       {formFieldsInfo.map((fieldInfo, index) =>
         fieldInfo.array ? (
-          <ArrayInput
+          <FormFieldArray
             key={index}
             register={register}
             control={control}
@@ -93,7 +91,7 @@ const KanjiAddForm = () => {
             formState={formState}
           />
         ) : (
-          <Input
+          <FormField
             key={index}
             register={register}
             formId={formId}
