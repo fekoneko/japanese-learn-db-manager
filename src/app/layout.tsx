@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import { Slide, ToastContainer } from 'react-toastify';
 import '@/styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
+import Navigation from '@/components/Navigation';
 
 export const metadata: Metadata = {
   title: 'Авдеев Андрей, ИВТ1-Б21',
@@ -19,6 +20,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
       <body>
         <div className="flex h-dvh w-screen flex-col bg-slate-300">
           <Header />
+          <Navigation />
           <main className="grow overflow-y-scroll">{children}</main>
           <Footer />
         </div>

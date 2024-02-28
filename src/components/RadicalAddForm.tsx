@@ -9,71 +9,60 @@ import { toast } from 'react-toastify';
 
 const formFieldsInfo: FormFieldInfo[] = [
   {
-    name: 'Word',
+    name: 'Character',
     type: 'text',
-    label: 'Word',
-    options: { required: true, minLength: 1, maxLength: 30 },
+    label: 'Character',
+    options: { required: true, minLength: 1, maxLength: 1 },
   },
   {
-    name: 'Reading',
-    type: 'text',
-    label: 'Reading',
-    options: { required: true, minLength: 1, maxLength: 30 },
-  },
-  {
-    name: 'PitchAccents',
+    name: 'CorrespondingKanjiId',
     type: 'number',
-    label: 'PitchAccents',
-    array: true,
-    options: { min: 1, max: 30 },
-  },
-  {
-    name: 'Meanings',
-    type: 'text',
-    label: 'Meanings',
-    array: true,
-    options: { minLength: 1, maxLength: 30 },
-  },
-  {
-    name: 'Popularity',
-    type: 'number',
-    label: 'Popularity',
+    label: 'CorrespondingKanjiId',
     options: { min: 1, max: 2147483648 },
+  },
+  {
+    name: 'Keyword',
+    type: 'text',
+    label: 'Keyword',
+    options: { minLength: 1, maxLength: 255 },
+  },
+  {
+    name: 'DictionaryCode',
+    type: 'number',
+    label: 'DictionaryCode',
+    options: { min: 1, max: 214 },
   },
   {
     name: 'OtherVariants',
     type: 'text',
-    label: 'OtherVarints',
-    array: true,
-    options: { minLength: 1, maxLength: 30 },
+    label: 'OtherVariants',
+    options: { minLength: 1, maxLength: 1 },
   },
 ];
 
-const WordAddForm = () => {
+const RadicalAddForm = () => {
   const formId = useId();
   const { register, control, formState, handleSubmit } = useForm();
 
   const onValid = async (fieldValues: FieldValues) => {
     console.log(fieldValues);
 
-    const newWord: any = {};
-    newWord.Word = fieldValues.Word;
-    newWord.Reading = fieldValues.Reading;
-    if (fieldValues.PitchAccents?.length)
-      newWord.PitchAccents = fieldValues.PitchAccents?.map((value: string) =>
-        value === '' ? NaN : +value,
-      )?.filter((value: number) => !isNaN(value));
-    if (fieldValues.Meanings?.length)
-      newWord.Meanings = fieldValues.Meanings?.filter((value: string) => !!value?.length);
-    if (fieldValues.Popularity?.length) newWord.Popularity = +fieldValues.Popularity;
+    const newRadical: any = {};
+    newRadical.Character = fieldValues.Character;
+    if (fieldValues.CorrespondingKanjiId?.length)
+      newRadical.CorrespondingKanjiId = +fieldValues.CorrespondingKanjiId;
+    if (fieldValues.Keyword?.length) newRadical.Keyword = fieldValues.Keyword;
+    if (fieldValues.DictionaryCode?.length) newRadical.DictionaryCode = +fieldValues.DictionaryCode;
     if (fieldValues.OtherVariants?.length)
-      newWord.OtherVariants = fieldValues.OtherVariants?.filter((value: string) => !!value?.length);
+      newRadical.OtherVariants = fieldValues.OtherVariants?.filter(
+        (value: string) => !!value?.length,
+      );
 
     const responsePromise = new Promise((resolve, reject) =>
-      fetch('/api/words', {
+      fetch('/api/radicals', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newWord),
+        body: JSON.stringify(newRadical),
       }).then((response) => {
         if (response.ok) resolve(response);
         else reject();
@@ -81,9 +70,9 @@ const WordAddForm = () => {
     );
 
     toast.promise(responsePromise, {
-      pending: `Добавление слова "${newWord.Word}"...`,
-      success: `Слово "${newWord.Word}" добавлено`,
-      error: `При добавлении слова "${newWord.Word}" произошла ошибка`,
+      pending: `Добавление радикала "${newRadical.Character}"...`,
+      success: `Радикал "${newRadical.Character}" добавлен`,
+      error: `При добавлении радикала "${newRadical.Character}" произошла ошибка`,
     });
   };
 
@@ -92,7 +81,7 @@ const WordAddForm = () => {
       onSubmit={handleSubmit(onValid)}
       className="flex w-1/2 min-w-max flex-col gap-3 rounded bg-white p-5 shadow-lg"
     >
-      <h1 className="header">Добавить слово</h1>
+      <h1 className="header">Добавить радикал</h1>
       {formFieldsInfo.map((fieldInfo, index) =>
         fieldInfo.array ? (
           <ArrayInput
@@ -120,4 +109,4 @@ const WordAddForm = () => {
     </form>
   );
 };
-export default WordAddForm;
+export default RadicalAddForm;

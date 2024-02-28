@@ -9,30 +9,30 @@ import { toast } from 'react-toastify';
 
 const formFieldsInfo: FormFieldInfo[] = [
   {
-    name: 'Word',
+    name: 'Character',
     type: 'text',
-    label: 'Word',
-    options: { required: true, minLength: 1, maxLength: 30 },
+    label: 'Character',
+    options: { required: true, minLength: 1, maxLength: 1 },
   },
   {
-    name: 'Reading',
+    name: 'Onyomi',
     type: 'text',
-    label: 'Reading',
-    options: { required: true, minLength: 1, maxLength: 30 },
-  },
-  {
-    name: 'PitchAccents',
-    type: 'number',
-    label: 'PitchAccents',
+    label: 'Onyomi',
     array: true,
-    options: { min: 1, max: 30 },
+    options: { minLength: 1, maxLength: 10 },
   },
   {
-    name: 'Meanings',
+    name: 'Kunomi',
     type: 'text',
-    label: 'Meanings',
+    label: 'Kunomi',
     array: true,
-    options: { minLength: 1, maxLength: 30 },
+    options: { minLength: 1, maxLength: 10 },
+  },
+  {
+    name: 'Meaning',
+    type: 'text',
+    label: 'Meaning',
+    options: { minLength: 1, maxLength: 255 },
   },
   {
     name: 'Popularity',
@@ -40,40 +40,29 @@ const formFieldsInfo: FormFieldInfo[] = [
     label: 'Popularity',
     options: { min: 1, max: 2147483648 },
   },
-  {
-    name: 'OtherVariants',
-    type: 'text',
-    label: 'OtherVarints',
-    array: true,
-    options: { minLength: 1, maxLength: 30 },
-  },
 ];
 
-const WordAddForm = () => {
+const KanjiAddForm = () => {
   const formId = useId();
   const { register, control, formState, handleSubmit } = useForm();
 
   const onValid = async (fieldValues: FieldValues) => {
     console.log(fieldValues);
 
-    const newWord: any = {};
-    newWord.Word = fieldValues.Word;
-    newWord.Reading = fieldValues.Reading;
-    if (fieldValues.PitchAccents?.length)
-      newWord.PitchAccents = fieldValues.PitchAccents?.map((value: string) =>
-        value === '' ? NaN : +value,
-      )?.filter((value: number) => !isNaN(value));
-    if (fieldValues.Meanings?.length)
-      newWord.Meanings = fieldValues.Meanings?.filter((value: string) => !!value?.length);
-    if (fieldValues.Popularity?.length) newWord.Popularity = +fieldValues.Popularity;
-    if (fieldValues.OtherVariants?.length)
-      newWord.OtherVariants = fieldValues.OtherVariants?.filter((value: string) => !!value?.length);
+    const newKanji: any = {};
+    newKanji.Character = fieldValues.Character;
+    if (fieldValues.Onyomi?.length)
+      newKanji.Onyomi = fieldValues.Onyomi?.filter((value: string) => !!value?.length);
+    if (fieldValues.Kunomi?.length)
+      newKanji.Kunomi = fieldValues.Kunomi?.filter((value: string) => !!value?.length);
+    if (fieldValues.Meaning?.length) newKanji.Meaning = fieldValues.Meaning;
+    if (fieldValues.Popularity?.length) newKanji.Popularity = +fieldValues.Popularity;
 
     const responsePromise = new Promise((resolve, reject) =>
-      fetch('/api/words', {
+      fetch('/api/kanji', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newWord),
+        body: JSON.stringify(newKanji),
       }).then((response) => {
         if (response.ok) resolve(response);
         else reject();
@@ -81,9 +70,9 @@ const WordAddForm = () => {
     );
 
     toast.promise(responsePromise, {
-      pending: `Добавление слова "${newWord.Word}"...`,
-      success: `Слово "${newWord.Word}" добавлено`,
-      error: `При добавлении слова "${newWord.Word}" произошла ошибка`,
+      pending: `Добавление кандзи "${newKanji.Character}"...`,
+      success: `Кандзи "${newKanji.Character}" добавлен`,
+      error: `При добавлении кандзи "${newKanji.Character}" произошла ошибка`,
     });
   };
 
@@ -92,7 +81,7 @@ const WordAddForm = () => {
       onSubmit={handleSubmit(onValid)}
       className="flex w-1/2 min-w-max flex-col gap-3 rounded bg-white p-5 shadow-lg"
     >
-      <h1 className="header">Добавить слово</h1>
+      <h1 className="header">Добавить кандзи</h1>
       {formFieldsInfo.map((fieldInfo, index) =>
         fieldInfo.array ? (
           <ArrayInput
@@ -120,4 +109,4 @@ const WordAddForm = () => {
     </form>
   );
 };
-export default WordAddForm;
+export default KanjiAddForm;
