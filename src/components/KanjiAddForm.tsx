@@ -22,9 +22,9 @@ const formFieldsInfo: FormFieldInfo[] = [
     options: { minLength: 1, maxLength: 10 },
   },
   {
-    name: 'Kunomi',
+    name: 'Kunyomi',
     type: 'text',
-    label: 'Kunomi',
+    label: 'Kunyomi',
     array: true,
     options: { minLength: 1, maxLength: 10 },
   },
@@ -44,7 +44,7 @@ const formFieldsInfo: FormFieldInfo[] = [
 
 const KanjiAddForm = () => {
   const formId = useId();
-  const { register, control, formState, handleSubmit } = useForm();
+  const { register, control, formState, handleSubmit, reset } = useForm();
 
   const onValid = async (fieldValues: FieldValues) => {
     console.log(fieldValues);
@@ -53,8 +53,8 @@ const KanjiAddForm = () => {
     newKanji.Character = fieldValues.Character;
     if (fieldValues.Onyomi?.length)
       newKanji.Onyomi = fieldValues.Onyomi?.filter((value: string) => !!value?.length);
-    if (fieldValues.Kunomi?.length)
-      newKanji.Kunomi = fieldValues.Kunomi?.filter((value: string) => !!value?.length);
+    if (fieldValues.Kunyomi?.length)
+      newKanji.Kunyomi = fieldValues.Kunyomi?.filter((value: string) => !!value?.length);
     if (fieldValues.Meaning?.length) newKanji.Meaning = fieldValues.Meaning;
     if (fieldValues.Popularity?.length) newKanji.Popularity = +fieldValues.Popularity;
 
@@ -67,7 +67,7 @@ const KanjiAddForm = () => {
         if (response.ok) resolve(response);
         else reject();
       }),
-    );
+    ).then(() => reset());
 
     toast.promise(responsePromise, {
       pending: `Добавление кандзи "${newKanji.Character}"...`,

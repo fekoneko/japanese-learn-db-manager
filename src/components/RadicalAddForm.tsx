@@ -36,13 +36,14 @@ const formFieldsInfo: FormFieldInfo[] = [
     name: 'OtherVariants',
     type: 'text',
     label: 'OtherVariants',
+    array: true,
     options: { minLength: 1, maxLength: 1 },
   },
 ];
 
 const RadicalAddForm = () => {
   const formId = useId();
-  const { register, control, formState, handleSubmit } = useForm();
+  const { register, control, formState, handleSubmit, reset } = useForm();
 
   const onValid = async (fieldValues: FieldValues) => {
     console.log(fieldValues);
@@ -67,7 +68,7 @@ const RadicalAddForm = () => {
         if (response.ok) resolve(response);
         else reject();
       }),
-    );
+    ).then(() => reset());
 
     toast.promise(responsePromise, {
       pending: `Добавление радикала "${newRadical.Character}"...`,

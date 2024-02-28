@@ -51,7 +51,7 @@ const formFieldsInfo: FormFieldInfo[] = [
 
 const WordAddForm = () => {
   const formId = useId();
-  const { register, control, formState, handleSubmit } = useForm();
+  const { register, control, formState, handleSubmit, reset } = useForm();
 
   const onValid = async (fieldValues: FieldValues) => {
     console.log(fieldValues);
@@ -78,7 +78,7 @@ const WordAddForm = () => {
         if (response.ok) resolve(response);
         else reject();
       }),
-    );
+    ).then(() => reset());
 
     toast.promise(responsePromise, {
       pending: `Добавление слова "${newWord.Word}"...`,

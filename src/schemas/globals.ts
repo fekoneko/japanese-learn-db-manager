@@ -26,3 +26,40 @@ export const WordSchema: Schema = {
     },
   },
 };
+
+export const KanjiSchema: Schema = {
+  type: 'object',
+  properties: {
+    Character: { type: 'string', minLength: 1, maxLength: 1, required: true },
+    Onyomi: {
+      type: 'array',
+      items: { type: 'string', minLength: 1, maxLength: 10 },
+      maxItems: 30,
+      required: false,
+    },
+    Kunyomi: {
+      type: 'array',
+      items: { type: 'string', minLength: 1, maxLength: 10 },
+      maxItems: 30,
+      required: false,
+    },
+    Meaning: { type: 'string', minLength: 1, maxLength: 255, required: false },
+    Popularity: { type: 'integer', minimum: 1, maximum: 2147483648, required: false },
+  },
+};
+
+export const RadicalSchema: Schema = {
+  type: 'object',
+  properties: {
+    Character: { type: 'string', minLength: 1, maxLength: 1, required: true },
+    CorrespondingKanjiId: { type: 'integer', minimum: 1, maximum: 2147483648, required: false },
+    Keyword: { type: 'string', minLength: 1, maxLength: 255, required: false },
+    DictionaryCode: { type: 'integer', minimum: 1, maximum: 214, required: false },
+    OtherVariants: {
+      type: 'array',
+      items: { type: 'string', minLength: 1, maxLength: 1 },
+      maxItems: 10,
+      required: false,
+    },
+  },
+};
