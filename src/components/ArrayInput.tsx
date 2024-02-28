@@ -1,15 +1,9 @@
-"use client";
+'use client';
 
-import { FormFieldInfo } from "@/@types/globals";
-import { Fragment } from "react";
-import {
-  Control,
-  FieldValues,
-  FormState,
-  UseFormRegister,
-  useFieldArray,
-} from "react-hook-form";
-import InputError from "./InputError";
+import { FormFieldInfo } from '@/@types/globals';
+import { Fragment } from 'react';
+import { Control, FieldValues, FormState, UseFormRegister, useFieldArray } from 'react-hook-form';
+import InputError from './InputError';
 
 interface ArrayInputProps {
   register: UseFormRegister<FieldValues>;
@@ -18,38 +12,26 @@ interface ArrayInputProps {
   fieldInfo: FormFieldInfo;
   formState: FormState<FieldValues>;
 }
-const ArrayInput = ({
-  register,
-  control,
-  formId,
-  fieldInfo,
-  formState,
-}: ArrayInputProps) => {
+const ArrayInput = ({ register, control, formId, fieldInfo, formState }: ArrayInputProps) => {
   const { fields, append, remove } = useFieldArray({
     name: fieldInfo.name,
     control,
   });
 
   return (
-    <fieldset
-      id={formId + fieldInfo.name}
-      className="grid grid-cols-[1fr_2fr] gap-3"
-    >
+    <fieldset id={formId + fieldInfo.name} className="grid grid-cols-[1fr_2fr] gap-3">
       <label htmlFor={formId + fieldInfo.name}>
         {fieldInfo.label}
-        {fieldInfo.options?.required && (
-          <span className="font-bold text-red-500">*</span>
-        )}
-        :
+        {fieldInfo.options?.required && <span className="font-bold text-red-500">*</span>}:
       </label>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-1">
         {fields.map((field, index) => (
           <Fragment key={field.id}>
-            <div className="flex gap-2">
+            <div className="flex gap-1">
               <input
                 type={fieldInfo.type}
                 {...register(`${fieldInfo.name}.${index}`, fieldInfo.options)}
-                className="grow border"
+                className="grow"
               />
               <button type="button" onClick={() => remove(index)}>
                 x
@@ -57,7 +39,7 @@ const ArrayInput = ({
             </div>
             <InputError
               errorType={
-                typeof formState?.errors[fieldInfo.name] === "object"
+                typeof formState?.errors[fieldInfo.name] === 'object'
                   ? (formState?.errors[fieldInfo.name] as any)[index]?.type
                   : undefined
               }
@@ -66,9 +48,7 @@ const ArrayInput = ({
         ))}
         <button
           type="button"
-          onClick={() =>
-            append("", { focusName: `${fieldInfo.name}.${fields.length}` })
-          }
+          onClick={() => append('', { focusName: `${fieldInfo.name}.${fields.length}` })}
         >
           +
         </button>

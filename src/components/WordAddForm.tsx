@@ -1,48 +1,49 @@
-"use client";
+'use client';
 
-import { FormFieldInfo } from "@/@types/globals";
-import { useId } from "react";
-import { FieldValues, useForm } from "react-hook-form";
-import ArrayInput from "./ArrayInput";
-import Input from "./Input";
+import { FormFieldInfo } from '@/@types/globals';
+import { useId } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
+import ArrayInput from './ArrayInput';
+import Input from './Input';
+import { toast } from 'react-toastify';
 
 const formFieldsInfo: FormFieldInfo[] = [
   {
-    name: "Word",
-    type: "text",
-    label: "Word",
+    name: 'Word',
+    type: 'text',
+    label: 'Word',
     options: { required: true, minLength: 1, maxLength: 30 },
   },
   {
-    name: "Reading",
-    type: "text",
-    label: "Reading",
+    name: 'Reading',
+    type: 'text',
+    label: 'Reading',
     options: { required: true, minLength: 1, maxLength: 30 },
   },
   {
-    name: "PitchAccents",
-    type: "number",
-    label: "PitchAccents",
+    name: 'PitchAccents',
+    type: 'number',
+    label: 'PitchAccents',
     array: true,
     options: { min: 1, max: 30 },
   },
   {
-    name: "Meanings",
-    type: "text",
-    label: "Meanings",
+    name: 'Meanings',
+    type: 'text',
+    label: 'Meanings',
     array: true,
     options: { minLength: 1, maxLength: 30 },
   },
   {
-    name: "Popularity",
-    type: "number",
-    label: "Popularity",
+    name: 'Popularity',
+    type: 'number',
+    label: 'Popularity',
     options: { min: 1, max: 2147483648 },
   },
   {
-    name: "OtherVariants",
-    type: "text",
-    label: "OtherVarints",
+    name: 'OtherVariants',
+    type: 'text',
+    label: 'OtherVarints',
     array: true,
     options: { minLength: 1, maxLength: 30 },
   },
@@ -58,30 +59,38 @@ const WordAddForm = () => {
     const newWord: any = {};
     newWord.Word = fieldValues.Word;
     newWord.Reading = fieldValues.Reading;
-    newWord.PitchAccents = (fieldValues.PitchAccents as string[]).map(
-      (value) => +value,
-    );
-    newWord.Meanings = fieldValues.Meanings;
-    newWord.Popularity = +fieldValues.Popularity;
-    newWord.OtherVariants = fieldValues.OtherVariants;
+    if (fieldValues.PitchAccents?.length)
+      newWord.PitchAccents = fieldValues.PitchAccents?.map((value: string) => +value);
+    if (fieldValues.Meanings?.length) newWord.Meanings = fieldValues.Meanings;
+    if (fieldValues.Popularity?.length) newWord.Popularity = +fieldValues.Popularity;
+    if (fieldValues.OtherVariants?.length) newWord.OtherVariants = fieldValues.OtherVariants;
 
-    console.log(
-      await fetch("/api/words", {
-        method: "POST",
+    const responsePromise = new Promise((resolve, reject) =>
+      fetch('/api/words', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(newWord),
+      }).then((response) => {
+        if (response.ok) resolve(response);
+        else reject();
       }),
     );
+
+    toast.promise(responsePromise, {
+      pending: `Добавление слова "${newWord.Word}"...`,
+      success: `Слово "${newWord.Word}" добавлено`,
+      error: `При добавлении слова ${newWord.Word} произошла ошибка`,
+    });
   };
 
   return (
     <form
       onSubmit={handleSubmit(onValid)}
-      className="flex flex-col gap-3 bg-white p-5 shadow-lg"
+      className="flex w-1/2 flex-col gap-3 rounded bg-white p-5 shadow-lg"
     >
-      <h1 className="header">Add Word</h1>
+      <h1 className="header">Добавить слово</h1>
       {formFieldsInfo.map((fieldInfo, index) =>
         fieldInfo.array ? (
           <ArrayInput

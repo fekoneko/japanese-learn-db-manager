@@ -1,4 +1,4 @@
-import WordAddForm from "@/components/WordAddForm";
+import WordAddForm from '@/components/WordAddForm';
 
 const Home = () => {
   return (
