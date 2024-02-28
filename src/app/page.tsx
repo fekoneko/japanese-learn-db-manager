@@ -1,8 +1,8 @@
-import WordAddForm from '@/components/WordAddForm';
+import WordAddForm from "@/components/WordAddForm";
 
 const Home = () => {
   return (
-    <div className="flex justify-center items-center w-full h-full">
+    <div className="flex h-full w-full items-center justify-center">
       <WordAddForm />
     </div>
   );

@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  button {
+    @apply border transition-colors hover:bg-slate-300;
+  }
+}
+
+@layer utilities {
+  .header {
+    @apply text-2xl font-bold;
+  }
+}

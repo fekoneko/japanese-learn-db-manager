@@ -1,90 +1,109 @@
-'use client';
+"use client";
 
-import { FormField } from '@/@types/globals';
-import { useId } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import { FormFieldInfo } from "@/@types/globals";
+import { useId } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import ArrayInput from "./ArrayInput";
+import Input from "./Input";
 
-const formFields: FormField[] = [
+const formFieldsInfo: FormFieldInfo[] = [
   {
-    name: 'Word',
-    type: 'text',
-    label: 'Word',
+    name: "Word",
+    type: "text",
+    label: "Word",
     options: { required: true, minLength: 1, maxLength: 30 },
   },
   {
-    name: 'Reading',
-    type: 'text',
-    label: 'Reading',
+    name: "Reading",
+    type: "text",
+    label: "Reading",
     options: { required: true, minLength: 1, maxLength: 30 },
   },
   {
-    name: 'PitchAccents',
-    type: 'number',
-    label: 'PitchAccents',
+    name: "PitchAccents",
+    type: "number",
+    label: "PitchAccents",
+    array: true,
     options: { min: 1, max: 30 },
   },
   {
-    name: 'Meanings',
-    type: 'text',
-    label: 'Meanings',
+    name: "Meanings",
+    type: "text",
+    label: "Meanings",
+    array: true,
     options: { minLength: 1, maxLength: 30 },
   },
   {
-    name: 'Popularity',
-    type: 'number',
-    label: 'Popularity',
+    name: "Popularity",
+    type: "number",
+    label: "Popularity",
     options: { min: 1, max: 2147483648 },
   },
   {
-    name: 'OtherVariants',
-    type: 'text',
-    label: 'OtherVarints',
+    name: "OtherVariants",
+    type: "text",
+    label: "OtherVarints",
+    array: true,
     options: { minLength: 1, maxLength: 30 },
   },
 ];
 
 const WordAddForm = () => {
   const formId = useId();
-  const { register, handleSubmit } = useForm();
+  const { register, control, formState, handleSubmit } = useForm();
 
   const onValid = async (fieldValues: FieldValues) => {
+    console.log(fieldValues);
+
     const newWord: any = {};
     newWord.Word = fieldValues.Word;
     newWord.Reading = fieldValues.Reading;
-    newWord.PitchAccents = [fieldValues.PitchAccents];
-    newWord.Meanings = [fieldValues.Meanings];
+    newWord.PitchAccents = (fieldValues.PitchAccents as string[]).map(
+      (value) => +value,
+    );
+    newWord.Meanings = fieldValues.Meanings;
     newWord.Popularity = +fieldValues.Popularity;
-    newWord.OtherVariants = [fieldValues.OtherVariants];
+    newWord.OtherVariants = fieldValues.OtherVariants;
 
     console.log(
-      await fetch('/api/words', {
-        method: 'POST',
+      await fetch("/api/words", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(newWord),
-      })
+      }),
     );
   };
 
   return (
-    <form onSubmit={handleSubmit(onValid)} className="shadow-lg bg-white p-3 flex flex-col gap-3">
-      {formFields.map((field, index) => (
-        <fieldset key={index} className="grid grid-cols-[1fr_2fr] gap-3">
-          <label htmlFor={formId + field.name}>
-            {field.label}
-            {field.options?.required && <span className="text-red-500 font-bold">*</span>}:
-          </label>
-          <input
-            type={field.type}
-            id={formId + field.name}
-            {...register(field.name, field.options)}
-            className="border"
+    <form
+      onSubmit={handleSubmit(onValid)}
+      className="flex flex-col gap-3 bg-white p-5 shadow-lg"
+    >
+      <h1 className="header">Add Word</h1>
+      {formFieldsInfo.map((fieldInfo, index) =>
+        fieldInfo.array ? (
+          <ArrayInput
+            key={index}
+            register={register}
+            control={control}
+            formId={formId}
+            fieldInfo={fieldInfo}
+            formState={formState}
           />
-        </fieldset>
-      ))}
+        ) : (
+          <Input
+            key={index}
+            register={register}
+            formId={formId}
+            fieldInfo={fieldInfo}
+            formState={formState}
+          />
+        ),
+      )}
 
-      <button className="col-span-2 border" type="submit">
+      <button className="col-span-2" type="submit">
         Submit
       </button>
     </form>

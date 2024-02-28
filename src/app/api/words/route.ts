@@ -8,8 +8,8 @@ const validator = new Validator();
 export const POST = async (request: Request) => {
   try {
     const requestBody = await request.json();
-    if (typeof requestBody !== 'object') throw new Error('Request body is empty');
-    validator.validate(requestBody, WordSchema);
+    if (typeof requestBody !== 'object' || !validator.validate(requestBody, WordSchema).valid)
+      return NextResponse.json({ error: 'Request body is invalid' }, { status: 400 });
 
     const result = await sql`
       INSERT INTO public."Words" ("Word", "Reading", "PitchAccents", "Meanings", "Popularity", "OtherVariants")
