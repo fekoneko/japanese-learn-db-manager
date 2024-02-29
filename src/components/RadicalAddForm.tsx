@@ -16,7 +16,6 @@ const formFieldsInfo: FormFieldInfo[] = [
     name: 'CorrespondingKanjiId',
     type: 'select',
     label: 'CorrespondingKanjiId',
-    options: { min: 1, max: 2147483648 },
     getOptions: async (searchValue?: string) => {
       if (!searchValue) return [];
       const response = await fetch('/api/kanji?' + new URLSearchParams({ s: searchValue }));

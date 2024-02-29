@@ -45,6 +45,24 @@ const formFieldsInfo: FormFieldInfo[] = [
     array: true,
     options: { minLength: 1, maxLength: 30 },
   },
+  {
+    name: 'KanjiIds',
+    type: 'select',
+    label: 'KanjiIds',
+    array: true,
+    getOptions: async (searchValue?: string) => {
+      if (!searchValue) return [];
+      const response = await fetch('/api/kanji?' + new URLSearchParams({ s: searchValue }));
+      if (!response.ok) return [];
+      const responseBody = await response.json();
+      return (
+        responseBody?.map((kanji: any) => ({
+          value: kanji?.KanjiId?.toString(),
+          label: kanji?.Character,
+        })) ?? []
+      );
+    },
+  },
 ];
 
 const WordAddForm = () => {
@@ -64,6 +82,10 @@ const WordAddForm = () => {
     if (fieldValues.Popularity?.length) newWord.Popularity = +fieldValues.Popularity;
     if (fieldValues.OtherVariants?.length)
       newWord.OtherVariants = fieldValues.OtherVariants?.filter((value: string) => !!value?.length);
+    if (fieldValues.KanjiIds?.length)
+      newWord.KanjiIds = fieldValues.KanjiIds?.map((value: string) =>
+        value === '' ? NaN : +value,
+      )?.filter((value: number) => !isNaN(value));
 
     const responsePromise = new Promise((resolve, reject) =>
       fetch('/api/words', {

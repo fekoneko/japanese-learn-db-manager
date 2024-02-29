@@ -38,6 +38,24 @@ const formFieldsInfo: FormFieldInfo[] = [
     label: 'Popularity',
     options: { min: 1, max: 2147483648 },
   },
+  {
+    name: 'RadicalIds',
+    type: 'select',
+    label: 'RadicalIds',
+    array: true,
+    getOptions: async (searchValue?: string) => {
+      if (!searchValue) return [];
+      const response = await fetch('/api/radicals?' + new URLSearchParams({ s: searchValue }));
+      if (!response.ok) return [];
+      const responseBody = await response.json();
+      return (
+        responseBody?.map((radical: any) => ({
+          value: radical?.RadicalId?.toString(),
+          label: radical?.Character,
+        })) ?? []
+      );
+    },
+  },
 ];
 
 const KanjiAddForm = () => {
@@ -53,6 +71,10 @@ const KanjiAddForm = () => {
       newKanji.Kunyomi = fieldValues.Kunyomi?.filter((value: string) => !!value?.length);
     if (fieldValues.Meaning?.length) newKanji.Meaning = fieldValues.Meaning;
     if (fieldValues.Popularity?.length) newKanji.Popularity = +fieldValues.Popularity;
+    if (fieldValues.RadicalIds?.length)
+      newKanji.RadicalIds = fieldValues.RadicalIds?.map((value: string) =>
+        value === '' ? NaN : +value,
+      )?.filter((value: number) => !isNaN(value));
 
     const responsePromise = new Promise((resolve, reject) =>
       fetch('/api/kanji', {

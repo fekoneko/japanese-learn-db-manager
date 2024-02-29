@@ -169,7 +169,7 @@ const FormFieldArray = ({ register, control, formId, fieldInfo, formState }: For
               {fieldInfo.type === 'select' ? (
                 <FormSelect
                   control={control}
-                  name={fieldInfo.name}
+                  name={`${fieldInfo.name}.${index}`}
                   getOptions={fieldInfo.getOptions}
                   className="grow"
                 />
