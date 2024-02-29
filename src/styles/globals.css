@@ -4,10 +4,10 @@
 
 @layer base {
   button {
-    @apply rounded border-[1.5px] border-slate-300 px-2 py-0.5 transition-colors hover:bg-slate-200;
+    @apply rounded border-[1.5px] border-slate-300 px-2 py-1.5 transition-colors hover:bg-slate-200;
   }
   input {
-    @apply rounded border-[1.5px] border-slate-300 px-2 py-0.5 focus:border-slate-500 focus:outline-none;
+    @apply rounded border-[1.5px] border-slate-300 px-2 py-1.5 focus:border-slate-500 focus:outline-none;
   }
 
   ::-webkit-scrollbar {
@@ -18,6 +18,12 @@
   }
   ::-webkit-scrollbar-thumb {
     @apply rounded-full bg-slate-100 hover:bg-slate-200;
+  }
+}
+
+@layer components {
+  .react-select > div {
+    @apply rounded border-[1.5px] border-slate-300;
   }
 }
 

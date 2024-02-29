@@ -1,10 +1,8 @@
 'use client';
 
-import { FormFieldInfo } from '@/@types/globals';
 import { useId } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-import FormFieldArray from './FirmFieldArray';
-import FormField from './FormField';
+import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
 
 const formFieldsInfo: FormFieldInfo[] = [
@@ -16,9 +14,21 @@ const formFieldsInfo: FormFieldInfo[] = [
   },
   {
     name: 'CorrespondingKanjiId',
-    type: 'number',
+    type: 'select',
     label: 'CorrespondingKanjiId',
     options: { min: 1, max: 2147483648 },
+    getOptions: async (searchValue?: string) => {
+      if (!searchValue) return [];
+      const response = await fetch('/api/kanji?' + new URLSearchParams({ s: searchValue }));
+      if (!response.ok) return [];
+      const responseBody = await response.json();
+      return (
+        responseBody?.map((kanji: any) => ({
+          value: kanji?.KanjiId?.toString(),
+          label: kanji?.Character,
+        })) ?? []
+      );
+    },
   },
   {
     name: 'Keyword',
@@ -46,6 +56,8 @@ const RadicalAddForm = () => {
   const { register, control, formState, handleSubmit, reset } = useForm();
 
   const onValid = async (fieldValues: FieldValues) => {
+    console.log(fieldValues);
+
     const newRadical: any = {};
     newRadical.Character = fieldValues.Character;
     if (fieldValues.CorrespondingKanjiId?.length)
@@ -78,29 +90,19 @@ const RadicalAddForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onValid)}
-      className="flex w-1/2 min-w-max flex-col gap-3 rounded bg-white p-5 shadow-lg"
+      className="flex w-1/2 min-w-max flex-col gap-2 rounded bg-white p-5 shadow-lg"
     >
       <h1 className="header">Добавить радикал</h1>
-      {formFieldsInfo.map((fieldInfo, index) =>
-        fieldInfo.array ? (
-          <FormFieldArray
-            key={index}
-            register={register}
-            control={control}
-            formId={formId}
-            fieldInfo={fieldInfo}
-            formState={formState}
-          />
-        ) : (
-          <FormField
-            key={index}
-            register={register}
-            formId={formId}
-            fieldInfo={fieldInfo}
-            formState={formState}
-          />
-        ),
-      )}
+      {formFieldsInfo.map((fieldInfo, index) => (
+        <FormField
+          key={index}
+          register={register}
+          control={control}
+          formId={formId}
+          fieldInfo={fieldInfo}
+          formState={formState}
+        />
+      ))}
 
       <button className="col-span-2" type="submit">
         Добавить

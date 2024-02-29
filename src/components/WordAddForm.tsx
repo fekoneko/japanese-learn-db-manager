@@ -1,10 +1,8 @@
 'use client';
 
-import { FormFieldInfo } from '@/@types/globals';
 import { useId } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-import FormFieldArray from './FirmFieldArray';
-import FormField from './FormField';
+import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
 
 const formFieldsInfo: FormFieldInfo[] = [
@@ -88,29 +86,19 @@ const WordAddForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onValid)}
-      className="flex w-1/2 min-w-max flex-col gap-3 rounded bg-white p-5 shadow-lg"
+      className="flex w-1/2 min-w-max flex-col gap-2 rounded bg-white p-5 shadow-lg"
     >
       <h1 className="header">Добавить слово</h1>
-      {formFieldsInfo.map((fieldInfo, index) =>
-        fieldInfo.array ? (
-          <FormFieldArray
-            key={index}
-            register={register}
-            control={control}
-            formId={formId}
-            fieldInfo={fieldInfo}
-            formState={formState}
-          />
-        ) : (
-          <FormField
-            key={index}
-            register={register}
-            formId={formId}
-            fieldInfo={fieldInfo}
-            formState={formState}
-          />
-        ),
-      )}
+      {formFieldsInfo.map((fieldInfo, index) => (
+        <FormField
+          key={index}
+          register={register}
+          control={control}
+          formId={formId}
+          fieldInfo={fieldInfo}
+          formState={formState}
+        />
+      ))}
 
       <button className="col-span-2" type="submit">
         Добавить

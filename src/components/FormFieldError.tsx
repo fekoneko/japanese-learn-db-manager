@@ -1,7 +1,7 @@
-interface FieldErrorProps {
+interface FormFieldErrorProps {
   errorType: any;
 }
-const FormFieldError = ({ errorType }: FieldErrorProps) => {
+const FormFieldError = ({ errorType }: FormFieldErrorProps) => {
   if (!errorType) return null;
 
   if (errorType === 'required')
