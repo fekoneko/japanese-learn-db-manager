@@ -1,13 +1,13 @@
 import { Word } from '@/@types/globals';
 import { Fragment } from 'react';
 
-interface ItemPreviewProps {
+interface WordPreviewProps {
   word: Word;
 }
-const WordPreview = ({ word }: ItemPreviewProps) => {
+const WordPreview = ({ word }: WordPreviewProps) => {
   return (
-    <div className="flex rounded border-[1.5px] border-slate-400 bg-slate-200">
-      <div className="m-2 w-[30%] max-w-[minmax(15rem,min-content)] rounded bg-slate-100 px-3 py-1">
+    <div className="flex overflow-hidden rounded border-[1.5px] border-slate-400 bg-slate-200">
+      <div className="m-2 w-[30%] min-w-[8rem] max-w-[10rem] overflow-hidden rounded bg-slate-100 px-3 py-1 md:max-w-[15rem]">
         <h3 className="text-4xl">{word.Word}</h3>
         <p>
           <span className="text-nowrap">{word.Reading}</span>{' '}
@@ -16,7 +16,7 @@ const WordPreview = ({ word }: ItemPreviewProps) => {
           </span>
         </p>
         <p className="break text-slate-500">
-          {word.OtherVariants && (
+          {word.OtherVariants?.length && (
             <>
               Иначе:{' '}
               {word.OtherVariants?.map((variant, index) => (
