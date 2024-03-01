@@ -1,15 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import useRedirect from '@/hooks/useRedirect';
 
 const AddPage = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.push('/add/words');
-  });
-
+  useRedirect('/add/words');
   return null;
 };
 export default AddPage;

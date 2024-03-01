@@ -4,6 +4,7 @@ import { useId } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
+import { Kanji, Radical } from '@/@types/globals';
 
 const formFieldsInfo: FormFieldInfo[] = [
   {
@@ -19,10 +20,13 @@ const formFieldsInfo: FormFieldInfo[] = [
     getOptions: async (searchValue?: string) => {
       if (!searchValue) return [];
       const response = await fetch('/api/kanji?' + new URLSearchParams({ s: searchValue }));
-      if (!response.ok) return [];
-      const responseBody = await response.json();
+      if (!response.ok) {
+        toast.warn('Ошибка загрузки кандзи');
+        return [];
+      }
+      const responseBody: Kanji[] = await response.json();
       return (
-        responseBody?.map((kanji: any) => ({
+        responseBody?.map((kanji) => ({
           value: kanji?.KanjiId?.toString(),
           label: kanji?.Character,
         })) ?? []
@@ -55,9 +59,7 @@ const RadicalAddForm = () => {
   const { register, control, formState, handleSubmit, reset } = useForm();
 
   const onValid = async (fieldValues: FieldValues) => {
-    console.log(fieldValues);
-
-    const newRadical: any = {};
+    const newRadical: Partial<Radical> = {};
     newRadical.Character = fieldValues.Character;
     if (fieldValues.CorrespondingKanjiId?.length)
       newRadical.CorrespondingKanjiId = +fieldValues.CorrespondingKanjiId;

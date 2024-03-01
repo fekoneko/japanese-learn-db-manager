@@ -4,6 +4,7 @@ import { useId } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
+import { Word } from '@/@types/globals';
 
 const formFieldsInfo: FormFieldInfo[] = [
   {
@@ -53,7 +54,10 @@ const formFieldsInfo: FormFieldInfo[] = [
     getOptions: async (searchValue?: string) => {
       if (!searchValue) return [];
       const response = await fetch('/api/kanji?' + new URLSearchParams({ s: searchValue }));
-      if (!response.ok) return [];
+      if (!response.ok) {
+        toast.warn('Ошибка загрузки кандзи');
+        return [];
+      }
       const responseBody = await response.json();
       return (
         responseBody?.map((kanji: any) => ({
@@ -70,7 +74,7 @@ const WordAddForm = () => {
   const { register, control, formState, handleSubmit, reset } = useForm();
 
   const onValid = async (fieldValues: FieldValues) => {
-    const newWord: any = {};
+    const newWord: Partial<Word> = {};
     newWord.Word = fieldValues.Word;
     newWord.Reading = fieldValues.Reading;
     if (fieldValues.PitchAccents?.length)
