@@ -9,39 +9,39 @@ const formFieldsInfo: FormFieldInfo[] = [
   {
     name: 'Character',
     type: 'text',
-    label: 'Character',
+    label: 'Символ',
     options: { required: true, minLength: 1, maxLength: 1 },
   },
   {
     name: 'Onyomi',
     type: 'text',
-    label: 'Onyomi',
+    label: 'Оны',
     array: true,
     options: { minLength: 1, maxLength: 10 },
   },
   {
     name: 'Kunyomi',
     type: 'text',
-    label: 'Kunyomi',
+    label: 'Куны',
     array: true,
     options: { minLength: 1, maxLength: 10 },
   },
   {
     name: 'Meaning',
     type: 'text',
-    label: 'Meaning',
+    label: 'Значение',
     options: { minLength: 1, maxLength: 255 },
   },
   {
     name: 'Popularity',
     type: 'number',
-    label: 'Popularity',
+    label: 'Место в топе',
     options: { min: 1, max: 2147483648 },
   },
   {
     name: 'RadicalIds',
     type: 'select',
-    label: 'RadicalIds',
+    label: 'Радикалы',
     array: true,
     getOptions: async (searchValue?: string) => {
       if (!searchValue) return [];
@@ -99,7 +99,7 @@ const KanjiAddForm = () => {
       onSubmit={handleSubmit(onValid)}
       className="flex w-1/2 min-w-max flex-col gap-2 rounded bg-white p-5 shadow-lg"
     >
-      <h1 className="header">Добавить кандзи</h1>
+      <h1 className="header mb-5">Добавить кандзи</h1>
       {formFieldsInfo.map((fieldInfo, index) => (
         <FormField
           key={index}

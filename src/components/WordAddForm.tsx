@@ -9,46 +9,46 @@ const formFieldsInfo: FormFieldInfo[] = [
   {
     name: 'Word',
     type: 'text',
-    label: 'Word',
+    label: 'Слово',
     options: { required: true, minLength: 1, maxLength: 30 },
   },
   {
     name: 'Reading',
     type: 'text',
-    label: 'Reading',
+    label: 'Чтение',
     options: { required: true, minLength: 1, maxLength: 30 },
   },
   {
     name: 'PitchAccents',
     type: 'number',
-    label: 'PitchAccents',
+    label: 'Тип акцента',
     array: true,
     options: { min: 1, max: 30 },
   },
   {
     name: 'Meanings',
     type: 'text',
-    label: 'Meanings',
+    label: 'Значения',
     array: true,
     options: { minLength: 1, maxLength: 30 },
   },
   {
     name: 'Popularity',
     type: 'number',
-    label: 'Popularity',
+    label: 'Место в топе',
     options: { min: 1, max: 2147483648 },
   },
   {
     name: 'OtherVariants',
     type: 'text',
-    label: 'OtherVarints',
+    label: 'Другие написания',
     array: true,
     options: { minLength: 1, maxLength: 30 },
   },
   {
     name: 'KanjiIds',
     type: 'select',
-    label: 'KanjiIds',
+    label: 'Кандзи',
     array: true,
     getOptions: async (searchValue?: string) => {
       if (!searchValue) return [];
@@ -110,7 +110,7 @@ const WordAddForm = () => {
       onSubmit={handleSubmit(onValid)}
       className="flex w-1/2 min-w-max flex-col gap-2 rounded bg-white p-5 shadow-lg"
     >
-      <h1 className="header">Добавить слово</h1>
+      <h1 className="header mb-5">Добавить слово</h1>
       {formFieldsInfo.map((fieldInfo, index) => (
         <FormField
           key={index}

@@ -17,7 +17,7 @@ interface RootLayoutProps {
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="ru">
-      <body className="flex h-dvh w-screen flex-col bg-slate-300">
+      <body className="min-h[360px] flex h-dvh w-screen min-w-[500px] flex-col bg-slate-300">
         <Header />
         <Navigation />
         <main className="grow overflow-y-scroll">{children}</main>

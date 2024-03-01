@@ -9,13 +9,13 @@ const formFieldsInfo: FormFieldInfo[] = [
   {
     name: 'Character',
     type: 'text',
-    label: 'Character',
+    label: 'Символ',
     options: { required: true, minLength: 1, maxLength: 1 },
   },
   {
     name: 'CorrespondingKanjiId',
     type: 'select',
-    label: 'CorrespondingKanjiId',
+    label: 'Соответствующий кандзи',
     getOptions: async (searchValue?: string) => {
       if (!searchValue) return [];
       const response = await fetch('/api/kanji?' + new URLSearchParams({ s: searchValue }));
@@ -32,19 +32,19 @@ const formFieldsInfo: FormFieldInfo[] = [
   {
     name: 'Keyword',
     type: 'text',
-    label: 'Keyword',
+    label: 'Название',
     options: { required: true, minLength: 1, maxLength: 255 },
   },
   {
     name: 'DictionaryCode',
     type: 'number',
-    label: 'DictionaryCode',
+    label: 'Код в словаре',
     options: { required: true, min: 1, max: 214 },
   },
   {
     name: 'OtherVariants',
     type: 'text',
-    label: 'OtherVariants',
+    label: 'Другие варианты',
     array: true,
     options: { minLength: 1, maxLength: 1 },
   },
@@ -91,7 +91,7 @@ const RadicalAddForm = () => {
       onSubmit={handleSubmit(onValid)}
       className="flex w-1/2 min-w-max flex-col gap-2 rounded bg-white p-5 shadow-lg"
     >
-      <h1 className="header">Добавить радикал</h1>
+      <h1 className="header mb-5">Добавить радикал</h1>
       {formFieldsInfo.map((fieldInfo, index) => (
         <FormField
           key={index}

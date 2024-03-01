@@ -2,7 +2,7 @@ import WordAddForm from '@/components/WordAddForm';
 
 const WordAddPage = () => {
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div className="flex min-h-full min-w-full items-center justify-center p-5">
       <WordAddForm />
     </div>
   );
