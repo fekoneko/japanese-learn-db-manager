@@ -27,3 +27,11 @@ export interface Radical {
   DictionaryCode: number;
   OtherVariants?: string[];
 }
+
+export interface Stats {
+  TotalKanji: number;
+  TotalWords: number;
+  TotalRadicals: number;
+  KanjiFilled: number;
+  WordsFilled: number;
+}

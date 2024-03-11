@@ -2,28 +2,16 @@ import Navigation, { NavigationLinkInfo } from '@/components/Navigation';
 
 const linksInfo: NavigationLinkInfo[] = [
   {
-    title: 'Поиск слов',
-    href: '/search/words',
-  },
-  {
-    title: 'Поиск кандзи',
-    href: '/search/kanji',
-  },
-  {
-    title: 'Поиск радикалов',
-    href: '/search/radicals',
-  },
-  {
     title: 'Другие опции',
     href: '/',
     inactive: true,
   },
 ];
 
-interface AddPageLayoutProps {
+interface StatsPageLayoutProps {
   children: React.ReactNode;
 }
-const SearchPageLayout = ({ children }: AddPageLayoutProps) => {
+const SearchPageLayout = ({ children }: StatsPageLayoutProps) => {
   return (
     <>
       <Navigation linksInfo={linksInfo} />

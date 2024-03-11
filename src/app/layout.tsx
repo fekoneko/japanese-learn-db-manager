@@ -16,9 +16,9 @@ interface RootLayoutProps {
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="ru">
-      <body className="min-h[360px] flex h-dvh w-screen min-w-[500px] flex-col bg-slate-300">
+      <body className="min-h[360px] max-w-screen flex h-dvh min-w-[500px] flex-col bg-slate-300">
         <Header />
-        <main className="grow">{children}</main>
+        <main className="flex grow flex-col overflow-hidden">{children}</main>
         <Footer />
         <ToastContainer
           position="bottom-center"

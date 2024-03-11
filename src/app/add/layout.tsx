@@ -25,10 +25,10 @@ interface AddPageLayoutProps {
 }
 const AddPageLayout = ({ children }: AddPageLayoutProps) => {
   return (
-    <div className="w-100 h-100 overflow-y-scroll">
+    <>
       <Navigation linksInfo={linksInfo} />
-      {children}
-    </div>
+      <div className="grow overflow-y-scroll">{children}</div>
+    </>
   );
 };
 export default AddPageLayout;
