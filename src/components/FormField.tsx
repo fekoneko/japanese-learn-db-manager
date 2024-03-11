@@ -11,10 +11,11 @@ import {
 } from 'react-hook-form';
 import FormFieldError from './FormFieldError';
 import ReactSelect, { GroupBase, OptionsOrGroups } from 'react-select';
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 
 export type GetOptionsFunction = (
   searchValue?: string,
+  abortSignal?: AbortSignal,
 ) => Promise<OptionsOrGroups<any, GroupBase<string>>>;
 
 export interface FormFieldInfo {
@@ -48,16 +49,19 @@ interface FormSelectProps {
 const FormSelect = ({ control, id, name, getOptions, className }: FormSelectProps) => {
   const [selectOptions, setSelectOptions] = useState<OptionsOrGroups<any, GroupBase<string>>>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const abortControllerRef = useRef<AbortController>();
 
   const updateOptions = useCallback(
     (searchValue?: string) => {
-      if (getOptions) {
-        setIsLoading(true);
-        getOptions(searchValue).then((newOptions) => {
-          setSelectOptions(newOptions);
-          setIsLoading(false);
-        });
-      }
+      if (!getOptions) return;
+
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = new AbortController();
+      setIsLoading(true);
+      getOptions(searchValue, abortControllerRef.current?.signal).then((newOptions) => {
+        setSelectOptions(newOptions);
+        setIsLoading(false);
+      });
     },
     [getOptions],
   );
@@ -155,6 +159,10 @@ const FormFieldArray = ({ register, control, formId, fieldInfo, formState }: For
     name: fieldInfo.name,
     control,
   });
+
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) remove();
+  }, [formState.isSubmitSuccessful, remove]);
 
   return (
     <fieldset id={formId + fieldInfo.name} className="grid grid-cols-[1fr_2fr] gap-3">

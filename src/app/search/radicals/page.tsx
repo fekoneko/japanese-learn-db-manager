@@ -9,8 +9,10 @@ import RadicalPreview from '@/components/RadicalPreview';
 const RadicalsSearchPage = () => {
   const [searchResults, setSearchResults] = useState<Radical[]>([]);
 
-  const search = async (searchValue: string) => {
-    const response = await fetch('/api/radicals?' + new URLSearchParams({ s: searchValue }));
+  const search = async (searchValue: string, abortSignal?: AbortSignal) => {
+    const response = await fetch('/api/radicals?' + new URLSearchParams({ s: searchValue }), {
+      signal: abortSignal,
+    });
     if (!response.ok) {
       toast.warn('При поиске радикалов возникла ошибка');
       return;

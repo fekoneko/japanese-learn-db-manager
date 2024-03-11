@@ -44,9 +44,11 @@ const formFieldsInfo: FormFieldInfo[] = [
     type: 'select',
     label: 'Радикалы',
     array: true,
-    getOptions: async (searchValue?: string) => {
+    getOptions: async (searchValue?: string, abortSignal?: AbortSignal) => {
       if (!searchValue) return [];
-      const response = await fetch('/api/radicals?' + new URLSearchParams({ s: searchValue }));
+      const response = await fetch('/api/radicals?' + new URLSearchParams({ s: searchValue }), {
+        signal: abortSignal,
+      });
       if (!response.ok) {
         toast.warn('Ошибка загрузки радикалов');
         return [];

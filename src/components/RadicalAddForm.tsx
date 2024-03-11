@@ -17,9 +17,11 @@ const formFieldsInfo: FormFieldInfo[] = [
     name: 'CorrespondingKanjiId',
     type: 'select',
     label: 'Соответствующий кандзи',
-    getOptions: async (searchValue?: string) => {
+    getOptions: async (searchValue?: string, abortSignal?: AbortSignal) => {
       if (!searchValue) return [];
-      const response = await fetch('/api/kanji?' + new URLSearchParams({ s: searchValue }));
+      const response = await fetch('/api/kanji?' + new URLSearchParams({ s: searchValue }), {
+        signal: abortSignal,
+      });
       if (!response.ok) {
         toast.warn('Ошибка загрузки кандзи');
         return [];

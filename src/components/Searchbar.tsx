@@ -1,18 +1,23 @@
 'use client';
 
-import { useId } from 'react';
+import { useId, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface SearchbarProps {
-  search: (searchValue: string) => any;
+  search: (searchValue: string, abortSignal?: AbortSignal) => any;
 }
 const Searchbar = ({ search }: SearchbarProps) => {
   const searchbarId = useId();
   const { register, handleSubmit } = useForm();
+  const abortControllerRef = useRef<AbortController>();
 
   return (
     <form
-      onSubmit={handleSubmit((fieldValues) => search(fieldValues.search))}
+      onSubmit={handleSubmit((fieldValues) => {
+        abortControllerRef.current?.abort();
+        abortControllerRef.current = new AbortController();
+        search(fieldValues.search, abortControllerRef.current?.signal);
+      })}
       className="flex gap-2"
     >
       <input

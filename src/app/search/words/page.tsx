@@ -9,8 +9,10 @@ import { toast } from 'react-toastify';
 const WordSearchPage = () => {
   const [searchResults, setSearchResults] = useState<Word[]>([]);
 
-  const search = async (searchValue: string) => {
-    const response = await fetch('/api/words?' + new URLSearchParams({ s: searchValue }));
+  const search = async (searchValue: string, abortSignal?: AbortSignal) => {
+    const response = await fetch('/api/words?' + new URLSearchParams({ s: searchValue }), {
+      signal: abortSignal,
+    });
     if (!response.ok) {
       toast.warn('При поиске слов возникла ошибка');
       return;

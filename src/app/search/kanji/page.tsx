@@ -9,8 +9,10 @@ import KanjiPreview from '@/components/KanjiPreview';
 const KanjiSearchPage = () => {
   const [searchResults, setSearchResults] = useState<Kanji[]>([]);
 
-  const search = async (searchValue: string) => {
-    const response = await fetch('/api/kanji?' + new URLSearchParams({ s: searchValue }));
+  const search = async (searchValue: string, abortSignal?: AbortSignal) => {
+    const response = await fetch('/api/kanji?' + new URLSearchParams({ s: searchValue }), {
+      signal: abortSignal,
+    });
     if (!response.ok) {
       toast.warn('При поиске кандзи возникла ошибка');
       return;
