@@ -24,7 +24,7 @@ export interface Radical {
   Character: string;
   CorrespondingKanjiId?: number;
   Keyword: string;
-  DictionaryCode: number;
+  DictionaryCode?: number;
   OtherVariants?: string[];
 }
 

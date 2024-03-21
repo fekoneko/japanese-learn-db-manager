@@ -45,7 +45,7 @@ const formFieldsInfo: FormFieldInfo[] = [
     name: 'DictionaryCode',
     type: 'number',
     label: 'Код в словаре',
-    options: { required: true, min: 1, max: 214 },
+    options: { required: false, min: 1, max: 214 },
   },
   {
     name: 'OtherVariants',

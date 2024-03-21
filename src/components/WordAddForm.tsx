@@ -24,7 +24,7 @@ const formFieldsInfo: FormFieldInfo[] = [
     type: 'number',
     label: 'Тип акцента',
     array: true,
-    options: { min: 1, max: 30 },
+    options: { min: 0, max: 30 },
   },
   {
     name: 'Meanings',

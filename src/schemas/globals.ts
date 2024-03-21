@@ -66,7 +66,7 @@ export const RadicalSchema: Schema = {
     Character: { type: 'string', minLength: 1, maxLength: 1, required: true },
     CorrespondingKanjiId: { type: 'integer', minimum: 1, maximum: 2147483648, required: false },
     Keyword: { type: 'string', minLength: 1, maxLength: 255, required: true },
-    DictionaryCode: { type: 'integer', minimum: 1, maximum: 214, required: true },
+    DictionaryCode: { type: 'integer', minimum: 1, maximum: 214, required: false },
     OtherVariants: {
       type: 'array',
       items: { type: 'string', minLength: 1, maxLength: 1 },
