@@ -41,15 +41,15 @@ export const GET = async (request: NextRequest) => {
     const searchValue = request.nextUrl.searchParams.get('s');
 
     const dbResponse = await sql`
-      SELECT DISTINCT "Kanji".* FROM "Kanji"
-      LEFT OUTER JOIN "RadicalsInKanji" ON "RadicalsInKanji"."KanjiId" = "Kanji"."KanjiId"
-      LEFT OUTER JOIN "Radicals" ON "RadicalsInKanji"."RadicalId" = "Radicals"."RadicalId"
-      WHERE "Kanji"."Meaning" LIKE '%' || LOWER(${searchValue}) || '%'
-      OR "Kanji"."Character" = ${searchValue}
-      OR "Kanji"."KanjiId"::VARCHAR = ${searchValue}
-      OR "Radicals"."Character" = ${searchValue}
+      SELECT DISTINCT public."Kanji".* FROM public."Kanji"
+      LEFT OUTER JOIN public."RadicalsInKanji" ON public."RadicalsInKanji"."KanjiId" = public."Kanji"."KanjiId"
+      LEFT OUTER JOIN public."Radicals" ON public."RadicalsInKanji"."RadicalId" = public."Radicals"."RadicalId"
+      WHERE public."Kanji"."Meaning" LIKE '%' || LOWER(${searchValue}) || '%'
+      OR public."Kanji"."Character" = ${searchValue}
+      OR public."Kanji"."KanjiId"::VARCHAR = ${searchValue}
+      OR public."Radicals"."Character" = ${searchValue}
       OR ${searchValue} = any("Radicals"."OtherVariants")
-      ORDER BY "Kanji"."Popularity" ASC
+      ORDER BY public."Kanji"."Popularity" ASC
     `;
 
     return NextResponse.json(dbResponse.rows, { status: 200 });

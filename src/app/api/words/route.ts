@@ -41,16 +41,16 @@ export const GET = async (request: NextRequest) => {
     const searchValue = request.nextUrl.searchParams.get('s');
 
     const dbResponse = await sql`
-      SELECT DISTINCT "Words".* FROM "Words"
-      LEFT OUTER JOIN "KanjiInWords" ON "KanjiInWords"."WordId" = "Words"."WordId"
-      LEFT OUTER JOIN "Kanji" ON "KanjiInWords"."KanjiId" = "Kanji"."KanjiId"
-      WHERE "Words"."Word" = ${searchValue}
-      OR "Words"."Reading" = ${searchValue}
-      OR "Words"."WordId"::VARCHAR = ${searchValue}
-      OR "Words"."Meanings"::VARCHAR LIKE '%' || LOWER(${searchValue}) || '%'
+      SELECT DISTINCT public."Words".* FROM public."Words"
+      LEFT OUTER JOIN public."KanjiInWords" ON public."KanjiInWords"."WordId" = public."Words"."WordId"
+      LEFT OUTER JOIN public."Kanji" ON public."KanjiInWords"."KanjiId" = public."Kanji"."KanjiId"
+      WHERE public."Words"."Word" = ${searchValue}
+      OR public."Words"."Reading" = ${searchValue}
+      OR public."Words"."WordId"::VARCHAR = ${searchValue}
+      OR public."Words"."Meanings"::VARCHAR LIKE '%' || LOWER(${searchValue}) || '%'
       OR ${searchValue} = any("Words"."OtherVariants")
-      OR "Kanji"."Character" = ${searchValue}
-      ORDER BY "Words"."Popularity" ASC
+      OR public."Kanji"."Character" = ${searchValue}
+      ORDER BY public."Words"."Popularity" ASC
     `;
 
     return NextResponse.json(dbResponse.rows, { status: 200 });

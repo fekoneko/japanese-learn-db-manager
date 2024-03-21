@@ -8,15 +8,15 @@ const getStats = async (): Promise<Stats | null> => {
   try {
     const dbResponse = await sql<Stats>`
       SELECT
-        CAST((SELECT COUNT(*) FROM "Kanji") AS INT) AS "TotalKanji",
-        CAST((SELECT COUNT(*) FROM "Words") AS INT) AS "TotalWords",
-        CAST((SELECT COUNT(*) FROM "Radicals") AS INT) AS "TotalRadicals",
+        CAST((SELECT COUNT(*) FROM public."Kanji") AS INT) AS "TotalKanji",
+        CAST((SELECT COUNT(*) FROM public."Words") AS INT) AS "TotalWords",
+        CAST((SELECT COUNT(*) FROM public."Radicals") AS INT) AS "TotalRadicals",
         CAST((
-          SELECT COUNT(*) FROM "Kanji"
+          SELECT COUNT(*) FROM public."Kanji"
           WHERE ("Onyomi" IS NOT NULL or "Kunyomi" IS NOT NULL) AND "Meaning" IS NOT NULL
         ) AS FLOAT) AS "KanjiFilled",
         CAST((
-          SELECT COUNT(*) FROM "Words"
+          SELECT COUNT(*) FROM public."Words"
           WHERE "Meanings" IS NOT NULL
         ) AS FLOAT) AS "WordsFilled"
     `;

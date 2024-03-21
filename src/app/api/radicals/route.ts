@@ -28,14 +28,14 @@ export const GET = async (request: NextRequest) => {
     const searchValue = request.nextUrl.searchParams.get('s');
 
     const dbResponse = await sql`
-      SELECT DISTINCT "Radicals".* FROM "Radicals"
-      LEFT OUTER JOIN "Kanji" ON "Kanji"."KanjiId" = "Radicals"."CorrespondingKanjiId"
-      WHERE "Radicals"."Keyword" LIKE '%' || LOWER(${searchValue}) || '%'
-      OR "Radicals"."Character" = ${searchValue}
-      OR "Radicals"."RadicalId"::VARCHAR = ${searchValue}
-      OR "Kanji"."Character" = ${searchValue}
+      SELECT DISTINCT public."Radicals".* FROM public."Radicals"
+      LEFT OUTER JOIN public."Kanji" ON public."Kanji"."KanjiId" = public."Radicals"."CorrespondingKanjiId"
+      WHERE public."Radicals"."Keyword" LIKE '%' || LOWER(${searchValue}) || '%'
+      OR public."Radicals"."Character" = ${searchValue}
+      OR public."Radicals"."RadicalId"::VARCHAR = ${searchValue}
+      OR public."Kanji"."Character" = ${searchValue}
       OR ${searchValue} = any("Radicals"."OtherVariants")
-      ORDER BY "Radicals"."RadicalId" ASC
+      ORDER BY public."Radicals"."RadicalId" ASC
     `;
 
     return NextResponse.json(dbResponse.rows, { status: 200 });
