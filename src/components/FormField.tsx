@@ -34,9 +34,18 @@ interface FormInputProps {
   type: React.HTMLInputTypeAttribute;
   options?: RegisterOptions;
   className?: string;
+  disabled?: boolean;
 }
-const FormInput = ({ register, id, name, type, options, className }: FormInputProps) => {
-  return <input className={className} type={type} id={id} {...register(name, options)} />;
+const FormInput = ({ register, id, name, type, options, className, disabled }: FormInputProps) => {
+  return (
+    <input
+      className={className}
+      disabled={disabled}
+      type={type}
+      id={id}
+      {...register(name, options)}
+    />
+  );
 };
 
 interface FormSelectProps {
@@ -45,8 +54,9 @@ interface FormSelectProps {
   name: string;
   getOptions?: GetOptionsFunction;
   className?: string;
+  disabled?: boolean;
 }
-const FormSelect = ({ control, id, name, getOptions, className }: FormSelectProps) => {
+const FormSelect = ({ control, id, name, getOptions, className, disabled }: FormSelectProps) => {
   const [selectOptions, setSelectOptions] = useState<OptionsOrGroups<any, GroupBase<string>>>([]);
   const [isLoading, setIsLoading] = useState(false);
   const abortControllerRef = useRef<AbortController>();
@@ -76,16 +86,20 @@ const FormSelect = ({ control, id, name, getOptions, className }: FormSelectProp
       control={control}
       render={({ field: { onChange, ref } }) => (
         <ReactSelect
+          ref={(select) => {
+            ref(select);
+            if (disabled) select?.clearValue(); // Forgive me
+          }}
           className={`react-select ${className}`}
+          isClearable={true}
+          isDisabled={disabled}
           id={id}
+          instanceId={id}
           options={selectOptions}
           isLoading={isLoading}
-          onChange={(newValue) => {
-            onChange({ target: { value: newValue.value } });
-          }}
+          onChange={(newValue) => onChange({ target: { value: newValue?.value } })}
           onInputChange={updateOptions}
           filterOption={() => true}
-          ref={ref}
         />
       )}
     />
@@ -98,9 +112,17 @@ interface FormFieldProps {
   formId: string;
   fieldInfo: FormFieldInfo;
   formState: FormState<FieldValues>;
+  disabled?: boolean;
 }
 
-const FormField = ({ register, control, formId, fieldInfo, formState }: FormFieldProps) => {
+const FormField = ({
+  register,
+  control,
+  formId,
+  fieldInfo,
+  formState,
+  disabled,
+}: FormFieldProps) => {
   if (fieldInfo.array)
     return (
       <FormFieldArray
@@ -109,6 +131,7 @@ const FormField = ({ register, control, formId, fieldInfo, formState }: FormFiel
         formId={formId}
         fieldInfo={fieldInfo}
         formState={formState}
+        disabled={disabled}
       />
     );
   else
@@ -119,32 +142,42 @@ const FormField = ({ register, control, formId, fieldInfo, formState }: FormFiel
         formId={formId}
         fieldInfo={fieldInfo}
         formState={formState}
+        disabled={disabled}
       />
     );
 };
 
-const FormFieldPlain = ({ register, control, formId, fieldInfo, formState }: FormFieldProps) => {
+const FormFieldPlain = ({
+  register,
+  control,
+  formId,
+  fieldInfo,
+  formState,
+  disabled,
+}: FormFieldProps) => {
   return (
     <>
-      <fieldset className="grid grid-cols-[1fr_2fr] gap-3">
-        <label htmlFor={formId + fieldInfo.name}>
+      <fieldset className="grid grid-cols-[1fr_2fr] items-center gap-3">
+        <label htmlFor={formId + '-' + fieldInfo.name} className="leading-5">
           {fieldInfo.label}
           {fieldInfo.options?.required && <span className="font-bold text-red-500">*</span>}:
         </label>
         {fieldInfo.type === 'select' ? (
           <FormSelect
             control={control}
-            id={formId + fieldInfo.name}
+            id={formId + '-' + fieldInfo.name}
             name={fieldInfo.name}
             getOptions={fieldInfo.getOptions}
+            disabled={disabled}
           />
         ) : (
           <FormInput
             register={register}
-            id={formId + fieldInfo.name}
+            id={formId + '-' + fieldInfo.name}
             name={fieldInfo.name}
             type={fieldInfo.type}
             options={fieldInfo.options}
+            disabled={disabled}
           />
         )}
       </fieldset>
@@ -166,7 +199,7 @@ const FormFieldArray = ({ register, control, formId, fieldInfo, formState }: For
 
   return (
     <fieldset id={formId + fieldInfo.name} className="grid grid-cols-[1fr_2fr] gap-3">
-      <label htmlFor={formId + fieldInfo.name}>
+      <label htmlFor={formId + fieldInfo.name} className="leading-5">
         {fieldInfo.label}
         {fieldInfo.options?.required && <span className="font-bold text-red-500">*</span>}:
       </label>
