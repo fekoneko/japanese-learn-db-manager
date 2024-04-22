@@ -76,6 +76,8 @@ const FormSelect = ({ control, id, name, getOptions, className, disabled }: Form
       .catch(() => {});
   }, [getOptions, setIsLoading, setSelectOptions, searchValue]);
 
+  useEffect(updateOptions, [updateOptions]);
+
   return (
     <Controller
       name={name}
