@@ -120,11 +120,11 @@ export const GET = async (request: NextRequest) => {
           WordId: row.WordId,
           Word: row.Word,
           Reading: row.Reading,
-          PitchAccents: row.PitchAccents,
-          Meanings: row.Meanings,
-          Popularity: row.Popularity,
-          OtherVariants: row.OtherVariants,
         };
+        if (row.PitchAccents !== null) word.PitchAccents = row.PitchAccents;
+        if (row.Meanings !== null) word.Meanings = row.Meanings;
+        if (row.Popularity !== null) word.Popularity = row.Popularity;
+        if (row.OtherVariants !== null) word.OtherVariants = row.OtherVariants;
         if (row.KanjiId !== null) word.KanjiIds = [row.KanjiId];
         if (row.KanjiCharacter !== null) word.KanjiCharacters = [row.KanjiCharacter];
         resultWords.push(word);

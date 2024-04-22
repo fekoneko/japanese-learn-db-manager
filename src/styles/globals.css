@@ -25,6 +25,17 @@
   .react-select > div {
     @apply rounded border-[1.5px] border-slate-300;
   }
+
+  .kanji > .ch {
+    @apply fill-slate-500;
+  }
+  .kanji > .sn-bg,
+  .kanji > .sn-d {
+    @apply fill-slate-700;
+  }
+  .kanji > .sn {
+    @apply fill-slate-200;
+  }
 }
 
 @layer utilities {

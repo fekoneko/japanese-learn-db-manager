@@ -92,7 +92,23 @@ export const GET = async (request: NextRequest) => {
       dbResponse = await sql(...query.array);
     }
 
-    return NextResponse.json(dbResponse.rows, { status: 200 });
+    const resultRadicals: Radical[] = [];
+    dbResponse.rows.forEach((row) => {
+      const radical: Radical = {
+        RadicalId: row.RadicalId,
+        Character: row.Character,
+        Keyword: row.Keyword,
+      };
+      if (row.DictionaryCode !== null) radical.DictionaryCode = row.DictionaryCode;
+      if (row.OtherVariants !== null) radical.OtherVariants = row.OtherVariants;
+      if (row.CorrespondingKanjiId !== null)
+        radical.CorrespondingKanjiId = row.CorrespondingKanjiId;
+      if (row.CorrespondingKanjiCharacter !== null)
+        radical.CorrespondingKanjiCharacter = row.CorrespondingKanjiCharacter;
+      resultRadicals.push(radical);
+    });
+
+    return NextResponse.json(resultRadicals, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ error: error?.message ?? error }, { status: 500 });
   }

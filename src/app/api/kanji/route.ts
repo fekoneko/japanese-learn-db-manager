@@ -127,11 +127,12 @@ export const GET = async (request: NextRequest) => {
         const kanji: Kanji = {
           KanjiId: row.KanjiId,
           Character: row.Character,
-          Onyomi: row.Onyomi,
-          Kunyomi: row.Kunyomi,
-          Meaning: row.Meaning,
-          Popularity: row.Popularity,
         };
+        if (row.Onyomi !== null) kanji.Onyomi = row.Onyomi;
+        if (row.Kunyomi) kanji.Kunyomi = row.Kunyomi;
+        if (row.Meaning) kanji.Meaning = row.Meaning;
+        if (row.Popularity) kanji.Popularity = row.Popularity;
+        if (row.Image) kanji.Image = row.Image;
         if (row.RadicalId !== null) kanji.RadicalIds = [row.RadicalId];
         if (row.RadicalCharacter !== null) kanji.RadicalCharacters = [row.RadicalCharacter];
         resultKanji.push(kanji);

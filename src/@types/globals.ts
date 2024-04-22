@@ -17,6 +17,7 @@ export interface Kanji {
   Kunyomi?: string[];
   Meaning?: string;
   Popularity?: number;
+  Image?: string;
   RadicalIds?: number[];
   RadicalCharacters?: string[];
 }

@@ -63,7 +63,7 @@ const KanjiSearchPage = () => {
   };
 
   return (
-    <div className="flex min-h-full min-w-full flex-col gap-3 px-[15%] py-4">
+    <div className="flex min-h-full min-w-full flex-col gap-3 px-[15%] py-4 pb-28">
       <Searchbar search={search} fields={searchFields} getFieldOptions={getFieldOptions} />
       {searchResults.length ? (
         searchResults.map((result) => <KanjiPreview key={result.KanjiId} kanji={result} />)
