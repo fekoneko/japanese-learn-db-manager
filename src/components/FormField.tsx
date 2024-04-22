@@ -61,6 +61,7 @@ const FormSelect = ({ control, id, name, getOptions, className, disabled }: Form
   const [isLoading, setIsLoading] = useState(false);
   const abortControllerRef = useRef<AbortController>();
   const [searchValue, setSearchValue] = useState('');
+  const [expanded, setExpanded] = useState(false);
 
   const updateOptions = useCallback(() => {
     if (!getOptions) return;
@@ -76,7 +77,9 @@ const FormSelect = ({ control, id, name, getOptions, className, disabled }: Form
       .catch(() => {});
   }, [getOptions, setIsLoading, setSelectOptions, searchValue]);
 
-  useEffect(updateOptions, [updateOptions]);
+  useEffect(() => {
+    if (expanded) updateOptions();
+  }, [updateOptions, expanded]);
 
   return (
     <Controller
@@ -97,7 +100,8 @@ const FormSelect = ({ control, id, name, getOptions, className, disabled }: Form
           isLoading={isLoading}
           onChange={(newValue) => onChange({ target: { value: newValue?.value } })}
           onInputChange={(newSearchValue) => setSearchValue(newSearchValue)}
-          onMenuOpen={updateOptions}
+          onMenuOpen={() => setExpanded(true)}
+          onMenuClose={() => setExpanded(false)}
           filterOption={() => true}
         />
       )}
