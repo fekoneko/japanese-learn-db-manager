@@ -1,7 +1,11 @@
 'use client';
 
 import { Kanji } from '@/@types/globals';
-import Searchbar, { SearchField, SearchFunction } from '@/components/Searchbar';
+import Searchbar, {
+  SearchField,
+  GetSearchFieldOptionsFunction,
+  SearchFunction,
+} from '@/components/Searchbar';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import KanjiPreview from '@/components/KanjiPreview';
@@ -17,22 +21,50 @@ const searchFields: SearchField<'c' | 'o' | 'k' | 'm' | 'r'>[] = [
 const KanjiSearchPage = () => {
   const [searchResults, setSearchResults] = useState<Kanji[]>([]);
 
-  const search: SearchFunction = async (searchValue, abortSignal) => {
-    const searchParams = typeof searchValue === 'object' ? searchValue : { s: searchValue };
-    const response = await fetch('/api/kanji?' + new URLSearchParams(searchParams), {
+  const search: SearchFunction<'c' | 'o' | 'k' | 'm' | 'r'> = async (
+    searchValue: any,
+    abortSignal,
+  ) => {
+    const response = await fetch('/api/kanji?' + new URLSearchParams(searchValue), {
       signal: abortSignal,
     });
     if (!response.ok) {
       toast.warn('При поиске кандзи возникла ошибка');
-      return;
+      return [];
     }
-    const newSearchResults = await response.json();
+    const newSearchResults: Kanji[] = await response.json();
     setSearchResults(newSearchResults);
+  };
+
+  const getFieldOptions: GetSearchFieldOptionsFunction<'c' | 'o' | 'k' | 'm' | 'r'> = async (
+    searchValue: any,
+    fieldName,
+    abortSignal,
+  ) => {
+    const response = await fetch('/api/kanji?' + new URLSearchParams(searchValue), {
+      signal: abortSignal,
+    });
+    if (!response.ok) {
+      toast.warn('При поиске кандзи возникла ошибка');
+      return [];
+    }
+    const newSearchResults: Kanji[] = await response.json();
+    return newSearchResults.flatMap((kanji) =>
+      fieldName === 'c'
+        ? kanji.Character
+        : fieldName === 'o'
+          ? kanji.Onyomi ?? []
+          : fieldName === 'k'
+            ? kanji.Kunyomi ?? []
+            : fieldName === 'm'
+              ? kanji.Meaning ?? []
+              : kanji.RadicalCharacters ?? [],
+    );
   };
 
   return (
     <div className="flex min-h-full min-w-full flex-col gap-3 px-[15%] py-4">
-      <Searchbar search={search} fields={searchFields} />
+      <Searchbar search={search} fields={searchFields} getFieldOptions={getFieldOptions} />
       {searchResults.length ? (
         searchResults.map((result) => <KanjiPreview key={result.KanjiId} kanji={result} />)
       ) : (

@@ -67,7 +67,7 @@ const HomePage = () => {
             {sectionInfo.links.map((linkInfo, linkIndex) => (
               <li
                 key={linkIndex}
-                className="z-50 flex grow justify-center rounded transition-colors hover:bg-slate-200"
+                className="z-50 flex grow basis-0 justify-center rounded transition-colors hover:bg-slate-200"
               >
                 <Link href={linkInfo.href} className="grow p-2 text-center">
                   {linkInfo.title}

@@ -7,6 +7,7 @@ export interface Word {
   Popularity?: number;
   OtherVariants?: string[];
   KanjiIds?: number[];
+  KanjiCharacters?: string[];
 }
 
 export interface Kanji {
@@ -17,15 +18,17 @@ export interface Kanji {
   Meaning?: string;
   Popularity?: number;
   RadicalIds?: number[];
+  RadicalCharacters?: string[];
 }
 
 export interface Radical {
   RadicalId?: number;
   Character: string;
-  CorrespondingKanjiId?: number;
   Keyword: string;
   DictionaryCode?: number;
   OtherVariants?: string[];
+  CorrespondingKanjiId?: number;
+  CorrespondingKanjiCharacter?: string;
 }
 
 export interface Stats {

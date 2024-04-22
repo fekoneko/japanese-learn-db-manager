@@ -1,6 +1,6 @@
 'use client';
 
-import { RefObject, useId, useMemo, useRef, useState } from 'react';
+import { useCallback, useId, useMemo, useRef, useState } from 'react';
 import {
   Control,
   FieldValues,
@@ -9,7 +9,7 @@ import {
   UseFormRegister,
   useForm,
 } from 'react-hook-form';
-import FormField, { FormFieldInfo } from './FormField';
+import FormField, { FormFieldInfo, GetOptionsFunction } from './FormField';
 
 export interface SearchField<FieldName extends string> {
   name: FieldName;
@@ -20,10 +20,16 @@ export type SearchFieldValues<FieldName extends string = string> = {
   [fieldName in FieldName]: string;
 };
 
-export type SearchFunction = (
-  searchValue: string | SearchFieldValues,
+export type SearchFunction<FieldName extends string = string> = (
+  searchValue: { s?: string } & Partial<SearchFieldValues<FieldName>>,
   abortSignal?: AbortSignal,
 ) => any;
+
+export type GetSearchFieldOptionsFunction<FieldName extends string = string> = (
+  searchValue: Partial<SearchFieldValues<FieldName>>,
+  fieldName: FieldName,
+  abortSignal?: AbortSignal,
+) => Promise<string[]>;
 
 interface SearchbarFieldInputProps<FieldName extends string> {
   formId: string;
@@ -31,6 +37,7 @@ interface SearchbarFieldInputProps<FieldName extends string> {
   register: UseFormRegister<FieldValues>;
   control: Control<FieldValues, any>;
   formState: FormState<FieldValues>;
+  getOptions: GetOptionsFunction;
   onDisable?: () => any;
   onEnable?: () => any;
 }
@@ -40,6 +47,7 @@ const SearchbarFieldInput = <FieldName extends string = string>({
   register,
   control,
   formState,
+  getOptions,
   onDisable,
   onEnable,
 }: SearchbarFieldInputProps<FieldName>) => {
@@ -51,9 +59,9 @@ const SearchbarFieldInput = <FieldName extends string = string>({
       type: 'select',
       label: field.label,
       array: false,
-      getOptions: () => new Promise<any>((resolve) => resolve([{ value: 'test', label: 'Test' }])),
+      getOptions,
     }),
-    [field],
+    [field, getOptions],
   );
 
   return (
@@ -95,31 +103,52 @@ const SearchbarFieldInput = <FieldName extends string = string>({
 };
 
 interface SearchbarProps<FieldName extends string> {
-  search: SearchFunction;
+  search: SearchFunction<FieldName>;
+  getFieldOptions: GetSearchFieldOptionsFunction<FieldName>;
   fields?: SearchField<FieldName>[];
 }
 const Searchbar = <FieldName extends string = string>({
   search,
+  getFieldOptions,
   fields,
 }: SearchbarProps<FieldName>) => {
   const formId = useId();
   const [fieldsEnabled, setFieldsEnabled] = useState(false);
-  const { register, control, formState, handleSubmit } = useForm();
+  const { register, control, formState, handleSubmit, getValues } = useForm();
   const abortControllerRef = useRef<AbortController>();
   const searchFieldsRef = useRef<HTMLDivElement>(null);
 
   const onValidSubmit: SubmitHandler<FieldValues> = (fieldValues) => {
-    abortControllerRef.current?.abort();
+    abortControllerRef.current?.abort('search value changed');
     abortControllerRef.current = new AbortController();
 
     const searchValue =
       fieldsEnabled && fields
-        ? fields.reduce<SearchFieldValues>((prev, field) => {
+        ? fields.reduce((prev, field) => {
             if (fieldValues[field.name]) prev[field.name] = fieldValues[field.name];
             return prev;
           }, {} as any)
-        : fieldValues.search;
+        : { s: fieldValues.search };
     search(searchValue, abortControllerRef.current?.signal);
+  };
+
+  const getOptions = async (
+    fieldSearchValue: string | undefined,
+    fieldName: FieldName,
+    abortSignal?: AbortSignal,
+  ) => {
+    const fieldValues = getValues();
+    const searchValue = {
+      ...(fieldsEnabled && fields
+        ? fields.reduce((prev, field) => {
+            if (fieldValues[field.name]) prev[field.name] = fieldValues[field.name];
+            return prev;
+          }, {} as any)
+        : {}),
+      [fieldName]: fieldSearchValue,
+    };
+    const options = await getFieldOptions(searchValue, fieldName, abortSignal);
+    return options.map((option) => ({ value: option, label: option }));
   };
 
   return (
@@ -159,6 +188,9 @@ const Searchbar = <FieldName extends string = string>({
                     register={register}
                     control={control}
                     formState={formState}
+                    getOptions={(searchValue, abortSignal) =>
+                      getOptions(searchValue, field.name, abortSignal)
+                    }
                   />
                 ))}
               </div>

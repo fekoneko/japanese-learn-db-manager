@@ -31,7 +31,7 @@ export const GET = async (request: NextRequest) => {
 
     if (search !== null) {
       dbResponse = await sql`
-        SELECT DISTINCT public."Radicals".* FROM public."Radicals"
+        SELECT DISTINCT public."Radicals".*, public."Kanji"."Character" AS "CorrespondingKanjiCharacter" FROM public."Radicals"
         LEFT OUTER JOIN public."Kanji" ON public."Kanji"."KanjiId" = public."Radicals"."CorrespondingKanjiId"
         WHERE public."Radicals"."Keyword" LIKE '%' || LOWER(${search}) || '%'
         OR public."Radicals"."Character" = ${search}
@@ -47,24 +47,14 @@ export const GET = async (request: NextRequest) => {
       const correspondingKanji = request.nextUrl.searchParams.get('k');
       const dictionaryCode = request.nextUrl.searchParams.get('d');
 
-      if (
-        characterOrVariants === null &&
-        keyword === null &&
-        correspondingKanji === null &&
-        dictionaryCode === null
-      )
-        throw new Error('no attributes provided');
-
       const query = taggedTemplate`
-        SELECT DISTINCT public."Radicals".* FROM public."Radicals"
+        SELECT DISTINCT public."Radicals".*, public."Kanji"."Character" AS "CorrespondingKanjiCharacter" FROM public."Radicals"
+        LEFT OUTER JOIN public."Kanji" ON public."Kanji"."KanjiId" = public."Radicals"."CorrespondingKanjiId"          
       `;
-      if (correspondingKanji !== null)
+      if (characterOrVariants || keyword || correspondingKanji || dictionaryCode)
         query.append`
-          LEFT OUTER JOIN public."Kanji" ON public."Kanji"."KanjiId" = public."Radicals"."CorrespondingKanjiId"          
+          WHERE
         `;
-      query.append`
-        WHERE
-      `;
 
       let encounteredFirstStatement = false;
       const prependAnd = () => {
@@ -72,26 +62,26 @@ export const GET = async (request: NextRequest) => {
         encounteredFirstStatement = true;
       };
 
-      if (keyword !== null) {
+      if (keyword) {
         prependAnd();
         query.append`
           public."Radicals"."Keyword" LIKE '%' || LOWER(${keyword}) || '%'
         `;
       }
-      if (characterOrVariants !== null) {
+      if (characterOrVariants) {
         prependAnd();
-        query.append`
+        query.append`(
           public."Radicals"."Character" = ${characterOrVariants}
-          ${characterOrVariants} = any("Radicals"."OtherVariants")
-        `;
+          OR ${characterOrVariants} = any("Radicals"."OtherVariants")
+        )`;
       }
-      if (dictionaryCode !== null) {
+      if (dictionaryCode) {
         prependAnd();
         query.append`
           public."Radicals"."DictionaryCode"::VARCHAR = ${dictionaryCode}
         `;
       }
-      if (correspondingKanji !== null) {
+      if (correspondingKanji) {
         prependAnd();
         query.append`
           public."Kanji"."Character" = ${correspondingKanji}

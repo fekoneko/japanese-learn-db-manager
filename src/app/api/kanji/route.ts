@@ -43,7 +43,7 @@ export const GET = async (request: NextRequest) => {
 
     if (search !== null) {
       dbResponse = await sql`
-        SELECT DISTINCT public."Kanji".* FROM public."Kanji"
+        SELECT DISTINCT public."Kanji".*, public."Radicals"."Character" AS "RadicalCharacter", public."Radicals"."RadicalId" AS "RadicalId" FROM public."Kanji"
         LEFT OUTER JOIN public."RadicalsInKanji" ON public."RadicalsInKanji"."KanjiId" = public."Kanji"."KanjiId"
         LEFT OUTER JOIN public."Radicals" ON public."RadicalsInKanji"."RadicalId" = public."Radicals"."RadicalId"
         WHERE public."Kanji"."Meaning" LIKE '%' || LOWER(${search}) || '%'
@@ -62,26 +62,15 @@ export const GET = async (request: NextRequest) => {
       const meaning = request.nextUrl.searchParams.get('m');
       const radical = request.nextUrl.searchParams.get('r');
 
-      if (
-        character === null &&
-        onyomi === null &&
-        kunyomi === null &&
-        meaning === null &&
-        radical === null
-      )
-        throw new Error('no attributes provided');
-
       const query = taggedTemplate`
-        SELECT DISTINCT public."Kanji".* FROM public."Kanji"
-      `;
-      if (radical !== null)
-        query.append`
-          LEFT OUTER JOIN public."RadicalsInKanji" ON public."RadicalsInKanji"."KanjiId" = public."Kanji"."KanjiId"
-          LEFT OUTER JOIN public."Radicals" ON public."RadicalsInKanji"."RadicalId" = public."Radicals"."RadicalId"
+      SELECT DISTINCT public."Kanji".*, public."Radicals"."Character" AS "RadicalCharacter", public."Radicals"."RadicalId" AS "RadicalId" FROM public."Kanji"
+        LEFT OUTER JOIN public."RadicalsInKanji" ON public."RadicalsInKanji"."KanjiId" = public."Kanji"."KanjiId"
+        LEFT OUTER JOIN public."Radicals" ON public."RadicalsInKanji"."RadicalId" = public."Radicals"."RadicalId"
         `;
-      query.append`
-        WHERE
-      `;
+      if (character || onyomi || kunyomi || meaning || radical)
+        query.append`
+          WHERE
+        `;
 
       let encounteredFirstStatement = false;
       const prependAnd = () => {
@@ -89,31 +78,31 @@ export const GET = async (request: NextRequest) => {
         encounteredFirstStatement = true;
       };
 
-      if (meaning !== null) {
+      if (meaning) {
         prependAnd();
         query.append`
           public."Kanji"."Meaning" LIKE '%' || LOWER(${meaning}) || '%'
         `;
       }
-      if (character !== null) {
+      if (character) {
         prependAnd();
         query.append`
           public."Kanji"."Character" = ${character}
         `;
       }
-      if (onyomi !== null) {
+      if (onyomi) {
         prependAnd();
         query.append`
           ${onyomi} = any("Kanji"."Onyomi")
         `;
       }
-      if (kunyomi !== null) {
+      if (kunyomi) {
         prependAnd();
         query.append`
           ${kunyomi} = any("Kanji"."Kunyomi")
         `;
       }
-      if (radical !== null) {
+      if (radical) {
         prependAnd();
         query.append`(
           public."Radicals"."Character" = ${radical}
@@ -125,7 +114,32 @@ export const GET = async (request: NextRequest) => {
       dbResponse = await sql(...query.array);
     }
 
-    return NextResponse.json(dbResponse.rows, { status: 200 });
+    const resultKanji: Kanji[] = [];
+    let IndexOfFirstKanjiOccurence = -1;
+    dbResponse.rows.forEach((row, index, rows) => {
+      if (
+        IndexOfFirstKanjiOccurence !== -1 &&
+        row.KanjiId === rows[IndexOfFirstKanjiOccurence].KanjiId
+      ) {
+        resultKanji[resultKanji.length - 1].RadicalIds?.push(row.RadicalId);
+        resultKanji[resultKanji.length - 1].RadicalCharacters?.push(row.RadicalCharacter);
+      } else {
+        const kanji: Kanji = {
+          KanjiId: row.KanjiId,
+          Character: row.Character,
+          Onyomi: row.Onyomi,
+          Kunyomi: row.Kunyomi,
+          Meaning: row.Meaning,
+          Popularity: row.Popularity,
+        };
+        if (row.RadicalId !== null) kanji.RadicalIds = [row.RadicalId];
+        if (row.RadicalCharacter !== null) kanji.RadicalCharacters = [row.RadicalCharacter];
+        resultKanji.push(kanji);
+        IndexOfFirstKanjiOccurence = index;
+      }
+    });
+
+    return NextResponse.json(resultKanji, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ error: error?.message ?? error }, { status: 500 });
   }

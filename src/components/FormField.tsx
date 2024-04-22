@@ -60,25 +60,21 @@ const FormSelect = ({ control, id, name, getOptions, className, disabled }: Form
   const [selectOptions, setSelectOptions] = useState<OptionsOrGroups<any, GroupBase<string>>>([]);
   const [isLoading, setIsLoading] = useState(false);
   const abortControllerRef = useRef<AbortController>();
+  const [searchValue, setSearchValue] = useState('');
 
-  const updateOptions = useCallback(
-    (searchValue?: string) => {
-      if (!getOptions) return;
+  const updateOptions = useCallback(() => {
+    if (!getOptions) return;
 
-      abortControllerRef.current?.abort();
-      abortControllerRef.current = new AbortController();
-      setIsLoading(true);
-      getOptions(searchValue, abortControllerRef.current?.signal).then((newOptions) => {
+    abortControllerRef.current?.abort('search value changed');
+    abortControllerRef.current = new AbortController();
+    setIsLoading(true);
+    getOptions(searchValue, abortControllerRef.current?.signal)
+      .then((newOptions) => {
         setSelectOptions(newOptions);
         setIsLoading(false);
-      });
-    },
-    [getOptions],
-  );
-
-  useEffect(() => {
-    updateOptions();
-  }, [updateOptions]);
+      })
+      .catch(() => {});
+  }, [getOptions, setIsLoading, setSelectOptions, searchValue]);
 
   return (
     <Controller
@@ -98,7 +94,8 @@ const FormSelect = ({ control, id, name, getOptions, className, disabled }: Form
           options={selectOptions}
           isLoading={isLoading}
           onChange={(newValue) => onChange({ target: { value: newValue?.value } })}
-          onInputChange={updateOptions}
+          onInputChange={(newSearchValue) => setSearchValue(newSearchValue)}
+          onMenuOpen={updateOptions}
           filterOption={() => true}
         />
       )}

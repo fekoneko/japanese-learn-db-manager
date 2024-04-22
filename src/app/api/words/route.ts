@@ -43,7 +43,7 @@ export const GET = async (request: NextRequest) => {
 
     if (search !== null) {
       dbResponse = await sql`
-      SELECT DISTINCT public."Words".* FROM public."Words"
+      SELECT DISTINCT public."Words".*, public."Kanji"."Character" AS "KanjiCharacter", public."Kanji"."KanjiId" AS "KanjiId" FROM public."Words"
       LEFT OUTER JOIN public."KanjiInWords" ON public."KanjiInWords"."WordId" = public."Words"."WordId"
       LEFT OUTER JOIN public."Kanji" ON public."KanjiInWords"."KanjiId" = public."Kanji"."KanjiId"
       WHERE public."Words"."Word" = ${search}
@@ -60,20 +60,15 @@ export const GET = async (request: NextRequest) => {
       const meaning = request.nextUrl.searchParams.get('m');
       const kanji = request.nextUrl.searchParams.get('k');
 
-      if (wordOrVariant === null && reading === null && meaning === null && kanji === null)
-        throw new Error('no attributes provided');
-
       const query = taggedTemplate`
-        SELECT DISTINCT public."Words".* FROM public."Words"
+        SELECT DISTINCT public."Words".*, public."Kanji"."Character" AS "KanjiCharacter", public."Kanji"."KanjiId" AS "KanjiId" FROM public."Words"
+        LEFT OUTER JOIN public."KanjiInWords" ON public."KanjiInWords"."WordId" = public."Words"."WordId"
+        LEFT OUTER JOIN public."Kanji" ON public."KanjiInWords"."KanjiId" = public."Kanji"."KanjiId"
       `;
-      if (kanji !== null)
+      if (wordOrVariant || reading || meaning || kanji)
         query.append`
-          LEFT OUTER JOIN public."KanjiInWords" ON public."KanjiInWords"."WordId" = public."Words"."WordId"
-          LEFT OUTER JOIN public."Kanji" ON public."KanjiInWords"."KanjiId" = public."Kanji"."KanjiId"
+          WHERE
         `;
-      query.append`
-        WHERE
-      `;
 
       let encounteredFirstStatement = false;
       const prependAnd = () => {
@@ -81,26 +76,26 @@ export const GET = async (request: NextRequest) => {
         encounteredFirstStatement = true;
       };
 
-      if (wordOrVariant !== null) {
+      if (wordOrVariant) {
         prependAnd();
         query.append`(
           public."Words"."Word" = ${wordOrVariant}
           OR ${wordOrVariant} = any("Words"."OtherVariants")
         )`;
       }
-      if (reading !== null) {
+      if (reading) {
         prependAnd();
         query.append`
           public."Words"."Reading" = ${reading}
         `;
       }
-      if (meaning !== null) {
+      if (meaning) {
         prependAnd();
         query.append`
           public."Words"."Meanings"::VARCHAR LIKE '%' || LOWER(${meaning}) || '%'
         `;
       }
-      if (kanji !== null) {
+      if (kanji) {
         prependAnd();
         query.append`
           public."Kanji"."Character" = ${kanji}
@@ -111,7 +106,33 @@ export const GET = async (request: NextRequest) => {
       dbResponse = await sql(...query.array);
     }
 
-    return NextResponse.json(dbResponse.rows, { status: 200 });
+    const resultWords: Word[] = [];
+    let IndexOfFirstWordOccurence = -1;
+    dbResponse.rows.forEach((row, index, rows) => {
+      if (
+        IndexOfFirstWordOccurence !== -1 &&
+        row.WordId === rows[IndexOfFirstWordOccurence].WordId
+      ) {
+        resultWords[resultWords.length - 1].KanjiIds?.push(row.KanjiId);
+        resultWords[resultWords.length - 1].KanjiCharacters?.push(row.KanjiCharacter);
+      } else {
+        const word: Word = {
+          WordId: row.WordId,
+          Word: row.Word,
+          Reading: row.Reading,
+          PitchAccents: row.PitchAccents,
+          Meanings: row.Meanings,
+          Popularity: row.Popularity,
+          OtherVariants: row.OtherVariants,
+        };
+        if (row.KanjiId !== null) word.KanjiIds = [row.KanjiId];
+        if (row.KanjiCharacter !== null) word.KanjiCharacters = [row.KanjiCharacter];
+        resultWords.push(word);
+        IndexOfFirstWordOccurence = index;
+      }
+    });
+
+    return NextResponse.json(resultWords, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ error: error?.message ?? error }, { status: 500 });
   }
