@@ -5,6 +5,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
 import { Kanji, Radical } from '@/@types/globals';
+import { validSvgRegExp } from '@/utilities/validation';
 
 const formFieldsInfo: FormFieldInfo[] = [
   {
@@ -53,6 +54,12 @@ const formFieldsInfo: FormFieldInfo[] = [
     array: true,
     options: { minLength: 1, maxLength: 1 },
   },
+  {
+    name: 'Image',
+    type: 'text',
+    label: 'SVG с порядком черт',
+    options: { pattern: validSvgRegExp, minLength: 1, maxLength: 100000 },
+  },
 ];
 
 const RadicalAddForm = () => {
@@ -70,6 +77,7 @@ const RadicalAddForm = () => {
       newRadical.OtherVariants = fieldValues.OtherVariants?.filter(
         (value: string) => !!value?.length,
       );
+    if (fieldValues.Image?.length) newRadical.Image = fieldValues.Image;
 
     const responsePromise = new Promise((resolve, reject) =>
       fetch('/api/radicals', {

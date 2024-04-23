@@ -14,8 +14,8 @@ export const POST = async (request: NextRequest) => {
       return NextResponse.json({ error: 'Request body is invalid' }, { status: 400 });
 
     await sql`
-      INSERT INTO public."Radicals" ("Character", "CorrespondingKanjiId", "Keyword", "DictionaryCode", "OtherVariants")
-      VALUES (${requestBody.Character}, ${requestBody.CorrespondingKanjiId}, ${requestBody.Keyword}, ${requestBody.DictionaryCode}, ${requestBody.OtherVariants as any})
+      INSERT INTO public."Radicals" ("Character", "CorrespondingKanjiId", "Keyword", "DictionaryCode", "OtherVariants", "Image")
+      VALUES (${requestBody.Character}, ${requestBody.CorrespondingKanjiId}, ${requestBody.Keyword}, ${requestBody.DictionaryCode}, ${requestBody.OtherVariants as any}, ${requestBody.Image})
     `;
 
     return NextResponse.json({}, { status: 200 });
@@ -101,6 +101,7 @@ export const GET = async (request: NextRequest) => {
       };
       if (row.DictionaryCode !== null) radical.DictionaryCode = row.DictionaryCode;
       if (row.OtherVariants !== null) radical.OtherVariants = row.OtherVariants;
+      if (row.Image !== null) radical.Image = row.Image;
       if (row.CorrespondingKanjiId !== null)
         radical.CorrespondingKanjiId = row.CorrespondingKanjiId;
       if (row.CorrespondingKanjiCharacter !== null)

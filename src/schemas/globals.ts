@@ -1,3 +1,4 @@
+import { validSvgRegExp } from '@/utilities/validation';
 import { Schema } from 'jsonschema';
 
 export const WordSchema: Schema = {
@@ -57,6 +58,13 @@ export const KanjiSchema: Schema = {
       maxItems: 20,
       required: false,
     },
+    Image: {
+      type: 'string',
+      pattern: validSvgRegExp,
+      minLength: 1,
+      maxLength: 100000,
+      required: false,
+    },
   },
 };
 
@@ -71,6 +79,13 @@ export const RadicalSchema: Schema = {
       type: 'array',
       items: { type: 'string', minLength: 1, maxLength: 1 },
       maxItems: 10,
+      required: false,
+    },
+    Image: {
+      type: 'string',
+      pattern: validSvgRegExp,
+      minLength: 1,
+      maxLength: 100000,
       required: false,
     },
   },

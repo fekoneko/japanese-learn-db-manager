@@ -28,6 +28,7 @@ export interface Radical {
   Keyword: string;
   DictionaryCode?: number;
   OtherVariants?: string[];
+  Image?: string;
   CorrespondingKanjiId?: number;
   CorrespondingKanjiCharacter?: string;
 }

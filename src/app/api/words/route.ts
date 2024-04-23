@@ -15,7 +15,7 @@ export const POST = async (request: NextRequest) => {
 
     await sql`
       INSERT INTO public."Words" ("Word", "Reading", "PitchAccents", "Meanings", "Popularity", "OtherVariants")
-      VALUES (${requestBody.Word}, ${requestBody.Reading}, ${requestBody.PitchAccents as any}, ${requestBody.Meanings as any}, ${requestBody.Popularity as any}, ${requestBody.OtherVariants as any})
+      VALUES (${requestBody.Word}, ${requestBody.Reading}, ${requestBody.PitchAccents as any}, ${requestBody.Meanings as any}, ${requestBody.Popularity}, ${requestBody.OtherVariants as any})
     `;
 
     const kanjiIds = requestBody.KanjiIds;

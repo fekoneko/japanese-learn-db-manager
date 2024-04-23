@@ -14,8 +14,8 @@ export const POST = async (request: NextRequest) => {
       return NextResponse.json({ error: 'Request body is invalid' }, { status: 400 });
 
     await sql`
-      INSERT INTO public."Kanji" ("Character", "Onyomi", "Kunyomi", "Meaning", "Popularity")
-      VALUES (${requestBody.Character}, ${requestBody.Onyomi as any}, ${requestBody.Kunyomi as any}, ${requestBody.Meaning as any}, ${requestBody.Popularity as any})
+      INSERT INTO public."Kanji" ("Character", "Onyomi", "Kunyomi", "Meaning", "Popularity", "Image")
+      VALUES (${requestBody.Character}, ${requestBody.Onyomi as any}, ${requestBody.Kunyomi as any}, ${requestBody.Meaning}, ${requestBody.Popularity}, ${requestBody.Image})
     `;
 
     const radicalIds = requestBody.RadicalIds;

@@ -18,6 +18,7 @@ const KanjiPreview = ({ kanji }: KanjiPreviewProps) => {
           className="pointer-events-none absolute left-[calc(100%+0.5rem)] z-40 flex size-64 items-center justify-center rounded-lg bg-white p-4 text-lg opacity-0 shadow-xl transition-opacity [:hover>&]:opacity-100"
         />
       </div>
+
       <p className="grow basis-8 p-1 text-center text-lg">{kanji.Meaning}</p>
       <p className="grow basis-8 p-1 text-center">
         {kanji.Onyomi?.map((reading, index) => (

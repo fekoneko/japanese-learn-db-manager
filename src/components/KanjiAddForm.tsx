@@ -5,6 +5,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
 import { Kanji, Radical } from '@/@types/globals';
+import { validSvgRegExp } from '@/utilities/validation';
 
 const formFieldsInfo: FormFieldInfo[] = [
   {
@@ -64,6 +65,12 @@ const formFieldsInfo: FormFieldInfo[] = [
       );
     },
   },
+  {
+    name: 'Image',
+    type: 'text',
+    label: 'SVG с порядком черт',
+    options: { pattern: validSvgRegExp, minLength: 1, maxLength: 100000 },
+  },
 ];
 
 const KanjiAddForm = () => {
@@ -83,6 +90,7 @@ const KanjiAddForm = () => {
       newKanji.RadicalIds = fieldValues.RadicalIds?.map((value: string) =>
         value === '' ? NaN : +value,
       )?.filter((value: number) => !isNaN(value));
+    if (fieldValues.Image?.length) newKanji.Image = fieldValues.Image;
 
     const responsePromise = new Promise((resolve, reject) =>
       fetch('/api/kanji', {
