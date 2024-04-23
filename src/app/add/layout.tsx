@@ -1,4 +1,5 @@
 import Navigation, { NavigationLinkInfo } from '@/components/Navigation';
+import { PropsWithChildren } from 'react';
 
 const linksInfo: NavigationLinkInfo[] = [
   {
@@ -20,10 +21,7 @@ const linksInfo: NavigationLinkInfo[] = [
   },
 ];
 
-interface AddPageLayoutProps {
-  children: React.ReactNode;
-}
-const AddPageLayout = ({ children }: AddPageLayoutProps) => {
+const AddPageLayout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Navigation linksInfo={linksInfo} />

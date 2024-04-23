@@ -3,16 +3,16 @@ import { PropsWithChildren } from 'react';
 
 const linksInfo: NavigationLinkInfo[] = [
   {
-    title: 'Поиск слов',
-    href: '/search/words',
+    title: 'Удаление слов',
+    href: '/delete/words',
   },
   {
-    title: 'Поиск кандзи',
-    href: '/search/kanji',
+    title: 'Удаление кандзи',
+    href: '/delete/kanji',
   },
   {
-    title: 'Поиск радикалов',
-    href: '/search/radicals',
+    title: 'Удаление радикалов',
+    href: '/delete/radicals',
   },
   {
     title: 'Другие опции',
@@ -21,7 +21,7 @@ const linksInfo: NavigationLinkInfo[] = [
   },
 ];
 
-const SearchPageLayout = ({ children }: PropsWithChildren) => {
+const DeletePageLayout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Navigation linksInfo={linksInfo} />
@@ -29,4 +29,4 @@ const SearchPageLayout = ({ children }: PropsWithChildren) => {
     </>
   );
 };
-export default SearchPageLayout;
+export default DeletePageLayout;

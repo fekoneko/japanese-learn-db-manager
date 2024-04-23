@@ -1,12 +1,21 @@
 import { Radical } from '@/@types/globals';
-import { Fragment } from 'react';
+import { Fragment, HTMLAttributes } from 'react';
 
 interface RadicalPreviewProps {
   radical: Radical;
 }
-const RadicalPreview = ({ radical }: RadicalPreviewProps) => {
+const RadicalPreview = ({
+  radical,
+  ...divAttributes
+}: RadicalPreviewProps & HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="flex items-center rounded border-[1.5px] border-slate-400 bg-slate-200">
+    <div
+      {...divAttributes}
+      className={
+        'flex overflow-hidden rounded border-[1.5px] border-slate-400 bg-slate-200 ' +
+          divAttributes.className ?? ''
+      }
+    >
       <div className="relative m-2 flex w-[30%] min-w-[8rem] max-w-[10rem] flex-col items-center justify-center rounded bg-slate-100 px-3 py-1">
         <h3 className="text-4xl">{radical.Character}</h3>
         <p className="text-sm text-slate-500">

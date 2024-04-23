@@ -24,6 +24,23 @@ export const POST = async (request: NextRequest) => {
   }
 };
 
+export const DELETE = async (request: NextRequest) => {
+  try {
+    const radicalId = +(request.nextUrl.searchParams.get('id') ?? 'null');
+    if (isNaN(radicalId))
+      return NextResponse.json({ error: 'Provided ID is invalid' }, { status: 400 });
+
+    await sql`
+      DELETE FROM public."Radicals"
+      WHERE "RadicalId"=${radicalId}
+    `;
+
+    return NextResponse.json({}, { status: 200 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message ?? error }, { status: 500 });
+  }
+};
+
 export const GET = async (request: NextRequest) => {
   try {
     const search = request.nextUrl.searchParams.get('s');

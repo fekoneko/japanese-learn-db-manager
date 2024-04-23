@@ -1,12 +1,21 @@
 import { Word } from '@/@types/globals';
-import { Fragment } from 'react';
+import { Fragment, HTMLAttributes } from 'react';
 
 interface WordPreviewProps {
   word: Word;
 }
-const WordPreview = ({ word }: WordPreviewProps) => {
+const WordPreview = ({
+  word,
+  ...divAttributes
+}: WordPreviewProps & HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="flex overflow-hidden rounded border-[1.5px] border-slate-400 bg-slate-200">
+    <div
+      {...divAttributes}
+      className={
+        'flex overflow-hidden rounded border-[1.5px] border-slate-400 bg-slate-200 ' +
+          divAttributes.className ?? ''
+      }
+    >
       <div className="m-2 w-[30%] min-w-[8rem] max-w-[10rem] overflow-hidden rounded bg-slate-100 px-3 py-1 md:max-w-[15rem]">
         <h3 className="text-4xl">{word.Word}</h3>
         <p>

@@ -27,6 +27,23 @@ const sectionsInfo: SectionInfo[] = [
     ],
   },
   {
+    title: 'Удаление',
+    links: [
+      {
+        title: 'Удаление слов',
+        href: '/delete/words',
+      },
+      {
+        title: 'Удаление кандзи',
+        href: '/delete/kanji',
+      },
+      {
+        title: 'Удаление радикалов',
+        href: '/delete/radicals',
+      },
+    ],
+  },
+  {
     title: 'Поиск',
     links: [
       {

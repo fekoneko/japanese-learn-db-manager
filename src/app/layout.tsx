@@ -4,16 +4,14 @@ import Footer from '@/components/Footer';
 import { Slide, ToastContainer } from 'react-toastify';
 import '@/styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { PropsWithChildren } from 'react';
 
 export const metadata: Metadata = {
   title: 'Авдеев Андрей, ИВТ1-Б21',
   description: '',
 };
 
-interface RootLayoutProps {
-  children: React.ReactNode;
-}
-const RootLayout = ({ children }: RootLayoutProps) => {
+const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ru">
       <body className="min-h[360px] max-w-screen flex h-dvh min-w-[500px] flex-col bg-slate-300">

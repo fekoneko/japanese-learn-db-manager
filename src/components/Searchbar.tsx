@@ -23,7 +23,7 @@ export type SearchFieldValues<FieldName extends string = string> = {
 export type SearchFunction<FieldName extends string = string> = (
   searchValue: { s?: string } & Partial<SearchFieldValues<FieldName>>,
   abortSignal?: AbortSignal,
-) => any;
+) => void;
 
 export type GetSearchFieldOptionsFunction<FieldName extends string = string> = (
   searchValue: Partial<SearchFieldValues<FieldName>>,
@@ -38,8 +38,8 @@ interface SearchbarFieldInputProps<FieldName extends string> {
   control: Control<FieldValues, any>;
   formState: FormState<FieldValues>;
   getOptions: GetOptionsFunction;
-  onDisable?: () => any;
-  onEnable?: () => any;
+  onDisable?: () => void;
+  onEnable?: () => void;
 }
 const SearchbarFieldInput = <FieldName extends string = string>({
   formId,
