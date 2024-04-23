@@ -21,9 +21,9 @@ const Navigation = ({ linksInfo }: NavigationProps) => {
         {linksInfo.map((linkInfo, index) => (
           <li
             key={index}
-            className={`z-50 flex grow justify-center rounded-b transition-colors [clip-path:polygon(-100%_0,-100%_200%,200%_200%,200%_0)] ${!linkInfo.inactive && pathname.startsWith(linkInfo.href) ? 'bg-white shadow-lg' : 'hover:bg-slate-200'}`}
+            className={`z-50 flex grow justify-center rounded-b transition-colors [clip-path:polygon(-100%_0,-100%_200%,200%_200%,200%_0)] ${!linkInfo.inactive && pathname.startsWith(linkInfo.href) ? 'bg-teal-500 text-white shadow-md' : 'hover:bg-white/50'}`}
           >
-            <Link href={linkInfo.href} className="grow px-2 pb-1 pt-0.5 text-center">
+            <Link href={linkInfo.href} className="grow basis-0 px-2 pb-1 pt-0.5 text-center">
               {linkInfo.title}
             </Link>
           </li>

@@ -77,14 +77,14 @@ const HomePage = () => {
       <h1 className="text-center text-3xl text-slate-600">JapaneseLearn DB</h1>
       {sectionsInfo.map((sectionInfo, sectionIndex) => (
         <section key={sectionIndex} className="rounded border-2 border-dashed border-slate-400 p-2">
-          <h2 className="-mt-6 ml-5 w-1/3 max-w-[15rem] rounded border-2 border-slate-400 bg-slate-300 py-0.5 text-center font-bold text-slate-600">
+          <h2 className="-mt-6 ml-5 w-1/3 max-w-[15rem] rounded border-2 border-teal-500 bg-slate-200 py-0.5 text-center font-bold text-teal-700">
             {sectionInfo.title}
           </h2>
           <ul className="flex">
             {sectionInfo.links.map((linkInfo, linkIndex) => (
               <li
                 key={linkIndex}
-                className="z-50 flex grow basis-0 justify-center rounded transition-colors hover:bg-slate-200"
+                className="z-50 flex grow basis-0 justify-center rounded transition-colors hover:bg-slate-100"
               >
                 <Link href={linkInfo.href} className="grow p-2 text-center">
                   {linkInfo.title}

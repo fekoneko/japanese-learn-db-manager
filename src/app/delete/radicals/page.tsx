@@ -61,10 +61,10 @@ const RadicalDeletePage = () => {
       {allRadicals.length ? (
         allRadicals.map((radical) => (
           <div key={radical.RadicalId} className="flex gap-1">
-            <RadicalPreview radical={radical} className="grow" />
+            <RadicalPreview radical={radical} imageDisabled className="grow" />
             <button
               onClick={() => deleteRadical(radical.RadicalId!)}
-              className="w-12 rounded-full pt-1 text-xl leading-3"
+              className="w-12 border-slate-400 bg-slate-100 pt-1 text-xl leading-3"
             >
               ❌
             </button>

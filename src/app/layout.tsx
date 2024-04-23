@@ -14,10 +14,11 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ru">
-      <body className="min-h[360px] max-w-screen flex h-dvh min-w-[500px] flex-col bg-slate-300">
+      <body className="min-h[360px] max-w-screen flex h-dvh min-w-[500px] flex-col bg-slate-200">
         <Header />
         <main className="flex grow flex-col overflow-hidden">{children}</main>
         <Footer />
+
         <ToastContainer
           position="bottom-center"
           autoClose={1000}

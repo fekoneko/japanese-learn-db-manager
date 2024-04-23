@@ -1,9 +1,10 @@
 const Footer = () => {
   return (
-    <footer className="z-50 flex items-center justify-center bg-white px-8 py-2 shadow-lg">
-      <p role="contentinfo" className="text-slate-500">
-        Лабораторная работа №2 по предмету &quot;Базы данных&quot;
-      </p>
+    <footer
+      role="contentinfo"
+      className="z-50 flex items-center justify-center bg-slate-500 px-8 py-2 text-white/60 shadow-lg"
+    >
+      <p>Лабораторная работа по предмету &ldquo;Базы данных&rdquo;</p>
     </footer>
   );
 };

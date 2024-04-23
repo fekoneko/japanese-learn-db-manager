@@ -60,11 +60,11 @@ const KanjiDeletePage = () => {
     <div className="flex min-h-full min-w-full flex-col gap-3 px-[15%] py-4">
       {allKanji.length ? (
         allKanji.map((kanji) => (
-          <div key={kanji.KanjiId} className="flex gap-1">
-            <KanjiPreview kanji={kanji} className="grow" />
+          <div key={kanji.KanjiId} className="flex gap-2">
+            <KanjiPreview kanji={kanji} imageDisabled className="grow" />
             <button
               onClick={() => deleteKanji(kanji.KanjiId!)}
-              className="w-12 rounded-full pt-1 text-xl leading-3"
+              className="w-12 border-slate-400 bg-slate-100 pt-1 text-xl leading-3"
             >
               ❌
             </button>

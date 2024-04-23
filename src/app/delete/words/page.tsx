@@ -64,7 +64,7 @@ const WordDeletePage = () => {
             <WordPreview word={word} className="grow" />
             <button
               onClick={() => deleteWord(word.WordId!)}
-              className="w-12 rounded-full pt-1 text-xl leading-3"
+              className="w-12 border-slate-400 bg-slate-100 pt-1 text-xl leading-3"
             >
               ❌
             </button>
