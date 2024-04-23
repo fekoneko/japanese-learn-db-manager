@@ -21,15 +21,26 @@ const WordSearchPage = () => {
   const [searchResults, setSearchResults] = useState<Word[]>([]);
 
   const search: SearchFunction<'w' | 'r' | 'm' | 'k'> = async (searchValue: any, abortSignal) => {
-    const response = await fetch('/api/words?' + new URLSearchParams(searchValue), {
-      signal: abortSignal,
+    const searchPromise = new Promise<void>(async (resolve, reject) => {
+      const response = await fetch('/api/words?' + new URLSearchParams(searchValue), {
+        signal: abortSignal,
+      });
+
+      if (response.ok) {
+        const newSearchResults: Word[] = await response.json();
+        setSearchResults(newSearchResults);
+        resolve();
+      } else reject();
     });
-    if (!response.ok) {
-      toast.warn('При поиске слов возникла ошибка');
-      return [];
-    }
-    const newSearchResults: Word[] = await response.json();
-    setSearchResults(newSearchResults);
+
+    toast.promise(
+      searchPromise,
+      {
+        pending: 'Идёт поиск...',
+        error: 'При поиске возникла ошибка',
+      },
+      { toastId: 0 },
+    );
   };
 
   const getFieldOptions: GetSearchFieldOptionsFunction<'w' | 'r' | 'm' | 'k'> = async (

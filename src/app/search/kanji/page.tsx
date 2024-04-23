@@ -25,15 +25,26 @@ const KanjiSearchPage = () => {
     searchValue: any,
     abortSignal,
   ) => {
-    const response = await fetch('/api/kanji?' + new URLSearchParams(searchValue), {
-      signal: abortSignal,
+    const searchPromise = new Promise<void>(async (resolve, reject) => {
+      const response = await fetch('/api/kanji?' + new URLSearchParams(searchValue), {
+        signal: abortSignal,
+      });
+
+      if (response.ok) {
+        const newSearchResults: Kanji[] = await response.json();
+        setSearchResults(newSearchResults);
+        resolve();
+      } else reject();
     });
-    if (!response.ok) {
-      toast.warn('При поиске кандзи возникла ошибка');
-      return [];
-    }
-    const newSearchResults: Kanji[] = await response.json();
-    setSearchResults(newSearchResults);
+
+    toast.promise(
+      searchPromise,
+      {
+        pending: 'Идёт поиск...',
+        error: 'При поиске возникла ошибка',
+      },
+      { toastId: 0 },
+    );
   };
 
   const getFieldOptions: GetSearchFieldOptionsFunction<'c' | 'o' | 'k' | 'm' | 'r'> = async (

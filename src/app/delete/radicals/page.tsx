@@ -12,20 +12,26 @@ const RadicalDeletePage = () => {
   useEffect(() => {
     abortControllerRef.current = new AbortController();
 
-    const awaitAllRadicals = async () => {
+    const loadingPromise = new Promise<void>(async (resolve, reject) => {
       const response = await fetch('/api/radicals', {
         signal: abortControllerRef.current?.signal,
       }).catch(() => undefined);
-      if (!response) return;
 
-      if (!response.ok) {
-        toast.warn('При получении радикалов возникла ошибка');
-        return;
-      }
-      const newRadicals: Radical[] = await response.json();
-      setAllRadicals(newRadicals);
-    };
-    awaitAllRadicals();
+      if (response?.ok) {
+        const newRadicals: Radical[] = await response.json();
+        setAllRadicals(newRadicals);
+        resolve();
+      } else reject();
+    });
+
+    toast.promise(
+      loadingPromise,
+      {
+        pending: 'Загрузка радикалов...',
+        error: 'При загрузке радикалов возникла ошибка',
+      },
+      { toastId: 0 },
+    );
 
     return () => abortControllerRef.current?.abort('useEffect cleanup');
   }, []);

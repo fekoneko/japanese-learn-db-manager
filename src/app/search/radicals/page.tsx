@@ -21,15 +21,26 @@ const RadicalsSearchPage = () => {
   const [searchResults, setSearchResults] = useState<Radical[]>([]);
 
   const search: SearchFunction<'c' | 'm' | 'k' | 'd'> = async (searchValue: any, abortSignal) => {
-    const response = await fetch('/api/radicals?' + new URLSearchParams(searchValue), {
-      signal: abortSignal,
+    const searchPromise = new Promise<void>(async (resolve, reject) => {
+      const response = await fetch('/api/radicals?' + new URLSearchParams(searchValue), {
+        signal: abortSignal,
+      });
+
+      if (response.ok) {
+        const newSearchResults: Radical[] = await response.json();
+        setSearchResults(newSearchResults);
+        resolve();
+      } else reject();
     });
-    if (!response.ok) {
-      toast.warn('При поиске радикалов возникла ошибка');
-      return [];
-    }
-    const newSearchResults: Radical[] = await response.json();
-    setSearchResults(newSearchResults);
+
+    toast.promise(
+      searchPromise,
+      {
+        pending: 'Идёт поиск...',
+        error: 'При поиске возникла ошибка',
+      },
+      { toastId: 0 },
+    );
   };
 
   const getFieldOptions: GetSearchFieldOptionsFunction<'c' | 'm' | 'k' | 'd'> = async (

@@ -2,7 +2,6 @@
 
 import { Word } from '@/@types/globals';
 import WordPreview from '@/components/WordPreview';
-import { resolve } from 'path';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -13,20 +12,26 @@ const WordDeletePage = () => {
   useEffect(() => {
     abortControllerRef.current = new AbortController();
 
-    const awaitAllWords = async () => {
+    const loadingPromise = new Promise<void>(async (resolve, reject) => {
       const response = await fetch('/api/words', {
         signal: abortControllerRef.current?.signal,
       }).catch(() => undefined);
-      if (!response) return;
 
-      if (!response.ok) {
-        toast.warn('При получении слов возникла ошибка');
-        return;
-      }
-      const newWords: Word[] = await response.json();
-      setAllWords(newWords);
-    };
-    awaitAllWords();
+      if (response?.ok) {
+        const newWords: Word[] = await response.json();
+        setAllWords(newWords);
+        resolve();
+      } else reject();
+    });
+
+    toast.promise(
+      loadingPromise,
+      {
+        pending: 'Загрузка слов...',
+        error: 'При загрузке слов возникла ошибка',
+      },
+      { toastId: 0 },
+    );
 
     return () => abortControllerRef.current?.abort('useEffect cleanup');
   }, []);

@@ -12,20 +12,26 @@ const KanjiDeletePage = () => {
   useEffect(() => {
     abortControllerRef.current = new AbortController();
 
-    const awaitAllKanji = async () => {
+    const loadingPromise = new Promise<void>(async (resolve, reject) => {
       const response = await fetch('/api/kanji', {
         signal: abortControllerRef.current?.signal,
       }).catch(() => undefined);
-      if (!response) return;
 
-      if (!response.ok) {
-        toast.warn('При получении кандзи возникла ошибка');
-        return;
-      }
-      const newKanji: Kanji[] = await response.json();
-      setAllKanji(newKanji);
-    };
-    awaitAllKanji();
+      if (response?.ok) {
+        const newKanji: Kanji[] = await response.json();
+        setAllKanji(newKanji);
+        resolve();
+      } else reject();
+    });
+
+    toast.promise(
+      loadingPromise,
+      {
+        pending: 'Загрузка кандзи...',
+        error: 'При загрузке кандзи возникла ошибка',
+      },
+      { toastId: 0 },
+    );
 
     return () => abortControllerRef.current?.abort('useEffect cleanup');
   }, []);
