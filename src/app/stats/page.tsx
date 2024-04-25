@@ -1,8 +1,9 @@
-'use server';
-
 import { Stats } from '@/@types/globals';
 import StatsChart from '@/components/StatsChart';
 import { sql } from '@vercel/postgres';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 const getStats = async (): Promise<Stats | null> => {
   try {
@@ -20,6 +21,8 @@ const getStats = async (): Promise<Stats | null> => {
           WHERE "Meanings" IS NOT NULL
         ) AS FLOAT) AS "WordsFilled"
     `;
+
+    console.log(dbResponse.rows[0]);
 
     return dbResponse.rows[0];
   } catch (error: any) {
