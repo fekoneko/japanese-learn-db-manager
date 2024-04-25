@@ -14,7 +14,8 @@ const RadicalPreview = ({
     <div
       {...divAttributes}
       className={
-        'flex rounded border-[1.5px] border-slate-400 bg-slate-100 ' + divAttributes.className ?? ''
+        'flex items-center rounded border-[1.5px] border-slate-400 bg-slate-100 ' +
+          divAttributes.className ?? ''
       }
     >
       <div className="relative m-2 flex w-[30%] min-w-[8rem] max-w-[10rem] flex-col items-center justify-center rounded bg-slate-200 px-3 py-1">
