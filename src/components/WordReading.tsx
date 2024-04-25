@@ -19,12 +19,8 @@ const WordReading = ({ reading, pitchAccents }: WordReadingProps) => {
                   ? reading[0]
                   : reading.substring(1, accent)}
             </span>
-            {accent !== 0 && reading.length > accent && (
-              <>
-                <span className="h-2 self-start border-l-[1.5px] border-red-500"></span>
-                <span>{reading.substring(accent)}</span>
-              </>
-            )}
+            {accent !== 0 && <span className="h-2 self-start border-l-[1.5px] border-red-500" />}
+            {accent !== 0 && reading.length > accent && <span>{reading.substring(accent)}</span>}
           </p>
         ))
       ) : (
