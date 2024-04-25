@@ -1,5 +1,6 @@
 import { Word } from '@/@types/globals';
 import { Fragment, HTMLAttributes } from 'react';
+import WordReading from './WordReading';
 
 interface WordPreviewProps {
   word: Word;
@@ -18,12 +19,7 @@ const WordPreview = ({
     >
       <div className="m-2 w-[30%] min-w-[8rem] max-w-[10rem] overflow-hidden rounded bg-slate-200 px-3 py-1 md:max-w-[15rem]">
         <h3 className="text-4xl">{word.Word}</h3>
-        <p>
-          <span className="text-nowrap">{word.Reading}</span>{' '}
-          <span className="text-nowrap">
-            {word.Reading && word.PitchAccents?.length && `(${word.PitchAccents.join(', ')})`}
-          </span>
-        </p>
+        <WordReading reading={word.Reading} pitchAccents={word.PitchAccents} />
         <p className="break text-slate-500">
           {word.OtherVariants?.length && (
             <>
