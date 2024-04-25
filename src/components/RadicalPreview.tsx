@@ -26,7 +26,7 @@ const RadicalPreview = ({
         {!imageDisabled && (
           <div
             dangerouslySetInnerHTML={{ __html: radical.Image ?? 'нет изображения' }}
-            className="pointer-events-none absolute left-[calc(100%+0.5rem)] z-40 flex size-64 items-center justify-center rounded-lg bg-white p-4 text-lg opacity-0 shadow-xl transition-opacity [:hover>&]:opacity-100"
+            className="pointer-events-none absolute left-[calc(100%+0.5rem)] z-40 flex size-64 items-center justify-center rounded-lg bg-white p-4 text-lg opacity-0 shadow-xl transition-opacity [&>svg]:max-h-full [&>svg]:max-w-full [:hover>&]:opacity-100"
           />
         )}
       </div>
