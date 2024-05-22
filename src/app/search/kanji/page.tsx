@@ -6,9 +6,10 @@ import Searchbar, {
   GetSearchFieldOptionsFunction,
   SearchFunction,
 } from '@/components/Searchbar';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import KanjiPreview from '@/components/KanjiPreview';
+import DbContext from '@/contexts/DbContext';
 
 const searchFields: SearchField<'c' | 'o' | 'k' | 'm' | 'r'>[] = [
   { name: 'c', label: 'Кандзи' },
@@ -20,13 +21,14 @@ const searchFields: SearchField<'c' | 'o' | 'k' | 'm' | 'r'>[] = [
 
 const KanjiSearchPage = () => {
   const [searchResults, setSearchResults] = useState<Kanji[]>([]);
+  const { db } = useContext(DbContext);
 
   const search: SearchFunction<'c' | 'o' | 'k' | 'm' | 'r'> = async (
     searchValue: any,
     abortSignal,
   ) => {
     const searchPromise = new Promise<void>(async (resolve, reject) => {
-      const response = await fetch('/api/kanji?' + new URLSearchParams(searchValue), {
+      const response = await fetch(`/api/${db}/kanji?` + new URLSearchParams(searchValue), {
         signal: abortSignal,
       });
 
@@ -52,7 +54,7 @@ const KanjiSearchPage = () => {
     fieldName,
     abortSignal,
   ) => {
-    const response = await fetch('/api/kanji?' + new URLSearchParams(searchValue), {
+    const response = await fetch(`/api/${db}/kanji?` + new URLSearchParams(searchValue), {
       signal: abortSignal,
     });
     if (!response.ok) {

@@ -1,81 +1,86 @@
 'use client';
 
-import { useId } from 'react';
+import { useContext, useId, useMemo } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
 import { Kanji, Radical } from '@/@types/globals';
 import { validSvgRegExp } from '@/utilities/validation';
-
-const formFieldsInfo: FormFieldInfo[] = [
-  {
-    name: 'Character',
-    type: 'text',
-    label: 'Символ',
-    options: { required: true, minLength: 1, maxLength: 1 },
-  },
-  {
-    name: 'Onyomi',
-    type: 'text',
-    label: 'Оны',
-    array: true,
-    options: { minLength: 1, maxLength: 10 },
-  },
-  {
-    name: 'Kunyomi',
-    type: 'text',
-    label: 'Куны',
-    array: true,
-    options: { minLength: 1, maxLength: 10 },
-  },
-  {
-    name: 'Meaning',
-    type: 'text',
-    label: 'Значение',
-    options: { minLength: 1, maxLength: 255 },
-  },
-  {
-    name: 'Popularity',
-    type: 'number',
-    label: 'Место в топе',
-    options: { min: 1, max: 2147483648 },
-  },
-  {
-    name: 'RadicalIds',
-    type: 'select',
-    label: 'Радикалы',
-    array: true,
-    getOptions: async (searchValue?: string, abortSignal?: AbortSignal) => {
-      const response = await fetch(
-        '/api/radicals?' + new URLSearchParams({ s: searchValue ?? '' }),
-        {
-          signal: abortSignal,
-        },
-      );
-      if (!response.ok) {
-        toast.warn('Ошибка загрузки радикалов');
-        return [];
-      }
-      const responseBody: Radical[] = await response.json();
-      return (
-        responseBody?.map((radical) => ({
-          value: radical?.RadicalId?.toString(),
-          label: radical?.Character,
-        })) ?? []
-      );
-    },
-  },
-  {
-    name: 'Image',
-    type: 'text',
-    label: 'SVG с порядком черт',
-    options: { pattern: validSvgRegExp, minLength: 1, maxLength: 100000 },
-  },
-];
+import DbContext from '@/contexts/DbContext';
 
 const KanjiAddForm = () => {
   const formId = useId();
   const { register, control, formState, handleSubmit, reset } = useForm();
+  const { db } = useContext(DbContext);
+
+  const formFieldsInfo: FormFieldInfo[] = useMemo(
+    () => [
+      {
+        name: 'Character',
+        type: 'text',
+        label: 'Символ',
+        options: { required: true, minLength: 1, maxLength: 1 },
+      },
+      {
+        name: 'Onyomi',
+        type: 'text',
+        label: 'Оны',
+        array: true,
+        options: { minLength: 1, maxLength: 10 },
+      },
+      {
+        name: 'Kunyomi',
+        type: 'text',
+        label: 'Куны',
+        array: true,
+        options: { minLength: 1, maxLength: 10 },
+      },
+      {
+        name: 'Meaning',
+        type: 'text',
+        label: 'Значение',
+        options: { minLength: 1, maxLength: 255 },
+      },
+      {
+        name: 'Popularity',
+        type: 'number',
+        label: 'Место в топе',
+        options: { min: 1, max: 2147483648 },
+      },
+      {
+        name: 'RadicalIds',
+        type: 'select',
+        label: 'Радикалы',
+        array: true,
+        getOptions: async (searchValue?: string, abortSignal?: AbortSignal) => {
+          const response = await fetch(
+            `/api/${db}/radicals?` + new URLSearchParams({ s: searchValue ?? '' }),
+            {
+              signal: abortSignal,
+            },
+          );
+          if (!response.ok) {
+            toast.warn('Ошибка загрузки радикалов');
+            return [];
+          }
+          const responseBody: Radical[] = await response.json();
+          return (
+            responseBody?.map((radical) => ({
+              value: radical?.RadicalId?.toString(),
+              label: radical?.Character,
+            })) ?? []
+          );
+        },
+      },
+      {
+        name: 'Image',
+        type: 'text',
+        label: 'SVG с порядком черт',
+        options: { pattern: validSvgRegExp, minLength: 1, maxLength: 100000 },
+      },
+    ],
+    [db],
+  );
 
   const onValid = async (fieldValues: FieldValues) => {
     const newKanji: Partial<Kanji> = {};
@@ -93,7 +98,7 @@ const KanjiAddForm = () => {
     if (fieldValues.Image?.length) newKanji.Image = fieldValues.Image;
 
     const responsePromise = new Promise((resolve, reject) =>
-      fetch('/api/kanji', {
+      fetch(`/api/${db}/kanji`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newKanji),

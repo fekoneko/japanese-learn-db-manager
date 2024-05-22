@@ -1,78 +1,86 @@
 'use client';
 
-import { useId } from 'react';
+import { useContext, useId, useMemo } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
 import { Word } from '@/@types/globals';
-
-const formFieldsInfo: FormFieldInfo[] = [
-  {
-    name: 'Word',
-    type: 'text',
-    label: 'Слово',
-    options: { required: true, minLength: 1, maxLength: 30 },
-  },
-  {
-    name: 'Reading',
-    type: 'text',
-    label: 'Чтение',
-    options: { required: true, minLength: 1, maxLength: 30 },
-  },
-  {
-    name: 'PitchAccents',
-    type: 'number',
-    label: 'Тип акцента',
-    array: true,
-    options: { min: 0, max: 30 },
-  },
-  {
-    name: 'Meanings',
-    type: 'text',
-    label: 'Значения',
-    array: true,
-    options: { minLength: 1, maxLength: 30 },
-  },
-  {
-    name: 'Popularity',
-    type: 'number',
-    label: 'Место в топе',
-    options: { min: 1, max: 2147483648 },
-  },
-  {
-    name: 'OtherVariants',
-    type: 'text',
-    label: 'Другие написания',
-    array: true,
-    options: { minLength: 1, maxLength: 30 },
-  },
-  {
-    name: 'KanjiIds',
-    type: 'select',
-    label: 'Кандзи',
-    array: true,
-    getOptions: async (searchValue?: string, abortSignal?: AbortSignal) => {
-      const response = await fetch('/api/kanji?' + new URLSearchParams({ s: searchValue ?? '' }), {
-        signal: abortSignal,
-      });
-      if (!response.ok) {
-        toast.warn('Ошибка загрузки кандзи');
-        return [];
-      }
-      const responseBody = await response.json();
-      return (
-        responseBody?.map((kanji: any) => ({
-          value: kanji?.KanjiId?.toString(),
-          label: kanji?.Character,
-        })) ?? []
-      );
-    },
-  },
-];
+import DbContext from '@/contexts/DbContext';
 
 const WordAddForm = () => {
   const formId = useId();
   const { register, control, formState, handleSubmit, reset } = useForm();
+  const { db } = useContext(DbContext);
+
+  const formFieldsInfo: FormFieldInfo[] = useMemo(
+    () => [
+      {
+        name: 'Word',
+        type: 'text',
+        label: 'Слово',
+        options: { required: true, minLength: 1, maxLength: 30 },
+      },
+      {
+        name: 'Reading',
+        type: 'text',
+        label: 'Чтение',
+        options: { required: true, minLength: 1, maxLength: 30 },
+      },
+      {
+        name: 'PitchAccents',
+        type: 'number',
+        label: 'Тип акцента',
+        array: true,
+        options: { min: 0, max: 30 },
+      },
+      {
+        name: 'Meanings',
+        type: 'text',
+        label: 'Значения',
+        array: true,
+        options: { minLength: 1, maxLength: 30 },
+      },
+      {
+        name: 'Popularity',
+        type: 'number',
+        label: 'Место в топе',
+        options: { min: 1, max: 2147483648 },
+      },
+      {
+        name: 'OtherVariants',
+        type: 'text',
+        label: 'Другие написания',
+        array: true,
+        options: { minLength: 1, maxLength: 30 },
+      },
+      {
+        name: 'KanjiIds',
+        type: 'select',
+        label: 'Кандзи',
+        array: true,
+        getOptions: async (searchValue?: string, abortSignal?: AbortSignal) => {
+          const response = await fetch(
+            `/api/${db}/kanji?` + new URLSearchParams({ s: searchValue ?? '' }),
+            {
+              signal: abortSignal,
+            },
+          );
+          if (!response.ok) {
+            toast.warn('Ошибка загрузки кандзи');
+            return [];
+          }
+          const responseBody = await response.json();
+          return (
+            responseBody?.map((kanji: any) => ({
+              value: kanji?.KanjiId?.toString(),
+              label: kanji?.Character,
+            })) ?? []
+          );
+        },
+      },
+    ],
+    [db],
+  );
 
   const onValid = async (fieldValues: FieldValues) => {
     const newWord: Partial<Word> = {};
@@ -93,7 +101,7 @@ const WordAddForm = () => {
       )?.filter((value: number) => !isNaN(value));
 
     const responsePromise = new Promise((resolve, reject) =>
-      fetch('/api/words', {
+      fetch(`/api/${db}/words`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newWord),

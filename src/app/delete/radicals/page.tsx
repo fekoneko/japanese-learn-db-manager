@@ -2,18 +2,20 @@
 
 import { Radical } from '@/@types/globals';
 import RadicalPreview from '@/components/RadicalPreview';
-import { useEffect, useRef, useState } from 'react';
+import DbContext from '@/contexts/DbContext';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 const RadicalDeletePage = () => {
   const [allRadicals, setAllRadicals] = useState<Radical[]>([]);
   const abortControllerRef = useRef<AbortController>();
+  const { db } = useContext(DbContext);
 
   useEffect(() => {
     abortControllerRef.current = new AbortController();
 
     const loadingPromise = new Promise<void>(async (resolve, reject) => {
-      const response = await fetch('/api/radicals', {
+      const response = await fetch(`/api/${db}/radicals`, {
         signal: abortControllerRef.current?.signal,
       }).catch(() => undefined);
 
@@ -34,11 +36,11 @@ const RadicalDeletePage = () => {
     );
 
     return () => abortControllerRef.current?.abort('useEffect cleanup');
-  }, []);
+  }, [db]);
 
   const deleteRadical = async (radicalId: number) => {
     const deletePromise = new Promise<void>((resolve, reject) => {
-      fetch('/api/radicals?' + new URLSearchParams({ id: radicalId.toString() }), {
+      fetch(`/api/${db}/radicals?` + new URLSearchParams({ id: radicalId.toString() }), {
         method: 'DELETE',
       }).then((response) => {
         if (response.ok) {
