@@ -5,6 +5,7 @@ import { Slide, ToastContainer } from 'react-toastify';
 import '@/styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { PropsWithChildren } from 'react';
+import { DbProvider } from '@/contexts/DbContext';
 
 export const metadata: Metadata = {
   title: 'Авдеев Андрей, ИВТ1-Б21',
@@ -15,9 +16,11 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ru">
       <body className="min-h[360px] max-w-screen flex h-dvh min-w-[500px] flex-col bg-slate-200">
-        <Header />
-        <main className="flex grow flex-col overflow-hidden">{children}</main>
-        <Footer />
+        <DbProvider>
+          <Header />
+          <main className="flex grow flex-col overflow-hidden">{children}</main>
+          <Footer />
+        </DbProvider>
 
         <ToastContainer
           position="bottom-center"
