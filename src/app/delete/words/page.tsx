@@ -2,20 +2,18 @@
 
 import { Word } from '@/@types/globals';
 import WordPreview from '@/components/WordPreview';
-import DbContext from '@/contexts/DbContext';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 const WordDeletePage = () => {
   const [allWords, setAllWords] = useState<Word[]>([]);
   const abortControllerRef = useRef<AbortController>();
-  const { db } = useContext(DbContext);
 
   useEffect(() => {
     abortControllerRef.current = new AbortController();
 
     const loadingPromise = new Promise<void>(async (resolve, reject) => {
-      const response = await fetch(`/api/${db}/words`, {
+      const response = await fetch('/api/words', {
         signal: abortControllerRef.current?.signal,
       }).catch(() => undefined);
 
@@ -36,11 +34,11 @@ const WordDeletePage = () => {
     );
 
     return () => abortControllerRef.current?.abort('useEffect cleanup');
-  }, [db]);
+  }, []);
 
   const deleteWord = async (wordId: number) => {
     const deletePromise = new Promise<void>((resolve, reject) => {
-      fetch(`/api/${db}/words?` + new URLSearchParams({ id: wordId.toString() }), {
+      fetch('/api/words?' + new URLSearchParams({ id: wordId.toString() }), {
         method: 'DELETE',
       }).then((response) => {
         if (response.ok) {

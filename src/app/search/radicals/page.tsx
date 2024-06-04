@@ -6,10 +6,9 @@ import Searchbar, {
   GetSearchFieldOptionsFunction,
   SearchFunction,
 } from '@/components/Searchbar';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import RadicalPreview from '@/components/RadicalPreview';
-import DbContext from '@/contexts/DbContext';
 
 const searchFields: SearchField<'c' | 'm' | 'k' | 'd'>[] = [
   { name: 'c', label: 'Радикал' },
@@ -20,11 +19,10 @@ const searchFields: SearchField<'c' | 'm' | 'k' | 'd'>[] = [
 
 const RadicalsSearchPage = () => {
   const [searchResults, setSearchResults] = useState<Radical[]>([]);
-  const { db } = useContext(DbContext);
 
   const search: SearchFunction<'c' | 'm' | 'k' | 'd'> = async (searchValue: any, abortSignal) => {
     const searchPromise = new Promise<void>(async (resolve, reject) => {
-      const response = await fetch(`/api/${db}/radicals?` + new URLSearchParams(searchValue), {
+      const response = await fetch('/api/radicals?' + new URLSearchParams(searchValue), {
         signal: abortSignal,
       });
 
@@ -50,7 +48,7 @@ const RadicalsSearchPage = () => {
     fieldName,
     abortSignal,
   ) => {
-    const response = await fetch(`/api/${db}/radicals?` + new URLSearchParams(searchValue), {
+    const response = await fetch('/api/radicals?' + new URLSearchParams(searchValue), {
       signal: abortSignal,
     });
     if (!response.ok) {

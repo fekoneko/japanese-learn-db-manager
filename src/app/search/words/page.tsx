@@ -7,9 +7,8 @@ import Searchbar, {
   GetSearchFieldOptionsFunction,
   SearchFunction,
 } from '@/components/Searchbar';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
-import DbContext from '@/contexts/DbContext';
 
 const searchFields: SearchField<'w' | 'r' | 'm' | 'k'>[] = [
   { name: 'w', label: 'Слово' },
@@ -20,11 +19,10 @@ const searchFields: SearchField<'w' | 'r' | 'm' | 'k'>[] = [
 
 const WordSearchPage = () => {
   const [searchResults, setSearchResults] = useState<Word[]>([]);
-  const { db } = useContext(DbContext);
 
   const search: SearchFunction<'w' | 'r' | 'm' | 'k'> = async (searchValue: any, abortSignal) => {
     const searchPromise = new Promise<void>(async (resolve, reject) => {
-      const response = await fetch(`/api/${db}/words?` + new URLSearchParams(searchValue), {
+      const response = await fetch('/api/words?' + new URLSearchParams(searchValue), {
         signal: abortSignal,
       });
 
@@ -50,7 +48,7 @@ const WordSearchPage = () => {
     fieldName,
     abortSignal,
   ) => {
-    const response = await fetch(`/api/${db}/words?` + new URLSearchParams(searchValue), {
+    const response = await fetch('/api/words?' + new URLSearchParams(searchValue), {
       signal: abortSignal,
     });
     if (!response.ok) {

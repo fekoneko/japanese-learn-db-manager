@@ -2,20 +2,18 @@
 
 import { Kanji } from '@/@types/globals';
 import KanjiPreview from '@/components/KanjiPreview';
-import DbContext from '@/contexts/DbContext';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 const KanjiDeletePage = () => {
   const [allKanji, setAllKanji] = useState<Kanji[]>([]);
   const abortControllerRef = useRef<AbortController>();
-  const { db } = useContext(DbContext);
 
   useEffect(() => {
     abortControllerRef.current = new AbortController();
 
     const loadingPromise = new Promise<void>(async (resolve, reject) => {
-      const response = await fetch(`/api/${db}/kanji`, {
+      const response = await fetch('/api/kanji', {
         signal: abortControllerRef.current?.signal,
       }).catch(() => undefined);
 
@@ -36,11 +34,11 @@ const KanjiDeletePage = () => {
     );
 
     return () => abortControllerRef.current?.abort('useEffect cleanup');
-  }, [db]);
+  }, []);
 
   const deleteKanji = async (kanjiId: number) => {
     const deletePromise = new Promise<void>((resolve, reject) => {
-      fetch(`/api/${db}/kanji?` + new URLSearchParams({ id: kanjiId.toString() }), {
+      fetch('/api/kanji?' + new URLSearchParams({ id: kanjiId.toString() }), {
         method: 'DELETE',
       }).then((response) => {
         if (response.ok) {
