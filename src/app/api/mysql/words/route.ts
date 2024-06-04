@@ -1,10 +1,9 @@
 import { Word } from '@/@types/globals';
-import mySqlConnection from '@/lib/mySqlConnection';
 import { WordSchema } from '@/schemas/globals';
+import taggedTemplate from '@/utilities/taggedTemplate';
+import { QueryResult, QueryResultRow, sql } from '@vercel/postgres';
 import { Validator } from 'jsonschema';
 import { NextRequest, NextResponse } from 'next/server';
-
-export const dynamic = 'force-dynamic';
 
 const validator = new Validator();
 
@@ -14,32 +13,21 @@ export const POST = async (request: NextRequest) => {
     if (typeof requestBody !== 'object' || !validator.validate(requestBody, WordSchema).valid)
       return NextResponse.json({ error: 'Request body is invalid' }, { status: 400 });
 
-    const connection = await mySqlConnection;
-    await connection.query(
-      `INSERT INTO Words (Word, Reading, PitchAccents, Meanings, Popularity, OtherVariants)
-      VALUES (?, ?, ?, ?, ?, ?)`,
-      [
-        requestBody.Word,
-        requestBody.Reading,
-        requestBody.PitchAccents?.length ? `{"${requestBody.PitchAccents.join('","')}"}` : null,
-        requestBody.Meanings?.length ? `{"${requestBody.Meanings.join('","')}"}` : null,
-        requestBody.Popularity,
-        requestBody.OtherVariants?.length ? `{"${requestBody.OtherVariants.join('","')}"}` : null,
-      ],
-    );
+    await sql`
+      INSERT INTO public."Words" ("Word", "Reading", "PitchAccents", "Meanings", "Popularity", "OtherVariants")
+      VALUES (${requestBody.Word}, ${requestBody.Reading}, ${requestBody.PitchAccents as any}, ${requestBody.Meanings as any}, ${requestBody.Popularity}, ${requestBody.OtherVariants as any})
+    `;
 
     const kanjiIds = requestBody.KanjiIds;
     if (kanjiIds?.length) {
-      let query = `
-        INSERT INTO KanjiInWords (WordId, KanjiId) VALUES
+      const query = taggedTemplate`
+        INSERT INTO public."KanjiInWords" ("WordId", "KanjiId") VALUES
       `;
-      let args: any[] = [];
       kanjiIds.forEach((kanjiId, index) => {
-        query += `(LAST_INSERT_ID(), ?)`;
-        args.push(kanjiId);
-        if (index !== kanjiIds.length - 1) query += `,`;
+        query.append`(CURRVAL('"Words_WordId_seq"'::REGCLASS), ${kanjiId})`;
+        if (index !== kanjiIds.length - 1) query.append`,`;
       });
-      await connection.query(query, args);
+      await sql(...query.array);
     }
 
     return NextResponse.json({}, { status: 200 });
@@ -54,12 +42,10 @@ export const DELETE = async (request: NextRequest) => {
     if (isNaN(wordId))
       return NextResponse.json({ error: 'Provided ID is invalid' }, { status: 400 });
 
-    const connection = await mySqlConnection;
-    await connection.query(
-      `DELETE FROM Words
-      WHERE WordId = ?`,
-      [wordId],
-    );
+    await sql`
+      DELETE FROM public."Words"
+      WHERE "WordId"=${wordId}
+    `;
 
     return NextResponse.json({}, { status: 200 });
   } catch (error: any) {
@@ -70,93 +56,76 @@ export const DELETE = async (request: NextRequest) => {
 export const GET = async (request: NextRequest) => {
   try {
     const search = request.nextUrl.searchParams.get('s');
-    let dbResponse: any;
-    const connection = await mySqlConnection;
+    let dbResponse: QueryResult<QueryResultRow>;
 
     if (search !== null) {
-      if (search === '') {
-        [dbResponse] = await connection.query(
-          `SELECT * from Words
-          ORDER BY Words.Popularity ASC`,
-          [],
-        );
-      } else {
-        const lowercaseSearch = search.toLowerCase();
-        [dbResponse] = await connection.query(
-          `SELECT DISTINCT Words.*, Kanji.\`Character\` AS KanjiCharacter, Kanji.KanjiId AS KanjiId FROM Words
-          LEFT OUTER JOIN KanjiInWords ON KanjiInWords.WordId = Words.WordId
-          LEFT OUTER JOIN Kanji ON KanjiInWords.KanjiId = Kanji.KanjiId
-          WHERE Words.Word = ?
-          OR Words.Reading = ?
-          OR Words.WordId = ?
-          OR Words.Meanings LIKE '%${lowercaseSearch}%'
-          OR Words.OtherVariants LIKE '%${lowercaseSearch}%'
-          OR Kanji.Character = ?
-          ORDER BY Words.Popularity ASC`,
-          new Array(5).fill(lowercaseSearch),
-        );
-      }
+      dbResponse = await sql`
+      SELECT DISTINCT public."Words".*, public."Kanji"."Character" AS "KanjiCharacter", public."Kanji"."KanjiId" AS "KanjiId" FROM public."Words"
+      LEFT OUTER JOIN public."KanjiInWords" ON public."KanjiInWords"."WordId" = public."Words"."WordId"
+      LEFT OUTER JOIN public."Kanji" ON public."KanjiInWords"."KanjiId" = public."Kanji"."KanjiId"
+      WHERE public."Words"."Word" = ${search}
+      OR public."Words"."Reading" = ${search}
+      OR public."Words"."WordId"::VARCHAR = ${search}
+      OR public."Words"."Meanings"::VARCHAR LIKE '%' || LOWER(${search}) || '%'
+      OR ${search} = any("Words"."OtherVariants")
+      OR public."Kanji"."Character" = ${search}
+      ORDER BY public."Words"."Popularity" ASC
+    `;
     } else {
       const wordOrVariant = request.nextUrl.searchParams.get('w');
       const reading = request.nextUrl.searchParams.get('r');
       const meaning = request.nextUrl.searchParams.get('m');
       const kanji = request.nextUrl.searchParams.get('k');
 
-      let query = `
-        SELECT DISTINCT Words.*, Kanji.\`Character\` AS KanjiCharacter, Kanji.KanjiId AS KanjiId FROM Words
-        LEFT OUTER JOIN KanjiInWords ON KanjiInWords.WordId = Words.WordId
-        LEFT OUTER JOIN Kanji ON KanjiInWords.KanjiId = Kanji.KanjiId
+      const query = taggedTemplate`
+        SELECT DISTINCT public."Words".*, public."Kanji"."Character" AS "KanjiCharacter", public."Kanji"."KanjiId" AS "KanjiId" FROM public."Words"
+        LEFT OUTER JOIN public."KanjiInWords" ON public."KanjiInWords"."WordId" = public."Words"."WordId"
+        LEFT OUTER JOIN public."Kanji" ON public."KanjiInWords"."KanjiId" = public."Kanji"."KanjiId"
       `;
-      let args = [];
       if (wordOrVariant || reading || meaning || kanji)
-        query += `
+        query.append`
           WHERE
         `;
 
       let encounteredFirstStatement = false;
       const prependAnd = () => {
-        if (encounteredFirstStatement) query += `AND`;
+        if (encounteredFirstStatement) query.append`AND`;
         encounteredFirstStatement = true;
       };
 
       if (wordOrVariant) {
         prependAnd();
-        query += `(
-          Words.Word = ?
-          OR Words.OtherVariants LIKE '%' || ? || '%'
+        query.append`(
+          public."Words"."Word" = ${wordOrVariant}
+          OR ${wordOrVariant} = any("Words"."OtherVariants")
         )`;
-        args.push(wordOrVariant, wordOrVariant);
       }
       if (reading) {
         prependAnd();
-        query += `
-          Words."Reading" = ?
+        query.append`
+          public."Words"."Reading" = ${reading}
         `;
-        args.push(reading);
       }
       if (meaning) {
         prependAnd();
-        query += `
-          OR Words.Meanings LIKE '%' || ? || '%'
+        query.append`
+          public."Words"."Meanings"::VARCHAR LIKE '%' || LOWER(${meaning}) || '%'
         `;
-        args.push(meaning);
       }
       if (kanji) {
         prependAnd();
-        query += `
-          Kanji.\`Character\` = ?
+        query.append`
+          public."Kanji"."Character" = ${kanji}
         `;
-        args.push(kanji);
       }
-      query += `ORDER BY Words.Popularity ASC`;
+      query.append`ORDER BY public."Words"."Popularity" ASC`;
 
-      [dbResponse] = await connection.query(query, args);
+      dbResponse = await sql(...query.array);
     }
 
     const resultWords: Word[] = [];
     let IndexOfFirstWordOccurence = -1;
-    console.log(dbResponse);
-    dbResponse.forEach((row: any, index: number, rows: any) => {
+    dbResponse.rows.forEach((row, index, rows) => {
       if (
         IndexOfFirstWordOccurence !== -1 &&
         row.WordId === rows[IndexOfFirstWordOccurence].WordId
@@ -169,14 +138,10 @@ export const GET = async (request: NextRequest) => {
           Word: row.Word,
           Reading: row.Reading,
         };
-        if (row.PitchAccents !== null)
-          word.PitchAccents = row.PitchAccents.slice(2, -2)
-            .split('","')
-            .map((accent: any) => +accent);
-        if (row.Meanings !== null) word.Meanings = row.Meanings.slice(2, -2).split('","');
+        if (row.PitchAccents !== null) word.PitchAccents = row.PitchAccents;
+        if (row.Meanings !== null) word.Meanings = row.Meanings;
         if (row.Popularity !== null) word.Popularity = row.Popularity;
-        if (row.OtherVariants !== null)
-          word.OtherVariants = row.OtherVariants.slice(2, -2).split('","');
+        if (row.OtherVariants !== null) word.OtherVariants = row.OtherVariants;
         if (row.KanjiId !== null) word.KanjiIds = [row.KanjiId];
         if (row.KanjiCharacter !== null) word.KanjiCharacters = [row.KanjiCharacter];
         resultWords.push(word);
