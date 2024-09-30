@@ -1,99 +1,78 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-interface SectionInfo {
+interface LinkSection {
   title: string;
-  links: LinkInfo[];
+  links: { title: string; href: string }[];
 }
-interface LinkInfo {
-  title: string;
-  href: string;
-}
-const sectionsInfo: SectionInfo[] = [
+const databaseSections: LinkSection[] = [
   {
     title: 'Добавление',
     links: [
-      {
-        title: 'Добавление слов',
-        href: '/add/words',
-      },
-      {
-        title: 'Добавление кандзи',
-        href: '/add/kanji',
-      },
-      {
-        title: 'Добавление радикалов',
-        href: '/add/radicals',
-      },
+      { title: 'Добавление слов', href: '/add/words' },
+      { title: 'Добавление кандзи', href: '/add/kanji' },
+      { title: 'Добавление радикалов', href: '/add/radicals' },
     ],
   },
   {
     title: 'Удаление',
     links: [
-      {
-        title: 'Удаление слов',
-        href: '/delete/words',
-      },
-      {
-        title: 'Удаление кандзи',
-        href: '/delete/kanji',
-      },
-      {
-        title: 'Удаление радикалов',
-        href: '/delete/radicals',
-      },
+      { title: 'Удаление слов', href: '/delete/words' },
+      { title: 'Удаление кандзи', href: '/delete/kanji' },
+      { title: 'Удаление радикалов', href: '/delete/radicals' },
     ],
   },
   {
     title: 'Поиск',
     links: [
-      {
-        title: 'Поиск слов',
-        href: '/search/words',
-      },
-      {
-        title: 'Поиск кандзи',
-        href: '/search/kanji',
-      },
-      {
-        title: 'Поиск радикалов',
-        href: '/search/radicals',
-      },
+      { title: 'Поиск слов', href: '/search/words' },
+      { title: 'Поиск кандзи', href: '/search/kanji' },
+      { title: 'Поиск радикалов', href: '/search/radicals' },
     ],
   },
   {
     title: 'Статистика',
-    links: [
-      {
-        title: 'Статистика',
-        href: '/stats',
-      },
-    ],
+    links: [{ title: 'Статистика', href: '/stats' }],
   },
 ];
 
 const HomePage: FC = () => (
-  <div className="flex min-h-full min-w-full flex-col gap-10 px-[15%] py-4">
-    <h1 className="text-center text-3xl text-slate-600">JapaneseLearn DB</h1>
-    {sectionsInfo.map((sectionInfo, sectionIndex) => (
-      <section key={sectionIndex} className="rounded border-2 border-dashed border-slate-400 p-2">
-        <h2 className="-mt-6 ml-5 w-1/3 max-w-[15rem] rounded border-2 border-teal-500 bg-slate-200 py-0.5 text-center font-bold text-teal-700">
-          {sectionInfo.title}
-        </h2>
-        <ul className="flex">
-          {sectionInfo.links.map((linkInfo, linkIndex) => (
-            <li
-              key={linkIndex}
-              className="z-50 flex grow basis-0 justify-center rounded transition-colors hover:bg-slate-100"
-            >
-              <Link href={linkInfo.href} className="grow p-2 text-center">
-                {linkInfo.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))}
+  <div className="flex min-h-full min-w-full flex-col gap-6 px-[10%] py-4">
+    <h1 className="flex flex-col">
+      <span className="text-center text-3xl text-slate-600">Добро пожаловать на</span>
+      <span className="text-center text-5xl font-semibold text-slate-600">JapaneseLearn DB!</span>
+    </h1>
+    <p role="contentinfo" className="px-24 text-center">
+      На этом сайте собрана подробная информация писменности японского языка! Мы предоставляем
+      удобный поиск по <span className="rounded border-2 border-slate-400 px-1 pb-1">словам</span>,{' '}
+      <span className="rounded border-2 border-slate-400 px-1 pb-1">кандзи</span> и{' '}
+      <span className="rounded border-2 border-slate-400 px-1 pb-1">радикалам</span>. Информация
+      берётся из проверенных источников и обновляется регулярно.
+    </p>
+
+    <section className="flex flex-col gap-6">
+      <h2 className="text-center text-2xl text-slate-600">Инструменты базы данных</h2>
+      {databaseSections.map((section, sectionIndex) => (
+        <div key={sectionIndex} className="rounded border-2 border-dashed border-slate-400 p-2">
+          <h3 className="-mt-6 ml-5 w-1/3 max-w-[15rem] rounded border-2 border-teal-500 bg-slate-200 py-0.5 text-center font-bold text-teal-700">
+            {section.title}
+          </h3>
+
+          <ul className="flex pb-3">
+            {section.links.map((link, linkIndex) => (
+              <li
+                key={linkIndex}
+                className="z-50 flex grow basis-0 justify-center rounded transition-colors hover:bg-slate-100"
+              >
+                <Link href={link.href} className="grow p-2 text-center">
+                  {link.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
   </div>
 );
 export default HomePage;

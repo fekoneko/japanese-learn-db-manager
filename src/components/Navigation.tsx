@@ -2,23 +2,24 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { FC } from 'react';
 
-export interface NavigationLinkInfo {
+export interface NavigationLink {
   title: string;
   href: string;
   inactive?: boolean;
 }
 
 interface NavigationProps {
-  linksInfo: NavigationLinkInfo[];
+  links: NavigationLink[];
 }
-const Navigation = ({ linksInfo }: NavigationProps) => {
+const Navigation: FC<NavigationProps> = ({ links }) => {
   const pathname = usePathname();
 
   return (
     <nav role="navigation">
       <ul className="flex">
-        {linksInfo.map((linkInfo, index) => (
+        {links.map((linkInfo, index) => (
           <li
             key={index}
             className={`z-50 flex grow justify-center rounded-b transition-colors [clip-path:polygon(-100%_0,-100%_200%,200%_200%,200%_0)] ${!linkInfo.inactive && pathname.startsWith(linkInfo.href) ? 'bg-teal-500 text-white shadow-md' : 'hover:bg-white/50'}`}

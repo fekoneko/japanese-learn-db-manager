@@ -1,7 +1,7 @@
-import Navigation, { NavigationLinkInfo } from '@/components/Navigation';
-import { PropsWithChildren } from 'react';
+import Navigation, { NavigationLink } from '@/components/Navigation';
+import { FC, PropsWithChildren } from 'react';
 
-const linksInfo: NavigationLinkInfo[] = [
+const links: NavigationLink[] = [
   {
     title: 'Удаление слов',
     href: '/delete/words',
@@ -21,12 +21,10 @@ const linksInfo: NavigationLinkInfo[] = [
   },
 ];
 
-const DeletePageLayout = ({ children }: PropsWithChildren) => {
-  return (
-    <>
-      <Navigation linksInfo={linksInfo} />
-      <div className="grow overflow-y-scroll">{children}</div>
-    </>
-  );
-};
+const DeletePageLayout: FC = ({ children }: PropsWithChildren) => (
+  <>
+    <Navigation links={links} />
+    <div className="grow overflow-y-scroll">{children}</div>
+  </>
+);
 export default DeletePageLayout;

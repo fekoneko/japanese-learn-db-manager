@@ -1,7 +1,7 @@
-import Navigation, { NavigationLinkInfo } from '@/components/Navigation';
-import { PropsWithChildren } from 'react';
+import Navigation, { NavigationLink } from '@/components/Navigation';
+import { FC, PropsWithChildren } from 'react';
 
-const linksInfo: NavigationLinkInfo[] = [
+const links: NavigationLink[] = [
   {
     title: 'Другие опции',
     href: '/',
@@ -9,12 +9,10 @@ const linksInfo: NavigationLinkInfo[] = [
   },
 ];
 
-const SearchPageLayout = ({ children }: PropsWithChildren) => {
-  return (
-    <>
-      <Navigation linksInfo={linksInfo} />
-      <div className="grow overflow-y-scroll">{children}</div>
-    </>
-  );
-};
+const SearchPageLayout: FC = ({ children }: PropsWithChildren) => (
+  <>
+    <Navigation links={links} />
+    <div className="grow overflow-y-scroll">{children}</div>
+  </>
+);
 export default SearchPageLayout;
