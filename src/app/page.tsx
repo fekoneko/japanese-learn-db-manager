@@ -37,12 +37,13 @@ const databaseSections: LinkSection[] = [
 ];
 
 const HomePage: FC = () => (
-  <div className="flex min-h-full min-w-full flex-col gap-6 px-[10%] py-4">
-    <h1 className="flex flex-col">
+  <div className="min-h-full min-w-full px-[10%]">
+    <h1 className="my-3 flex flex-col pb-2 pt-10">
       <span className="text-center text-3xl text-slate-600">Добро пожаловать на</span>
       <span className="text-center text-5xl font-semibold text-slate-600">JapaneseLearn DB!</span>
     </h1>
-    <p role="contentinfo" className="px-24 text-center">
+
+    <p role="contentinfo" className="mb-10 px-24 text-center">
       На этом сайте собрана подробная информация писменности японского языка! Мы предоставляем
       удобный поиск по <span className="rounded border-2 border-slate-400 px-1 pb-1">словам</span>,{' '}
       <span className="rounded border-2 border-slate-400 px-1 pb-1">кандзи</span> и{' '}
@@ -50,7 +51,7 @@ const HomePage: FC = () => (
       берётся из проверенных источников и обновляется регулярно.
     </p>
 
-    <section className="flex flex-col gap-6">
+    <section className="mb-6 flex flex-col gap-6">
       <h2 className="text-center text-2xl text-slate-600">Инструменты базы данных</h2>
       {databaseSections.map((section, sectionIndex) => (
         <div key={sectionIndex} className="rounded border-2 border-dashed border-slate-400 p-2">

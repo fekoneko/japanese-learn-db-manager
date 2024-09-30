@@ -2,11 +2,9 @@ import { FC } from 'react';
 
 const Footer: FC = () => {
   return (
-    <footer
-      role="contentinfo"
-      className="z-50 flex items-center justify-center bg-slate-500 px-8 py-2 text-white/60 shadow-lg"
-    >
-      <p>Лабораторная работа по предмету &ldquo;Базы данных&rdquo;</p>
+    <footer role="contentinfo" className="bg-slate-500 px-[10%] py-4 text-white/60 shadow-lg">
+      <p>© 2023 JapaneseLearn DB.</p>
+      <p>Разработчик сайта: Авдеев Андрей, ИАТЭ НИЯУ МИФИ, группа ИВТ-Б21</p>
     </footer>
   );
 };
