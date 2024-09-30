@@ -2,10 +2,10 @@
 
 import { Word } from '@/@types/globals';
 import WordPreview from '@/components/WordPreview';
-import { useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
-const WordDeletePage = () => {
+const WordDeletePage: FC = () => {
   const [allWords, setAllWords] = useState<Word[]>([]);
   const abortControllerRef = useRef<AbortController>();
 

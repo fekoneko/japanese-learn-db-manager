@@ -6,7 +6,7 @@ import Searchbar, {
   GetSearchFieldOptionsFunction,
   SearchFunction,
 } from '@/components/Searchbar';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
 import RadicalPreview from '@/components/RadicalPreview';
 
@@ -17,7 +17,7 @@ const searchFields: SearchField<'c' | 'm' | 'k' | 'd'>[] = [
   { name: 'd', label: 'Код в словаре' },
 ];
 
-const RadicalsSearchPage = () => {
+const RadicalsSearchPage: FC = () => {
   const [searchResults, setSearchResults] = useState<Radical[]>([]);
 
   const search: SearchFunction<'c' | 'm' | 'k' | 'd'> = async (searchValue: any, abortSignal) => {
@@ -62,8 +62,8 @@ const RadicalsSearchPage = () => {
         : fieldName === 'm'
           ? radical.Keyword
           : fieldName === 'd'
-            ? radical.DictionaryCode?.toString() ?? []
-            : radical.CorrespondingKanjiCharacter ?? [],
+            ? (radical.DictionaryCode?.toString() ?? [])
+            : (radical.CorrespondingKanjiCharacter ?? []),
     );
   };
 

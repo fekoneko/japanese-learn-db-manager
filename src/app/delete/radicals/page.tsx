@@ -2,10 +2,10 @@
 
 import { Radical } from '@/@types/globals';
 import RadicalPreview from '@/components/RadicalPreview';
-import { useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
-const RadicalDeletePage = () => {
+const RadicalDeletePage: FC = () => {
   const [allRadicals, setAllRadicals] = useState<Radical[]>([]);
   const abortControllerRef = useRef<AbortController>();
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useId } from 'react';
+import { FC, useId } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
@@ -70,7 +70,7 @@ const formFieldsInfo: FormFieldInfo[] = [
   },
 ];
 
-const WordAddForm = () => {
+const WordAddForm: FC = () => {
   const formId = useId();
   const { register, control, formState, handleSubmit, reset } = useForm();
 
