@@ -5,6 +5,7 @@ import { Slide, ToastContainer } from 'react-toastify';
 import '@/styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { FC, PropsWithChildren } from 'react';
+import Navigation from '@/components/Navigation';
 
 export const metadata: Metadata = {
   title: 'Авдеев Андрей, ИВТ1-Б21',
@@ -15,7 +16,8 @@ const RootLayout: FC = ({ children }: PropsWithChildren) => (
   <html lang="ru">
     <body className="min-h[360px] max-w-screen flex h-dvh min-w-[500px] flex-col bg-slate-200">
       <Header />
-      <main className="flex grow flex-col overflow-hidden">{children}</main>
+      <Navigation />
+      <main className="flex grow flex-col overflow-y-scroll">{children}</main>
       <Footer />
 
       <ToastContainer
