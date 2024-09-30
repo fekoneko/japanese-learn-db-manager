@@ -1,11 +1,11 @@
 'use client';
 
-import { Kanji } from '@/@types/globals';
+import { Kanji } from '@/types/globals';
 import KanjiPreview from '@/components/KanjiPreview';
-import { useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
-const KanjiDeletePage = () => {
+const KanjiDeletePage: FC = () => {
   const [allKanji, setAllKanji] = useState<Kanji[]>([]);
   const abortControllerRef = useRef<AbortController>();
 

@@ -11,7 +11,7 @@ import {
 } from 'react-hook-form';
 import FormFieldError from './FormFieldError';
 import ReactSelect, { GroupBase, OptionsOrGroups } from 'react-select';
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, Fragment, useCallback, useEffect, useRef, useState } from 'react';
 
 export type GetOptionsFunction = (
   searchValue?: string,
@@ -36,17 +36,23 @@ interface FormInputProps {
   className?: string;
   disabled?: boolean;
 }
-const FormInput = ({ register, id, name, type, options, className, disabled }: FormInputProps) => {
-  return (
-    <input
-      className={className}
-      disabled={disabled}
-      type={type}
-      id={id}
-      {...register(name, options)}
-    />
-  );
-};
+const FormInput: FC<FormInputProps> = ({
+  register,
+  id,
+  name,
+  type,
+  options,
+  className,
+  disabled,
+}) => (
+  <input
+    className={className}
+    disabled={disabled}
+    type={type}
+    id={id}
+    {...register(name, options)}
+  />
+);
 
 interface FormSelectProps {
   control: Control;
@@ -56,7 +62,14 @@ interface FormSelectProps {
   className?: string;
   disabled?: boolean;
 }
-const FormSelect = ({ control, id, name, getOptions, className, disabled }: FormSelectProps) => {
+const FormSelect: FC<FormSelectProps> = ({
+  control,
+  id,
+  name,
+  getOptions,
+  className,
+  disabled,
+}) => {
   const [selectOptions, setSelectOptions] = useState<OptionsOrGroups<any, GroupBase<string>>>([]);
   const [isLoading, setIsLoading] = useState(false);
   const abortControllerRef = useRef<AbortController>();
@@ -118,14 +131,14 @@ interface FormFieldProps {
   disabled?: boolean;
 }
 
-const FormField = ({
+const FormField: FC<FormFieldProps> = ({
   register,
   control,
   formId,
   fieldInfo,
   formState,
   disabled,
-}: FormFieldProps) => {
+}) => {
   if (fieldInfo.array)
     return (
       <FormFieldArray
@@ -150,47 +163,51 @@ const FormField = ({
     );
 };
 
-const FormFieldPlain = ({
+const FormFieldPlain: FC<FormFieldProps> = ({
   register,
   control,
   formId,
   fieldInfo,
   formState,
   disabled,
-}: FormFieldProps) => {
-  return (
-    <>
-      <fieldset className="grid grid-cols-[1fr_2fr] items-center gap-3">
-        <label htmlFor={formId + '-' + fieldInfo.name} className="leading-5">
-          {fieldInfo.label}
-          {fieldInfo.options?.required && <span className="font-bold text-red-500">*</span>}:
-        </label>
-        {fieldInfo.type === 'select' ? (
-          <FormSelect
-            control={control}
-            id={formId + '-' + fieldInfo.name}
-            name={fieldInfo.name}
-            getOptions={fieldInfo.getOptions}
-            disabled={disabled}
-          />
-        ) : (
-          <FormInput
-            register={register}
-            id={formId + '-' + fieldInfo.name}
-            name={fieldInfo.name}
-            type={fieldInfo.type}
-            options={fieldInfo.options}
-            disabled={disabled}
-          />
-        )}
-      </fieldset>
+}) => (
+  <>
+    <fieldset className="grid grid-cols-[1fr_2fr] items-center gap-3">
+      <label htmlFor={formId + '-' + fieldInfo.name} className="leading-5">
+        {fieldInfo.label}
+        {fieldInfo.options?.required && <span className="font-bold text-red-500">*</span>}:
+      </label>
+      {fieldInfo.type === 'select' ? (
+        <FormSelect
+          control={control}
+          id={formId + '-' + fieldInfo.name}
+          name={fieldInfo.name}
+          getOptions={fieldInfo.getOptions}
+          disabled={disabled}
+        />
+      ) : (
+        <FormInput
+          register={register}
+          id={formId + '-' + fieldInfo.name}
+          name={fieldInfo.name}
+          type={fieldInfo.type}
+          options={fieldInfo.options}
+          disabled={disabled}
+        />
+      )}
+    </fieldset>
 
-      <FormFieldError errorType={formState?.errors[fieldInfo.name]?.type} />
-    </>
-  );
-};
+    <FormFieldError errorType={formState?.errors[fieldInfo.name]?.type} />
+  </>
+);
 
-const FormFieldArray = ({ register, control, formId, fieldInfo, formState }: FormFieldProps) => {
+const FormFieldArray: FC<FormFieldProps> = ({
+  register,
+  control,
+  formId,
+  fieldInfo,
+  formState,
+}) => {
   const { fields, append, remove } = useFieldArray({
     name: fieldInfo.name,
     control,

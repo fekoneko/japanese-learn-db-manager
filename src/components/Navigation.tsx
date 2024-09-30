@@ -2,32 +2,95 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { FC } from 'react';
 
-export interface NavigationLinkInfo {
+interface NavigationLink {
   title: string;
   href: string;
   inactive?: boolean;
 }
 
-interface NavigationProps {
-  linksInfo: NavigationLinkInfo[];
+interface NavigationGroup {
+  title: string;
+  links: NavigationLink[];
 }
-const Navigation = ({ linksInfo }: NavigationProps) => {
+
+const links: (NavigationLink | NavigationGroup)[] = [
+  { title: 'Главная', href: '/' },
+  {
+    title: 'Поиск',
+    links: [
+      { title: 'Поиск слов', href: '/search/words' },
+      { title: 'Поиск кандзи', href: '/search/kanji' },
+      { title: 'Поиск радикалов', href: '/search/radicals' },
+    ],
+  },
+  {
+    title: 'Добавление',
+    links: [
+      { title: 'Добавление слов', href: '/add/words' },
+      { title: 'Добавление кандзи', href: '/add/kanji' },
+      { title: 'Добавление радикалов', href: '/add/radicals' },
+    ],
+  },
+  {
+    title: 'Удаление',
+    links: [
+      { title: 'Удаление слов', href: '/delete/words' },
+      { title: 'Удаление кандзи', href: '/delete/kanji' },
+      { title: 'Удаление радикалов', href: '/delete/radicals' },
+    ],
+  },
+  { title: 'Статистика', href: '/stats' },
+];
+
+const isGroup = (link: NavigationLink | NavigationGroup): link is NavigationGroup =>
+  'links' in link;
+
+const Navigation: FC = () => {
   const pathname = usePathname();
 
   return (
     <nav role="navigation">
-      <ul className="flex">
-        {linksInfo.map((linkInfo, index) => (
-          <li
-            key={index}
-            className={`z-50 flex grow justify-center rounded-b transition-colors [clip-path:polygon(-100%_0,-100%_200%,200%_200%,200%_0)] ${!linkInfo.inactive && pathname.startsWith(linkInfo.href) ? 'bg-teal-500 text-white shadow-md' : 'hover:bg-white/50'}`}
-          >
-            <Link href={linkInfo.href} className="grow basis-0 px-2 pb-1 pt-0.5 text-center">
-              {linkInfo.title}
-            </Link>
-          </li>
-        ))}
+      <ul className="flex bg-slate-200 px-[10%]">
+        {links.map((linkOrGroup, index) => {
+          const isActive = (isGroup(linkOrGroup) ? linkOrGroup.links : [linkOrGroup]).some(
+            (link) => pathname === link.href,
+          );
+
+          return (
+            <li
+              key={index}
+              className={
+                'relative z-40 grow basis-0 rounded-b transition-colors hover:bg-slate-300' +
+                (isActive ? ' !bg-teal-500 text-white shadow-md' : '')
+              }
+            >
+              {isGroup(linkOrGroup) ? (
+                <>
+                  <p className="cursor-pointer px-2 pb-1 pt-0.5 text-center">{linkOrGroup.title}</p>
+
+                  <ul className="absolute left-0 top-full flex max-h-0 min-h-0 w-full flex-col overflow-hidden rounded bg-slate-300 text-black transition-all [:hover>&]:max-h-96">
+                    {linkOrGroup.links.map((link, index) => (
+                      <li
+                        key={index}
+                        className="z-50 rounded-b transition-colors hover:bg-white/50"
+                      >
+                        <Link href={link.href} className="block px-2 pb-1 pt-0.5 text-center">
+                          {link.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <Link href={linkOrGroup.href} className="block w-full px-2 pb-1 pt-0.5 text-center">
+                  {linkOrGroup.title}
+                </Link>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

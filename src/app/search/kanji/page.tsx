@@ -1,12 +1,12 @@
 'use client';
 
-import { Kanji } from '@/@types/globals';
+import { Kanji } from '@/types/globals';
 import Searchbar, {
   SearchField,
   GetSearchFieldOptionsFunction,
   SearchFunction,
 } from '@/components/Searchbar';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
 import KanjiPreview from '@/components/KanjiPreview';
 
@@ -18,7 +18,7 @@ const searchFields: SearchField<'c' | 'o' | 'k' | 'm' | 'r'>[] = [
   { name: 'r', label: 'Радикал' },
 ];
 
-const KanjiSearchPage = () => {
+const KanjiSearchPage: FC = () => {
   const [searchResults, setSearchResults] = useState<Kanji[]>([]);
 
   const search: SearchFunction<'c' | 'o' | 'k' | 'm' | 'r'> = async (
@@ -64,12 +64,12 @@ const KanjiSearchPage = () => {
       fieldName === 'c'
         ? kanji.Character
         : fieldName === 'o'
-          ? kanji.Onyomi ?? []
+          ? (kanji.Onyomi ?? [])
           : fieldName === 'k'
-            ? kanji.Kunyomi ?? []
+            ? (kanji.Kunyomi ?? [])
             : fieldName === 'm'
-              ? kanji.Meaning ?? []
-              : kanji.RadicalCharacters ?? [],
+              ? (kanji.Meaning ?? [])
+              : (kanji.RadicalCharacters ?? []),
     );
   };
 

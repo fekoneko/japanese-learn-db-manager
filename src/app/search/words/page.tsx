@@ -1,13 +1,13 @@
 'use client';
 
-import { Word } from '@/@types/globals';
+import { Word } from '@/types/globals';
 import WordPreview from '@/components/WordPreview';
 import Searchbar, {
   SearchField,
   GetSearchFieldOptionsFunction,
   SearchFunction,
 } from '@/components/Searchbar';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
 
 const searchFields: SearchField<'w' | 'r' | 'm' | 'k'>[] = [
@@ -17,7 +17,7 @@ const searchFields: SearchField<'w' | 'r' | 'm' | 'k'>[] = [
   { name: 'k', label: 'Кандзи' },
 ];
 
-const WordSearchPage = () => {
+const WordSearchPage: FC = () => {
   const [searchResults, setSearchResults] = useState<Word[]>([]);
 
   const search: SearchFunction<'w' | 'r' | 'm' | 'k'> = async (searchValue: any, abortSignal) => {
@@ -62,8 +62,8 @@ const WordSearchPage = () => {
         : fieldName === 'r'
           ? word.Reading
           : fieldName === 'm'
-            ? word.Meanings ?? []
-            : word.KanjiCharacters ?? [],
+            ? (word.Meanings ?? [])
+            : (word.KanjiCharacters ?? []),
     );
   };
 

@@ -1,7 +1,9 @@
+import { FC } from 'react';
+
 interface FormFieldErrorProps {
   errorType: any;
 }
-const FormFieldError = ({ errorType }: FormFieldErrorProps) => {
+const FormFieldError: FC<FormFieldErrorProps> = ({ errorType }) => {
   if (!errorType) return null;
 
   if (errorType === 'required')
