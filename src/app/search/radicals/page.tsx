@@ -1,6 +1,6 @@
 'use client';
 
-import { Radical } from '@/@types/globals';
+import { Radical } from '@/types/globals';
 import Searchbar, {
   SearchField,
   GetSearchFieldOptionsFunction,

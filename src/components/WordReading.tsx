@@ -1,4 +1,4 @@
-import { Word } from '@/@types/globals';
+import { Word } from '@/types/globals';
 import { FC, useMemo } from 'react';
 
 export interface WordReadingProps {

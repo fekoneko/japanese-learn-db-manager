@@ -1,4 +1,4 @@
-import { Word } from '@/@types/globals';
+import { Word } from '@/types/globals';
 import { FC, Fragment, HTMLAttributes } from 'react';
 import WordReading from './WordReading';
 

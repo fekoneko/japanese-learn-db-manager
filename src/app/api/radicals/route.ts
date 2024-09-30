@@ -1,4 +1,4 @@
-import { Radical } from '@/@types/globals';
+import { Radical } from '@/types/globals';
 import { RadicalSchema } from '@/schemas/globals';
 import taggedTemplate from '@/utilities/tagged-template';
 import { QueryResult, QueryResultRow, sql } from '@vercel/postgres';

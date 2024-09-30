@@ -1,6 +1,6 @@
 'use client';
 
-import { Word } from '@/@types/globals';
+import { Word } from '@/types/globals';
 import WordPreview from '@/components/WordPreview';
 import { FC, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';

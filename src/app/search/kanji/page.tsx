@@ -1,6 +1,6 @@
 'use client';
 
-import { Kanji } from '@/@types/globals';
+import { Kanji } from '@/types/globals';
 import Searchbar, {
   SearchField,
   GetSearchFieldOptionsFunction,

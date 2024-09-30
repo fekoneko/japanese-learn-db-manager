@@ -1,4 +1,4 @@
-import { Word } from '@/@types/globals';
+import { Word } from '@/types/globals';
 import { WordSchema } from '@/schemas/globals';
 import taggedTemplate from '@/utilities/tagged-template';
 import { QueryResult, QueryResultRow, sql } from '@vercel/postgres';

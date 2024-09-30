@@ -4,7 +4,7 @@ import { FC, useId } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
-import { Kanji, Radical } from '@/@types/globals';
+import { Kanji, Radical } from '@/types/globals';
 import { validSvgRegExp } from '@/utilities/validation';
 
 const formFieldsInfo: FormFieldInfo[] = [

@@ -1,4 +1,4 @@
-import { Stats } from '@/@types/globals';
+import { Stats } from '@/types/globals';
 import StatsChart from '@/components/StatsChart';
 import { sql } from '@vercel/postgres';
 

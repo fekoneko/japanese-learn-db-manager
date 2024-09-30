@@ -1,6 +1,6 @@
 'use client';
 
-import { Stats } from '@/@types/globals';
+import { Stats } from '@/types/globals';
 import { Chart } from 'chart.js/auto';
 import { FC } from 'react';
 import { Bar } from 'react-chartjs-2';

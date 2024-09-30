@@ -1,6 +1,6 @@
 'use client';
 
-import { Kanji } from '@/@types/globals';
+import { Kanji } from '@/types/globals';
 import KanjiPreview from '@/components/KanjiPreview';
 import { FC, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';

@@ -52,7 +52,7 @@ const Navigation: FC = () => {
 
   return (
     <nav role="navigation">
-      <ul className="flex px-[10%]">
+      <ul className="flex bg-slate-200 px-[10%]">
         {links.map((linkOrGroup, index) => {
           const isActive = (isGroup(linkOrGroup) ? linkOrGroup.links : [linkOrGroup]).some(
             (link) => pathname === link.href,

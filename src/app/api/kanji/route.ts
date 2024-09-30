@@ -1,4 +1,4 @@
-import { Kanji } from '@/@types/globals';
+import { Kanji } from '@/types/globals';
 import { KanjiSchema } from '@/schemas/globals';
 import taggedTemplate from '@/utilities/tagged-template';
 import { QueryResult, QueryResultRow, sql } from '@vercel/postgres';

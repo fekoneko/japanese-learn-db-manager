@@ -1,6 +1,6 @@
 'use client';
 
-import { Radical } from '@/@types/globals';
+import { Radical } from '@/types/globals';
 import RadicalPreview from '@/components/RadicalPreview';
 import { FC, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';

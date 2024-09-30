@@ -1,4 +1,4 @@
-import { Radical } from '@/@types/globals';
+import { Radical } from '@/types/globals';
 import { FC, Fragment, HTMLAttributes } from 'react';
 
 interface RadicalPreviewProps extends HTMLAttributes<HTMLDivElement> {

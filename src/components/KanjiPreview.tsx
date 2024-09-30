@@ -1,4 +1,4 @@
-import { Kanji } from '@/@types/globals';
+import { Kanji } from '@/types/globals';
 import { FC, Fragment, HTMLAttributes } from 'react';
 
 interface KanjiPreviewProps extends HTMLAttributes<HTMLDivElement> {
