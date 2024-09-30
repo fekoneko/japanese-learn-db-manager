@@ -8,8 +8,8 @@ import { FC, PropsWithChildren } from 'react';
 import Navigation from '@/components/Navigation';
 
 export const metadata: Metadata = {
-  title: 'Авдеев Андрей, ИВТ1-Б21',
-  description: '',
+  title: 'JapaneseLearn DB',
+  description: 'Японский - просто',
 };
 
 const RootLayout: FC = ({ children }: PropsWithChildren) => (
