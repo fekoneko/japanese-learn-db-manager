@@ -42,7 +42,13 @@ const links: (NavigationLink | NavigationGroup)[] = [
       { title: 'Удаление слов', href: '/delete/words' },
       { title: 'Удаление кандзи', href: '/delete/kanji' },
       { title: 'Удаление радикалов', href: '/delete/radicals' },
-      { title: 'Статистика', href: '/stats' },
+    ],
+  },
+  {
+    title: 'Другое',
+    links: [
+      { title: 'Виджеты', href: '/widgets' },
+      { title: 'Статистика по БД', href: '/stats' },
     ],
   },
 ];

@@ -23,12 +23,12 @@ const articles: ArticleLink[] = [
 ];
 
 const BlogPage: FC = () => (
-  <div>
+  <div className="px-[10%]">
     <h1 className="mb-8 mt-10 text-center text-3xl font-semibold text-slate-600">
       Последние статьи
     </h1>
 
-    <section className="px-[10%]">
+    <section>
       {articles.map((article, index) => (
         <article key={index} className="mb-6">
           <LinkButton
