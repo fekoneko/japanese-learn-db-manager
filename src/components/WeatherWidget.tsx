@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect } from 'react';
+import { FC, memo, useEffect } from 'react';
 
 const WeatherWidget: FC = () => {
   useEffect(() => {
@@ -29,4 +29,4 @@ const WeatherWidget: FC = () => {
     </div>
   );
 };
-export default WeatherWidget;
+export default memo(WeatherWidget);

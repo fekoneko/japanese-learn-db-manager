@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect } from 'react';
+import { FC, memo, useEffect } from 'react';
 
 const RadioWidget: FC = () => {
   useEffect(() => {
@@ -18,4 +18,4 @@ const RadioWidget: FC = () => {
     <div className="elfsight-app-3b9ddb51-290a-4e95-8094-79b6a04a8bbe" data-elfsight-app-lazy />
   );
 };
-export default RadioWidget;
+export default memo(RadioWidget);
