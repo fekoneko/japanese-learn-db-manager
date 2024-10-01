@@ -9,7 +9,7 @@ const WidgetsPage: FC = () => (
       Полезные виджеты
     </h1>
 
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-8">
       <WeatherWidget />
 
       <div className="flex w-full gap-4">
