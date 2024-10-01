@@ -18,6 +18,14 @@ interface NavigationGroup {
 const links: (NavigationLink | NavigationGroup)[] = [
   { title: 'Главная', href: '/' },
   {
+    title: 'Блог',
+    links: [
+      { title: 'Все статьи', href: '/blog' },
+      { title: 'Как читать по-японски', href: '/blog/how-to-read-japanese' },
+      { title: 'Что такое кандзи и как их понимать', href: '/blog/what-is-kanji' },
+    ],
+  },
+  {
     title: 'Поиск',
     links: [
       { title: 'Поиск слов', href: '/search/words' },
@@ -26,22 +34,23 @@ const links: (NavigationLink | NavigationGroup)[] = [
     ],
   },
   {
-    title: 'Добавление',
+    title: 'Администрирование',
     links: [
       { title: 'Добавление слов', href: '/add/words' },
       { title: 'Добавление кандзи', href: '/add/kanji' },
       { title: 'Добавление радикалов', href: '/add/radicals' },
-    ],
-  },
-  {
-    title: 'Удаление',
-    links: [
       { title: 'Удаление слов', href: '/delete/words' },
       { title: 'Удаление кандзи', href: '/delete/kanji' },
       { title: 'Удаление радикалов', href: '/delete/radicals' },
     ],
   },
-  { title: 'Статистика', href: '/stats' },
+  {
+    title: 'Другое',
+    links: [
+      { title: 'Виджеты', href: '/widgets' },
+      { title: 'Статистика по БД', href: '/stats' },
+    ],
+  },
 ];
 
 const isGroup = (link: NavigationLink | NavigationGroup): link is NavigationGroup =>
@@ -70,11 +79,11 @@ const Navigation: FC = () => {
                 <>
                   <p className="cursor-pointer px-2 pb-1 pt-0.5 text-center">{linkOrGroup.title}</p>
 
-                  <ul className="absolute left-0 top-full flex max-h-0 min-h-0 w-full flex-col overflow-hidden rounded bg-slate-300 text-black transition-all [:hover>&]:max-h-96">
+                  <ul className="absolute left-0 top-full flex max-h-0 min-h-0 w-full flex-col overflow-hidden rounded bg-slate-300 text-black shadow-lg transition-all [:hover>&]:max-h-96">
                     {linkOrGroup.links.map((link, index) => (
                       <li
                         key={index}
-                        className="z-50 rounded-b transition-colors hover:bg-white/50"
+                        className="z-50 rounded-b border-t border-slate-400 py-1 transition-colors hover:bg-white/50"
                       >
                         <Link href={link.href} className="block px-2 pb-1 pt-0.5 text-center">
                           {link.title}
