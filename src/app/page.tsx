@@ -9,7 +9,7 @@ const HomePage: FC = () => (
       <span className="text-center text-5xl font-semibold text-slate-600">JapaneseLearn DB!</span>
     </h1>
 
-    <p role="contentinfo" className="mb-10 px-24 text-center leading-7">
+    <p role="contentinfo" className="mb-10 px-[10%] text-center leading-7">
       На этом сайте собрана подробная информация о писменности японского языка! Мы предоставляем
       удобный поиск по <span className="rounded border-2 border-slate-400 px-1 pb-1">словам</span>,{' '}
       <span className="rounded border-2 border-slate-400 px-1 pb-1">кандзи</span> и{' '}
