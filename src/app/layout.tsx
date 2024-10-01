@@ -15,12 +15,12 @@ export const metadata: Metadata = {
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (
   <html lang="ru">
     <body className="max-w-screen flex min-h-dvh min-w-[500px] flex-col bg-slate-200">
-      <div className="sticky top-0">
+      <div className="sticky top-0 z-50">
         <Header />
         <Navigation />
       </div>
 
-      <main className="flex grow flex-col overflow-y-scroll">{children}</main>
+      <main className="overflow-show flex-coln flex grow">{children}</main>
       <Footer />
 
       <ToastContainer
