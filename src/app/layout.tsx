@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: 'Японский - просто',
 };
 
-const RootLayout: FC = ({ children }: PropsWithChildren) => (
+const RootLayout: FC<PropsWithChildren> = ({ children }) => (
   <html lang="ru">
     <body className="max-w-screen flex min-h-dvh min-w-[500px] flex-col bg-slate-200">
       <div className="sticky top-0">

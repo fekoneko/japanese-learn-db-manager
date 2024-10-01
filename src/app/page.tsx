@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-interface LinkSection {
+interface LinkGroup {
   title: string;
   links: { title: string; href: string }[];
 }
-const databaseSections: LinkSection[] = [
+const databaseSection: LinkGroup[] = [
   {
     title: 'Добавление',
     links: [
@@ -38,13 +38,13 @@ const databaseSections: LinkSection[] = [
 
 const HomePage: FC = () => (
   <div className="min-h-full min-w-full px-[10%]">
-    <h1 className="my-3 flex flex-col pb-2 pt-10">
+    <h1 className="my-3 mb-2 mt-10 flex flex-col">
       <span className="text-center text-3xl text-slate-600">Добро пожаловать на</span>
       <span className="text-center text-5xl font-semibold text-slate-600">JapaneseLearn DB!</span>
     </h1>
 
     <p role="contentinfo" className="mb-10 px-24 text-center">
-      На этом сайте собрана подробная информация писменности японского языка! Мы предоставляем
+      На этом сайте собрана подробная информация о писменности японского языка! Мы предоставляем
       удобный поиск по <span className="rounded border-2 border-slate-400 px-1 pb-1">словам</span>,{' '}
       <span className="rounded border-2 border-slate-400 px-1 pb-1">кандзи</span> и{' '}
       <span className="rounded border-2 border-slate-400 px-1 pb-1">радикалам</span>. Информация
@@ -53,14 +53,14 @@ const HomePage: FC = () => (
 
     <section className="mb-6 flex flex-col gap-6">
       <h2 className="text-center text-2xl text-slate-600">Инструменты базы данных</h2>
-      {databaseSections.map((section, sectionIndex) => (
+      {databaseSection.map((group, sectionIndex) => (
         <div key={sectionIndex} className="rounded border-2 border-dashed border-slate-400 p-2">
           <h3 className="-mt-6 ml-5 w-1/3 max-w-[15rem] rounded border-2 border-teal-500 bg-slate-200 py-0.5 text-center font-bold text-teal-700">
-            {section.title}
+            {group.title}
           </h3>
 
           <ul className="flex pb-3">
-            {section.links.map((link, linkIndex) => (
+            {group.links.map((link, linkIndex) => (
               <li
                 key={linkIndex}
                 className="z-50 flex grow basis-0 justify-center rounded transition-colors hover:bg-slate-100"
