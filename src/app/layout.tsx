@@ -20,7 +20,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
         <Navigation />
       </div>
 
-      <main className="overflow-show flex-coln flex grow">{children}</main>
+      <main className="overflow-show flex grow flex-col">{children}</main>
       <Footer />
 
       <ToastContainer
