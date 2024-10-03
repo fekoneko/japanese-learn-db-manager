@@ -24,7 +24,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
         <Navigation />
       </div>
 
-      <main className="overflow-show mx-auto flex max-w-[110rem] grow flex-col px-[10%]">
+      <main className="overflow-show mx-auto flex w-full max-w-[110rem] grow flex-col px-[10%]">
         {children}
       </main>
       <Footer />
