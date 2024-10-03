@@ -14,6 +14,10 @@ export const metadata: Metadata = {
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (
   <html lang="ru">
+    <head>
+      <script async src="https://aflt.market.yandex.ru/widget/script/api" type="text/javascript" />
+    </head>
+
     <body className="max-w-screen flex min-h-dvh min-w-[500px] flex-col bg-slate-200">
       <div className="sticky top-0 z-50">
         <Header />
