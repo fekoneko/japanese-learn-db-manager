@@ -1,6 +1,6 @@
 import { Radical } from '@/types/globals';
 import { RadicalSchema } from '@/schemas/globals';
-import taggedTemplate from '@/utilities/tagged-template';
+import taggedTemplate from '@/lib/tagged-template';
 import { QueryResult, QueryResultRow, sql } from '@vercel/postgres';
 import { Validator } from 'jsonschema';
 import { NextRequest, NextResponse } from 'next/server';

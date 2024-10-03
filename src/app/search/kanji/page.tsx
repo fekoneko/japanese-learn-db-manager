@@ -64,12 +64,12 @@ const KanjiSearchPage: FC = () => {
       fieldName === 'c'
         ? kanji.Character
         : fieldName === 'o'
-          ? (kanji.Onyomi ?? [])
+          ? kanji.Onyomi ?? []
           : fieldName === 'k'
-            ? (kanji.Kunyomi ?? [])
+            ? kanji.Kunyomi ?? []
             : fieldName === 'm'
-              ? (kanji.Meaning ?? [])
-              : (kanji.RadicalCharacters ?? []),
+              ? kanji.Meaning ?? []
+              : kanji.RadicalCharacters ?? [],
     );
   };
 

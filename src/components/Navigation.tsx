@@ -1,5 +1,6 @@
 'use client';
 
+import { articles } from '@/data/articles';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC } from 'react';
@@ -21,8 +22,7 @@ const links: (NavigationLink | NavigationGroup)[] = [
     title: 'Блог',
     links: [
       { title: 'Все статьи', href: '/blog' },
-      { title: 'Как читать по-японски', href: '/blog/how-to-read-japanese' },
-      { title: 'Что такое кандзи и как их понимать', href: '/blog/what-is-kanji' },
+      ...articles.map(({ title, url }) => ({ title, href: url })),
     ],
   },
   {

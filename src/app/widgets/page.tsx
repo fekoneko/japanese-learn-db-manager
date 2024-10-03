@@ -13,8 +13,8 @@ const WidgetsPage: FC = () => (
     <div className="flex flex-col items-center gap-8">
       <WeatherWidget />
 
-      <div className="flex w-full gap-4">
-        <div className="grow">
+      <div className="flex w-full justify-center gap-4">
+        <div className="max-w-[50rem] basis-[50rem]">
           <CalendarWidget />
         </div>
         <RadioWidget />
