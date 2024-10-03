@@ -62,8 +62,8 @@ const WordSearchPage: FC = () => {
         : fieldName === 'r'
           ? word.Reading
           : fieldName === 'm'
-            ? (word.Meanings ?? [])
-            : (word.KanjiCharacters ?? []),
+            ? word.Meanings ?? []
+            : word.KanjiCharacters ?? [],
     );
   };
 

@@ -40,3 +40,9 @@ export interface Stats {
   KanjiFilled: number;
   WordsFilled: number;
 }
+
+export interface Article {
+  url: string;
+  title: string;
+  teaser: string;
+}

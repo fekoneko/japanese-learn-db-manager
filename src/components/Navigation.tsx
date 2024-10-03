@@ -1,5 +1,7 @@
 'use client';
 
+import { articles } from '@/data/articles';
+import { link, truncate } from 'fs';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC } from 'react';
@@ -7,7 +9,7 @@ import { FC } from 'react';
 interface NavigationLink {
   title: string;
   href: string;
-  inactive?: boolean;
+  truncate?: boolean;
 }
 
 interface NavigationGroup {
@@ -21,8 +23,7 @@ const links: (NavigationLink | NavigationGroup)[] = [
     title: 'Блог',
     links: [
       { title: 'Все статьи', href: '/blog' },
-      { title: 'Как читать по-японски', href: '/blog/how-to-read-japanese' },
-      { title: 'Что такое кандзи и как их понимать', href: '/blog/what-is-kanji' },
+      ...articles.map(({ title, url }) => ({ title, href: url, truncate: true })),
     ],
   },
   {
@@ -85,7 +86,13 @@ const Navigation: FC = () => {
                         key={index}
                         className="z-50 rounded-b border-t border-slate-400 py-1 transition-colors hover:bg-white/50"
                       >
-                        <Link href={link.href} className="block px-2 pb-1 pt-0.5 text-center">
+                        <Link
+                          href={link.href}
+                          className={
+                            'block px-2 pb-1 pt-0.5 text-center' +
+                            (link.truncate ? ' truncate whitespace-nowrap' : '')
+                          }
+                        >
                           {link.title}
                         </Link>
                       </li>
@@ -93,7 +100,13 @@ const Navigation: FC = () => {
                   </ul>
                 </>
               ) : (
-                <Link href={linkOrGroup.href} className="block w-full px-2 pb-1 pt-0.5 text-center">
+                <Link
+                  href={linkOrGroup.href}
+                  className={
+                    'block w-full px-2 pb-1 pt-0.5 text-center' +
+                    (linkOrGroup.truncate ? ' truncate whitespace-nowrap' : '')
+                  }
+                >
                   {linkOrGroup.title}
                 </Link>
               )}

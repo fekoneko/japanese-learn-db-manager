@@ -1,4 +1,4 @@
-import { validSvgRegExp } from '@/utilities/validation';
+import { validSvgRegExp } from '@/lib/validation';
 import { Schema } from 'jsonschema';
 
 export const WordSchema: Schema = {

@@ -3,7 +3,7 @@ import DatabaseToolsSection from '@/components/DatabaseToolsSection';
 import { FC } from 'react';
 
 const HomePage: FC = () => (
-  <div className="min-h-full min-w-full px-[10%]">
+  <div>
     <h1 className="mb-6 mt-10 flex flex-col">
       <span className="text-center text-3xl text-slate-600">Добро пожаловать на</span>
       <span className="text-center text-5xl font-semibold text-slate-600">JapaneseLearn DB!</span>

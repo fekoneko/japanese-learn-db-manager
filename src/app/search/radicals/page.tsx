@@ -62,8 +62,8 @@ const RadicalsSearchPage: FC = () => {
         : fieldName === 'm'
           ? radical.Keyword
           : fieldName === 'd'
-            ? (radical.DictionaryCode?.toString() ?? [])
-            : (radical.CorrespondingKanjiCharacter ?? []),
+            ? radical.DictionaryCode?.toString() ?? []
+            : radical.CorrespondingKanjiCharacter ?? [],
     );
   };
 
