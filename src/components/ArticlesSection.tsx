@@ -8,10 +8,10 @@ const ArticlesSection: FC = () => (
       <article key={index} className="mb-6">
         <LinkButton
           href={article.url}
-          className="w-full border border-slate-500 px-6 py-4 text-left hover:bg-slate-300 [&:hover_span]:underline"
+          className="w-full border border-slate-500 px-6 py-8 text-left hover:bg-slate-300 [&:hover_span]:underline"
         >
           <h2 className="mb-2.5 text-2xl font-semibold text-slate-600">{article.title}</h2>
-          <p>
+          <p className="text-justify">
             {article.teaser}... <span className="text-emerald-700">Читать дальше</span>
           </p>
         </LinkButton>

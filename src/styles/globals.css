@@ -40,7 +40,7 @@
   }
 
   .article {
-    @apply mx-auto max-w-[95rem] px-[10%] pb-8 text-justify;
+    @apply mx-auto max-w-[70rem] pb-8 text-justify;
 
     p,
     ul,
@@ -81,6 +81,10 @@
     ol {
       @apply list-inside list-decimal marker:text-slate-600;
     }
+  }
+
+  .page {
+    @apply mx-auto min-h-full max-w-[110rem] px-[10%];
   }
 }
 
