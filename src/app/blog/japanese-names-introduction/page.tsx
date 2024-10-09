@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const ArticlePage: FC = () => (
-  <div>
+  <div className="article">
     <h1>
       Написание, чтение, порядок следования имени и фамилии. Передача японских имен на русский язык
     </h1>
