@@ -9,6 +9,12 @@ import Searchbar, {
 import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
 import RadicalPreview from '@/components/RadicalPreview';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Поиск радикалов - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 const searchFields: SearchField<'c' | 'm' | 'k' | 'd'>[] = [
   { name: 'c', label: 'Радикал' },

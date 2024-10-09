@@ -1,6 +1,12 @@
 'use client';
 
 import { FC, useEffect } from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Поиск по сайту - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 const SearchPage: FC = () => {
   useEffect(() => {

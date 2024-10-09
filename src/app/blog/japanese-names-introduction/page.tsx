@@ -1,4 +1,11 @@
 import { FC } from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title:
+    'Написание, чтение, порядок следования имени и фамилии. Передача японских имен на русский язык - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 const ArticlePage: FC = () => (
   <div>

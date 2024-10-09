@@ -1,5 +1,11 @@
 import Link from 'next/link';
 import { FC } from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Страница не найдена - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 const NotFoundPage: FC = () => (
   <div className="flex min-h-full min-w-full flex-col items-center justify-center gap-4 pb-8">

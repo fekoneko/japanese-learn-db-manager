@@ -4,6 +4,12 @@ import { Word } from '@/types/globals';
 import WordPreview from '@/components/WordPreview';
 import { FC, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Удаление слов - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 const WordDeletePage: FC = () => {
   const [allWords, setAllWords] = useState<Word[]>([]);

@@ -4,6 +4,12 @@ import { Radical } from '@/types/globals';
 import RadicalPreview from '@/components/RadicalPreview';
 import { FC, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Удаление радикалов - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 const RadicalDeletePage: FC = () => {
   const [allRadicals, setAllRadicals] = useState<Radical[]>([]);

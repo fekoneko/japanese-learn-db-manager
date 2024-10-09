@@ -1,6 +1,12 @@
 import { FC } from 'react';
 import PrefecturesTable from '@/components/PrefecturesTable';
 import PrefecturesMap from '@/assets/prefectures-map.svg';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Префектуры Японии - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 const PrefecturesPage: FC = () => (
   <div className="flex flex-col items-center gap-8 py-10">

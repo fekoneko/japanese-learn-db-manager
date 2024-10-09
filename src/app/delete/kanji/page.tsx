@@ -4,6 +4,12 @@ import { Kanji } from '@/types/globals';
 import KanjiPreview from '@/components/KanjiPreview';
 import { FC, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Удаление кандзи - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 const KanjiDeletePage: FC = () => {
   const [allKanji, setAllKanji] = useState<Kanji[]>([]);

@@ -9,6 +9,12 @@ import Searchbar, {
 } from '@/components/Searchbar';
 import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Поиск слов - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 const searchFields: SearchField<'w' | 'r' | 'm' | 'k'>[] = [
   { name: 'w', label: 'Слово' },
