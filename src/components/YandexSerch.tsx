@@ -35,7 +35,7 @@ const YandexSerch: FC = () => {
         action="https://yandex.ru/search/site/"
         method="get"
         target="_self"
-        accept-charset="utf-8"
+        acceptCharset="utf-8"
       >
         <input type="hidden" name="searchid" value="10700152" />
         <input type="hidden" name="l10n" value="ru" />
