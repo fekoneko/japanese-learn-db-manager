@@ -6,6 +6,7 @@ import '@/styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { FC, PropsWithChildren } from 'react';
 import Navigation from '@/components/Navigation';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'JapaneseLearn DB',
@@ -15,6 +16,21 @@ export const metadata: Metadata = {
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (
   <html lang="ru">
     <head>
+      <Script id="yandex-metrika-script" strategy="afterInteractive">
+        {`(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+          (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+          ym(98585440, "init", {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true,
+                webvisor:true
+          });`}
+      </Script>
+
       <script async src="https://aflt.market.yandex.ru/widget/script/api" type="text/javascript" />
     </head>
 
@@ -24,7 +40,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
         <Navigation />
       </div>
 
-      <main className="overflow-show mx-auto flex max-w-[110rem] grow flex-col px-[10%]">
+      <main className="overflow-show mx-auto flex w-full max-w-[110rem] grow flex-col px-[10%]">
         {children}
       </main>
       <Footer />
