@@ -40,7 +40,7 @@
   }
 
   .article {
-    @apply mx-auto max-w-[70rem] pb-8 text-justify;
+    @apply mx-auto max-w-[55rem] pb-8 text-justify;
 
     p,
     ul,
