@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/rss": "^0.0.32",
     "@types/xml2js": "^0.4.14",
     "@vercel/postgres": "^0.7.2",
     "chart.js": "^4.4.2",
@@ -20,6 +21,7 @@
     "react-hook-form": "^7.50.1",
     "react-select": "^5.8.0",
     "react-toastify": "^10.0.4",
+    "rss": "^1.2.2",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {

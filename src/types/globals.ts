@@ -44,5 +44,6 @@ export interface Stats {
 export interface Article {
   url: string;
   title: string;
+  date: Date;
   teaser: string;
 }
