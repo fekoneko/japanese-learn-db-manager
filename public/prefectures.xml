@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Regions>
+  <Region>
+    <Name>北海道</Name>
+    <KanaReading>ほっかいどう</KanaReading>
+    <RomajiReading>Hokkaidō</RomajiReading>
+
+    <Prefectures>
+      <Prefecture>
+        <Name>北海道</Name>
+        <KanaReading>ほっかいどう</KanaReading>
+        <RomajiReading>Hokkaidō</RomajiReading>
+        <Population>5 114 809</Population>
+      </Prefecture>
+    </Prefectures>
+  </Region>
+
+  <Region>
+    <Name>東北地方</Name>
+    <KanaReading>とうほくちほう</KanaReading>
+    <RomajiReading>Tōhoku-chihō</RomajiReading>
+
+    <Prefectures>
+      <Prefecture>
+        <Name>青森県</Name>
+        <KanaReading>あおもりけん</KanaReading>
+        <RomajiReading>Aomori-ken</RomajiReading>
+        <Population>1 190 685</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>岩手県</Name>
+        <KanaReading>いわてけん</KanaReading>
+        <RomajiReading>Iwate-ken</RomajiReading>
+        <Population>1 168 771</Population>
+      </Prefecture>
+    
+      <Prefecture>
+        <Name>宮城県</Name>
+        <KanaReading>みやぎけん</KanaReading>
+        <RomajiReading>Miyagi-ken</RomajiReading>
+        <Population>2 264 921</Population>
+      </Prefecture>
+      
+      <Prefecture>
+        <Name>秋田県</Name>
+        <KanaReading>あきたけん</KanaReading>
+        <RomajiReading>Akita-ken</RomajiReading>
+        <Population>918 811</Population>
+      </Prefecture>
+      
+      <Prefecture>
+        <Name>山形県</Name>
+        <KanaReading>やまがたけん</KanaReading>
+        <RomajiReading>Yamagata-ken</RomajiReading>
+        <Population>1 031 642</Population>
+      </Prefecture>
+      
+      <Prefecture>
+        <Name>福島県</Name>
+        <KanaReading>ふくしまけん</KanaReading>
+        <RomajiReading>Fukushima-ken</RomajiReading>
+        <Population>1 773 723</Population>
+      </Prefecture>
+    </Prefectures>
+  </Region>
+
+  <Region>
+    <Name>関東地方</Name>
+    <KanaReading>かんとうちほう</KanaReading>
+    <RomajiReading>Kantō-chihō</RomajiReading>
+
+    <Prefectures>
+      <Prefecture>
+        <Name>茨城県</Name>
+        <KanaReading>いばらきけん</KanaReading>
+        <RomajiReading>Ibaraki-ken</RomajiReading>
+        <Population>2 828 848</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>栃木県</Name>
+        <KanaReading>とちぎけん</KanaReading>
+        <RomajiReading>Tochigi-ken</RomajiReading>
+        <Population>1 898 513</Population>
+      </Prefecture>
+
+      
+      <Prefecture>
+        <Name>群馬県</Name>
+        <KanaReading>ぐんまけん</KanaReading>
+        <RomajiReading>Gunma-ken</RomajiReading>
+        <Population>1 902 834</Population>
+      </Prefecture>
+      
+      <Prefecture>
+        <Name>埼玉県</Name>
+        <KanaReading>さいたまけん</KanaReading>
+        <RomajiReading>Saitama-ken</RomajiReading>
+        <Population>7 328 073</Population>
+      </Prefecture>
+      
+      <Prefecture>
+        <Name>千葉県</Name>
+        <KanaReading>ちばけん</KanaReading>
+        <RomajiReading>Chiba-ken</RomajiReading>
+        <Population>6 269 572</Population>
+      </Prefecture>
+      
+      <Prefecture>
+        <Name>東京都</Name>
+        <KanaReading>とうきょうと</KanaReading>
+        <RomajiReading>Tōkyō-to</RomajiReading>
+        <Population>14 063 564</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>神奈川県</Name>
+        <KanaReading>かながわけん</KanaReading>
+        <RomajiReading>Kanagawa-ken</RomajiReading>
+        <Population>9 222 108</Population>
+      </Prefecture>
+    </Prefectures>    
+  </Region>
+
+  <Region>
+    <Name>中部地方</Name>
+    <KanaReading>ちゅうぶちほう</KanaReading>
+    <RomajiReading>Chūbu-chihō</RomajiReading>
+
+    <Prefectures>
+      <Prefecture>
+        <Name>新潟県</Name>
+        <KanaReading>にいがたけん</KanaReading>
+        <RomajiReading>Niigata-ken</RomajiReading>
+        <Population>2 135 036</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>富山県</Name>
+        <KanaReading>とやまけん</KanaReading>
+        <RomajiReading>Toyama-ken</RomajiReading>
+        <Population>1 009 050</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>石川県</Name>
+        <KanaReading>いしかわけん</KanaReading>
+        <RomajiReading>Ishikawa-ken</RomajiReading>
+        <Population>1 111 483</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>福井県</Name>
+        <KanaReading>ふくいけん</KanaReading>
+        <RomajiReading>Fukui-ken</RomajiReading>
+        <Population>746 733</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>山梨県</Name>
+        <KanaReading>やまなしけん</KanaReading>
+        <RomajiReading>Yamanashi-ken</RomajiReading>
+        <Population>796 231</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>長野県</Name>
+        <KanaReading>ながのけん</KanaReading>
+        <RomajiReading>Nagano-ken</RomajiReading>
+        <Population>2 007 647</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>岐阜県</Name>
+        <KanaReading>ぎふけん</KanaReading>
+        <RomajiReading>Gifu-ken</RomajiReading>
+        <Population>1 933 019	</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>静岡県</Name>
+        <KanaReading>しずおかけん</KanaReading>
+        <RomajiReading>Shizuoka-ken</RomajiReading>
+        <Population>3 561 252	</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>愛知県</Name>
+        <KanaReading>あいちけん</KanaReading>
+        <RomajiReading>Aichi-ken</RomajiReading>
+        <Population>7 475 630	</Population>
+      </Prefecture>
+    </Prefectures>
+  </Region>
+
+  <Region>
+    <Name>関西地方</Name>
+    <KanaReading>かんさいちほう</KanaReading>
+    <RomajiReading>Kansai-chihō</RomajiReading>
+
+    <Prefectures>
+      <Prefecture>
+        <Name>三重県</Name>
+        <KanaReading>みえけん</KanaReading>
+        <RomajiReading>Mie-ken</RomajiReading>
+        <Population>1 731 863</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>滋賀県</Name>
+        <KanaReading>しがけん</KanaReading>
+        <RomajiReading>Shiga-ken</RomajiReading>
+        <Population>1 405 299	</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>京都府</Name>
+        <KanaReading>きょうとふ</KanaReading>
+        <RomajiReading>Kyōto-fu</RomajiReading>
+        <Population>2 537 860</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>大阪府</Name>
+        <KanaReading>おおさかふ</KanaReading>
+        <RomajiReading>Ōsaka-fu</RomajiReading>
+        <Population>8 770 650</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>兵庫県</Name>
+        <KanaReading>ひょうごけん</KanaReading>
+        <RomajiReading>Hyōgo-ken</RomajiReading>
+        <Population>5 378 405</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>奈良県</Name>
+        <KanaReading>ならけん</KanaReading>
+        <RomajiReading>Nara-ken</RomajiReading>
+        <Population>1 298 946</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>和歌山県</Name>
+        <KanaReading>わかやまけん</KanaReading>
+        <RomajiReading>Wakayama-ken</RomajiReading>
+        <Population>895 931</Population>
+      </Prefecture>
+    </Prefectures>
+  </Region>
+
+  <Region>
+    <Name>中国地方</Name>
+    <KanaReading>ちゅうごくちほう</KanaReading>
+    <RomajiReading>Chūgoku-chihō</RomajiReading>
+
+    <Prefectures>
+      <Prefecture>
+        <Name>鳥取県</Name>
+        <KanaReading>とっとりけん</KanaReading>
+        <RomajiReading>Tottori-ken</RomajiReading>
+        <Population>539 190</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>島根県</Name>
+        <KanaReading>しまねけん</KanaReading>
+        <RomajiReading>Shimane-ken</RomajiReading>
+        <Population>650 900	</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>岡山県</Name>
+        <KanaReading>おかやまけん</KanaReading>
+        <RomajiReading>Okayama-ken</RomajiReading>
+        <Population>1 850 210</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>広島県</Name>
+        <KanaReading>ひろしまけん</KanaReading>
+        <RomajiReading>Hiroshima-ken</RomajiReading>
+        <Population>2 745 295</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>山口県</Name>
+        <KanaReading>やまぐちけん</KanaReading>
+        <RomajiReading>Yamaguchi-ken</RomajiReading>
+        <Population>1 301 480</Population>
+      </Prefecture>
+    </Prefectures>
+  </Region>
+
+  <Region>
+    <Name>四国</Name>
+    <KanaReading>しこく</KanaReading>
+    <RomajiReading>Shikoku</RomajiReading>
+
+    <Prefectures>
+      <Prefecture>
+        <Name>徳島県</Name>
+        <KanaReading>とくしまけん</KanaReading>
+        <RomajiReading>Tokushima-ken</RomajiReading>
+        <Population></Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>香川県</Name>
+        <KanaReading>かがわけん</KanaReading>
+        <RomajiReading>Kagawa-ken</RomajiReading>
+        <Population>697 733</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>愛媛県</Name>
+        <KanaReading>えひめけん</KanaReading>
+        <RomajiReading>Ehime-ken</RomajiReading>
+        <Population>1 296 061</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>高知県</Name>
+        <KanaReading>こうちけん</KanaReading>
+        <RomajiReading>Kōchi-ken</RomajiReading>
+        <Population>669 516</Population>
+      </Prefecture>
+    </Prefectures>
+  </Region>
+
+  <Region>
+    <Name>九州</Name>
+    <KanaReading>きゅうしゅう</KanaReading>
+    <RomajiReading>Kyūshū</RomajiReading>
+
+    <Prefectures>
+      <Prefecture>
+        <Name>福岡県</Name>
+        <KanaReading>ふくおかけん</KanaReading>
+        <RomajiReading>Fukuoka-ken</RomajiReading>
+        <Population>5 101 340</Population>
+      </Prefecture>
+      
+      <Prefecture>
+        <Name>佐賀県</Name>
+        <KanaReading>さがけん</KanaReading>
+        <RomajiReading>Saga-ken</RomajiReading>
+        <Population>795 157</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>長崎県</Name>
+        <KanaReading>ながさきけん</KanaReading>
+        <RomajiReading>Nagasaki-ken</RomajiReading>
+        <Population>1 270 358</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>熊本県</Name>
+        <KanaReading>くまもとけん</KanaReading>
+        <RomajiReading>Kumamoto-ken</RomajiReading>
+        <Population>1 708 761	</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>大分県</Name>
+        <KanaReading>おおいたけん</KanaReading>
+        <RomajiReading>Ōita-ken</RomajiReading>
+        <Population>1 098 383</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>宮崎県</Name>
+        <KanaReading>みやざきけん</KanaReading>
+        <RomajiReading>Miyazaki-ken</RomajiReading>
+        <Population>1 043 524	</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>鹿児島県</Name>
+        <KanaReading>かごしまけん</KanaReading>
+        <RomajiReading>Kagoshima-ken</RomajiReading>
+        <Population>1 553 060</Population>
+      </Prefecture>
+
+      <Prefecture>
+        <Name>沖縄県</Name>
+        <KanaReading>おきなわけん</KanaReading>
+        <RomajiReading>Okinawa-ken</RomajiReading>
+        <Population>1 462 871</Population>
+      </Prefecture>
+    </Prefectures>
+  </Region>
+</Regions>
