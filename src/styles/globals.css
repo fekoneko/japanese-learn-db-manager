@@ -81,6 +81,9 @@
     ol {
       @apply list-inside list-decimal marker:text-slate-600;
     }
+    ul {
+      @apply list-inside list-disc marker:text-slate-600;
+    }
   }
 
   .page {
