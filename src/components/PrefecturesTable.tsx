@@ -2,6 +2,7 @@
 
 import { FC, Fragment, useEffect, useState } from 'react';
 import { parseStringPromise } from 'xml2js';
+import Table from './Table';
 
 interface ParsedXml {
   Regions: {
@@ -23,75 +24,42 @@ interface ParsedXml {
   };
 }
 
-interface Region {
-  name: string;
-  kanaReading: string;
-  romajiReading: string;
-}
-
-interface Prefecture {
-  name: string;
-  kanaReading: string;
-  romajiReading: string;
-  population: string;
-  region: Region;
-}
-
-const getPrefecturesFromParsedXml = (parsedXml: ParsedXml): Prefecture[] =>
+const parsedXmlToRows = (parsedXml: ParsedXml) =>
   parsedXml.Regions.Region.flatMap((region) =>
-    region.Prefectures[0].Prefecture.map((prefecture) => ({
-      name: prefecture.Name[0],
-      kanaReading: prefecture.KanaReading[0],
-      romajiReading: prefecture.RomajiReading[0],
-      population: prefecture.Population[0],
-      region: {
-        name: region.Name[0],
-        kanaReading: region.KanaReading[0],
-        romajiReading: region.RomajiReading[0],
-      },
-    })),
+    region.Prefectures[0].Prefecture.map((prefecture) => [
+      prefecture.Name[0],
+      prefecture.KanaReading[0],
+      prefecture.RomajiReading[0],
+      +prefecture.Population[0],
+      region.Name[0],
+      region.KanaReading[0],
+      region.RomajiReading[0],
+    ]),
   );
 
+const titles = [
+  'Префектура',
+  'Чтение (кана)',
+  'Чтение (ромадзи)',
+  'Население',
+  'Окргуг',
+  'Чтение (кана)',
+  'Чтение (ромадзи)',
+];
+
 const PrefecturesTable: FC = () => {
-  const [prefectures, setPrefectures] = useState<Prefecture[] | null>(null);
+  const [rows, setRows] = useState<(string | number)[][] | null>(null);
 
   useEffect(() => {
     fetch('/prefectures.xml')
       .then((response) => response.text())
       .then(parseStringPromise)
-      .then(getPrefecturesFromParsedXml)
-      .then(setPrefectures);
+      .then(parsedXmlToRows)
+      .then(setRows);
   }, []);
 
-  if (!prefectures) return null;
+  if (!rows) return null;
 
-  return (
-    <table className="border-2 border-slate-400 [&_:is(td,th)]:border [&_:is(td,th)]:border-slate-400 [&_:is(td,th)]:px-2 [&_:is(td,th)]:py-1 [&_:is(td,th)]:text-center [&_:is(td,th)]:align-top [&_th]:text-slate-600">
-      <thead className="border-b-2 border-slate-400 bg-slate-300">
-        <tr>
-          <th>Префектура</th>
-          <th>Чтение (кана)</th>
-          <th>Чтение (ромадзи)</th>
-          <th>Население</th>
-          <th className="!border-l-2">Окргуг</th>
-          <th>Чтение (кана)</th>
-          <th>Чтение (ромадзи)</th>
-        </tr>
-      </thead>
-      <tbody>
-        {prefectures.map((prefecture, index) => (
-          <tr key={index}>
-            <th>{prefecture.name}</th>
-            <td>{prefecture.kanaReading}</td>
-            <td>{prefecture.romajiReading}</td>
-            <td>{prefecture.population}</td>
-            <th className="!border-l-2">{prefecture.region.name}</th>
-            <td>{prefecture.region.kanaReading}</td>
-            <td>{prefecture.region.romajiReading}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+  return <Table titles={titles} rows={rows} defaultSorting={{ column: 4, accending: true }} />;
 };
 export default PrefecturesTable;
