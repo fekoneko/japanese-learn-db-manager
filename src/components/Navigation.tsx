@@ -50,6 +50,7 @@ const links: (NavigationLink | NavigationGroup)[] = [
     links: [
       { title: 'Виджеты', href: '/widgets' },
       { title: 'Статистика по БД', href: '/stats' },
+      { title: 'Японские префектуры', href: '/prefectures' },
     ],
   },
 ];
