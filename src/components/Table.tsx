@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, ReactNode, useMemo, useState } from 'react';
 
 export interface Sorting {
   column: number;
@@ -9,9 +9,10 @@ export interface TableProps {
   titles?: string[];
   rows?: (string | number)[][];
   defaultSorting?: Sorting;
+  rightSection?: ReactNode;
 }
 
-const Table: FC<TableProps> = ({ titles, rows, defaultSorting }) => {
+const Table: FC<TableProps> = ({ titles, rows, defaultSorting, rightSection }) => {
   const [sorting, setSorting] = useState<Sorting>(defaultSorting ?? { column: 0, accending: true });
   const [filter, setFilter] = useState<string>('');
 
@@ -42,15 +43,19 @@ const Table: FC<TableProps> = ({ titles, rows, defaultSorting }) => {
 
   return (
     <div>
-      <form onSubmit={(event) => event.preventDefault()} className="mb-2">
-        <input
-          type="text"
-          onChange={(e) => setFilter(e.target.value)}
-          value={filter}
-          placeholder="Начните ввод, чтобы применить фильтр..."
-          className="w-full border-slate-400 bg-transparent"
-        />
-      </form>
+      <div className="mb-2 flex gap-2">
+        <form onSubmit={(event) => event.preventDefault()} className="grow">
+          <input
+            type="text"
+            onChange={(e) => setFilter(e.target.value)}
+            value={filter}
+            placeholder="Начните ввод, чтобы применить фильтр..."
+            className="w-full border-slate-400 bg-transparent"
+          />
+        </form>
+
+        {rightSection && <div>{rightSection}</div>}
+      </div>
 
       <table className="border-2 border-slate-400">
         {titles && (

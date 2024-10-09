@@ -60,6 +60,20 @@ const PrefecturesTable: FC = () => {
 
   if (!rows) return null;
 
-  return <Table titles={titles} rows={rows} defaultSorting={{ column: 4, accending: true }} />;
+  return (
+    <Table
+      titles={titles}
+      rows={rows}
+      defaultSorting={{ column: 4, accending: true }}
+      rightSection={
+        <button
+          onClick={() => window.open('/prefectures.xml')}
+          className="border-slate-400 hover:bg-slate-300"
+        >
+          Открыть в формате XML
+        </button>
+      }
+    />
+  );
 };
 export default PrefecturesTable;
