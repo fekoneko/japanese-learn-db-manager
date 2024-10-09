@@ -3,6 +3,12 @@ import RadioWidget from '@/components/RadioWidget';
 import TRexGameWidget from '@/components/TRexGameWidget';
 import WeatherWidget from '@/components/WeatherWidget';
 import { FC } from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Полезные виджеты - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 const WidgetsPage: FC = () => (
   <div className="pb-8">

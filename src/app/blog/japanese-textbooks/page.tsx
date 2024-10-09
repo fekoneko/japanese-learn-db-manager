@@ -1,4 +1,10 @@
 import { FC } from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Учебники по японскому языку - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 const ArticlePage: FC = () => (
   <div className="article">

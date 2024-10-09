@@ -32,6 +32,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
       </Script>
 
       <script async src="https://aflt.market.yandex.ru/widget/script/api" type="text/javascript" />
+      <link rel="alternate" type="application/rss+xml" title="Блог Japanese Learn DB" href="/rss" />
     </head>
 
     <body className="max-w-screen flex min-h-dvh min-w-[500px] flex-col bg-slate-200">

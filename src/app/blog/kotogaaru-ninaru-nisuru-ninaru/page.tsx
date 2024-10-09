@@ -1,4 +1,11 @@
 import { FC } from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title:
+    'Устойчивые грамматические конструкции ことがある, ことにある, ことにする, ことになる - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 const ArticlePage: FC = () => (
   <div className="article">

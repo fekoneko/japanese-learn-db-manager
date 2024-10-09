@@ -1,6 +1,12 @@
 import { Stats } from '@/types/globals';
 import StatsChart from '@/components/StatsChart';
 import { sql } from '@vercel/postgres';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Статистика по БД - JapaneseLearn DB',
+  description: 'JapaneseLearn DB / Японский - просто',
+};
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 60;

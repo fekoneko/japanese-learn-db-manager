@@ -3,6 +3,7 @@
 import { FC, Fragment, useEffect, useState } from 'react';
 import { parseStringPromise } from 'xml2js';
 import Table from './Table';
+import LinkButton from './LinkButton';
 
 interface ParsedXml {
   Regions: {
@@ -66,12 +67,13 @@ const PrefecturesTable: FC = () => {
       rows={rows}
       defaultSorting={{ column: 4, accending: true }}
       rightSection={
-        <button
-          onClick={() => window.open('/prefectures.xml')}
+        <LinkButton
+          href="/prefectures.xml"
+          inNewTab
           className="border-slate-400 hover:bg-slate-300"
         >
           Открыть в формате XML
-        </button>
+        </LinkButton>
       }
     />
   );
