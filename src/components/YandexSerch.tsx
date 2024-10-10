@@ -28,7 +28,7 @@ const YandexSerch: FC = () => {
 
   return (
     <div
-      className="ya-site-form ya-site-form_inited_no w-80"
+      className="ya-site-form ya-site-form_inited_no min-w-40 max-w-72"
       data-bem='{"action":"/search","arrow":false,"bg":"transparent","fontsize":12,"fg":"#000000","language":"ru","logo":"rb","publicname":"Поиск по JapaneseLearn DB","suggest":true,"target":"_self","tld":"ru","type":2,"usebigdictionary":true,"searchid":10700152,"input_fg":"#ffffff","input_bg":"#14b8a6","input_fontStyle":"normal","input_fontWeight":"normal","input_placeholder":"Поиск по сайту","input_placeholderColor":"#dddddd","input_borderColor":"#ffffff"}'
     >
       <form
@@ -37,11 +37,11 @@ const YandexSerch: FC = () => {
         target="_self"
         acceptCharset="utf-8"
       >
-        <input type="hidden" name="searchid" value="10700152" className="hidden" />
-        <input type="hidden" name="l10n" value="ru" className="hidden" />
-        <input type="hidden" name="reqenc" value="" className="hidden" />
-        <input type="search" name="text" value="" className="hidden" />
-        <input type="submit" value="Найти" className="hidden" />
+        <input type="hidden" name="searchid" defaultValue="10700152" className="hidden" />
+        <input type="hidden" name="l10n" defaultValue="ru" className="hidden" />
+        <input type="hidden" name="reqenc" defaultValue="" className="hidden" />
+        <input type="search" name="text" defaultValue="" className="hidden" />
+        <input type="submit" defaultValue="Найти" className="hidden" />
       </form>
     </div>
   );

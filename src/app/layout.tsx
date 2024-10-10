@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FC, PropsWithChildren } from 'react';
 import Navigation from '@/components/Navigation';
 import Script from 'next/script';
+import { SessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
   title: 'JapaneseLearn DB',
@@ -36,29 +37,31 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
     </head>
 
     <body className="max-w-screen flex min-h-dvh min-w-[500px] flex-col bg-slate-200">
-      <div className="sticky top-0 z-50">
-        <Header />
-        <Navigation />
-      </div>
+      <SessionProvider>
+        <div className="sticky top-0 z-50">
+          <Header />
+          <Navigation />
+        </div>
 
-      <main className="overflow-show mx-auto flex w-full max-w-[110rem] grow flex-col px-[10%]">
-        {children}
-      </main>
-      <Footer />
+        <main className="overflow-show mx-auto flex w-full max-w-[110rem] grow flex-col px-[10%]">
+          {children}
+        </main>
+        <Footer />
 
-      <ToastContainer
-        position="bottom-center"
-        autoClose={1000}
-        hideProgressBar
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Slide}
-      />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={1000}
+          hideProgressBar
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Slide}
+        />
+      </SessionProvider>
     </body>
   </html>
 );

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const KanjiAddPage: FC = () => (
-  <div className="flex min-h-full min-w-full items-center justify-center p-5">
+  <div className="flex grow items-center justify-center p-5">
     <KanjiAddForm />
   </div>
 );

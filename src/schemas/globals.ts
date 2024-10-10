@@ -1,4 +1,4 @@
-import { validSvgRegExp } from '@/lib/validation';
+import { emailRegExp, passwordRegExp, validSvgRegExp } from '@/lib/validation';
 import { Schema } from 'jsonschema';
 
 export const WordSchema: Schema = {
@@ -89,4 +89,27 @@ export const RadicalSchema: Schema = {
       required: false,
     },
   },
+};
+
+export const UserSchema: Schema = {
+  type: 'object',
+  properties: {
+    email: {
+      type: 'string',
+      pattern: emailRegExp,
+      minLength: 5,
+      maxLength: 2083,
+      required: true,
+    },
+    name: { type: 'string', minLength: 1, maxLength: 32, required: false },
+    image: { type: 'string', minLength: 1, maxLength: 2083, required: false },
+  },
+};
+
+export const PasswordSchema: Schema = {
+  type: 'string',
+  pattern: passwordRegExp,
+  minLength: 8,
+  maxLength: 256,
+  required: true,
 };
