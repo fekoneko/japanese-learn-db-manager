@@ -7,7 +7,11 @@ const SignInPage: FC = () => (
     <SignInForm
       onSignIn={async (credentials) => {
         'use server';
-        return signIn('credentials', { ...credentials, redirectTo: '/' });
+        await signIn('credentials', {
+          email: credentials.email,
+          password: credentials.password,
+          redirectTo: '/profile',
+        });
       }}
     />
   </div>

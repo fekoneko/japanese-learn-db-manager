@@ -1,7 +1,8 @@
-import { UserSchema } from '@/schemas/globals';
+import { PasswordSchema, UserSchema } from '@/schemas/globals';
 import { sql } from '@vercel/postgres';
 import { Validator } from 'jsonschema';
 import { User } from 'next-auth';
+import taggedTemplate from './tagged-template';
 
 const validator = new Validator();
 
@@ -12,13 +13,38 @@ const getHash = async (string: string) => {
 
 export const createUser = async (payload: User & { password: string }) => {
   if (!validator.validate(payload, UserSchema)) throw new Error('Invalid user data');
+  if (!validator.validate(payload.password, PasswordSchema)) throw new Error('Invalid password');
 
   const passwordHash = await getHash(payload.password);
 
   await sql`
     INSERT INTO public."Users" ("Email", "Name", "Image", "PasswordHash")
-    VALUES (${payload.email}, ${payload.name}, ${payload.image}, ${passwordHash})
+    VALUES (${payload.email},
+            ${payload.name ? payload.name : null},
+            ${payload.image ? payload.image : null},
+            ${passwordHash})
   `;
+};
+
+export const updateUser = async (oldEmail: string, payload: User & { password?: string }) => {
+  if (!validator.validate(payload, UserSchema)) throw new Error('Invalid user data');
+
+  const query = taggedTemplate`
+    UPDATE public."Users"
+    SET "Email" = ${payload.email},
+        "Name" = ${payload.name ? payload.name : null},
+        "Image" = ${payload.image ? payload.image : null}`;
+
+  if (payload.password) {
+    if (!validator.validate(payload.password, PasswordSchema)) throw new Error('Invalid password');
+    query.append`,
+      "PasswordHash" = ${await getHash(payload.password)}
+    `;
+  }
+
+  query.append`WHERE "Email" = ${oldEmail}`;
+
+  await sql(...query.array);
 };
 
 export const getUserByEmail = async (email: string): Promise<User & { passwordHash: string }> => {
@@ -31,7 +57,6 @@ export const getUserByEmail = async (email: string): Promise<User & { passwordHa
   if (!userDto) throw new Error('User not found');
 
   return {
-    id: userDto.UserId,
     email: userDto.Email,
     passwordHash: userDto.PasswordHash,
     name: userDto.Name,

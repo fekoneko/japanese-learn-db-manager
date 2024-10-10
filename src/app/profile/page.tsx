@@ -26,7 +26,7 @@ const ProfilePage: FC = async () => {
         </figcaption>
       </figure>
 
-      <table className="border-t-[1.5px] border-slate-400 [&_th]:pr-8 [&_th]:text-left [&_th]:font-semibold [&_tr:not(:last-child)]:border-b [&_tr]:h-14 [&_tr]:border-slate-400">
+      <table className="w-72 border-t-[1.5px] border-slate-400 [&_th]:whitespace-nowrap [&_th]:pr-8 [&_th]:text-left [&_th]:font-semibold [&_tr:not(:last-child)]:border-b [&_tr]:h-14 [&_tr]:border-slate-400">
         <tbody>
           <tr>
             <th>Имя пользователя:</th>
@@ -37,15 +37,27 @@ const ProfilePage: FC = async () => {
             <td>{session.user.email}</td>
           </tr>
           <tr>
-            <th>Пароль:</th>
+            <th>URL аватара:</th>
             <td>
-              <LinkButton href="/change-password" className="border-slate-400 hover:bg-slate-300">
-                Сменить пароль
-              </LinkButton>
+              {session.user.image ? (
+                <a
+                  href={session.user.image}
+                  target="_blank"
+                  className="text-teal-600 hover:underline"
+                >
+                  {session.user.image}
+                </a>
+              ) : (
+                '—'
+              )}
             </td>
           </tr>
         </tbody>
       </table>
+
+      <LinkButton href="/edit-user" className="border-slate-400 hover:bg-slate-300">
+        Редактировать данные
+      </LinkButton>
     </div>
   );
 };

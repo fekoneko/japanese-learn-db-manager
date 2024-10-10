@@ -101,14 +101,15 @@ export const UserSchema: Schema = {
       maxLength: 2083,
       required: true,
     },
-    password: {
-      type: 'string',
-      pattern: passwordRegExp,
-      minLength: 8,
-      maxLength: 256,
-      required: true,
-    },
     name: { type: 'string', minLength: 1, maxLength: 32, required: false },
     image: { type: 'string', minLength: 1, maxLength: 2083, required: false },
   },
+};
+
+export const PasswordSchema: Schema = {
+  type: 'string',
+  pattern: passwordRegExp,
+  minLength: 8,
+  maxLength: 256,
+  required: true,
 };

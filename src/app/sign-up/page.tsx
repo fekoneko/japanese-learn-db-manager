@@ -6,13 +6,14 @@ import { FC } from 'react';
 const SignUpPage: FC = () => (
   <div className="flex grow items-center justify-center p-5">
     <SignUpForm
-      onSignUp={async (user) => {
+      onSignUp={async (payload) => {
         'use server';
-        await createUser(user);
+
+        await createUser(payload);
         await signIn('credentials', {
-          email: user.email,
-          password: user.password,
-          redirectTo: '/',
+          email: payload.email,
+          skipPasswordCheck: true,
+          redirectTo: '/profile',
         });
       }}
     />

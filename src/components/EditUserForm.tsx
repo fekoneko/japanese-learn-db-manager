@@ -5,7 +5,6 @@ import { FieldValues, useForm } from 'react-hook-form';
 import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
 import { User } from 'next-auth';
-import Link from 'next/link';
 
 const formFieldsInfo: FormFieldInfo[] = [
   {
@@ -13,12 +12,6 @@ const formFieldsInfo: FormFieldInfo[] = [
     type: 'email',
     label: 'Эл. почта',
     options: { required: true, minLength: 5, maxLength: 2083 },
-  },
-  {
-    name: 'password',
-    type: 'password',
-    label: 'Пароль',
-    options: { required: true, minLength: 8, maxLength: 256 },
   },
   {
     name: 'name',
@@ -32,20 +25,29 @@ const formFieldsInfo: FormFieldInfo[] = [
     label: 'URL аватара',
     options: { required: false, minLength: 1, maxLength: 2083 },
   },
+  {
+    name: 'password',
+    type: 'password',
+    label: 'Изменить пароль',
+    options: { required: false, minLength: 8, maxLength: 256 },
+  },
 ];
 
-export interface SignUpFormProps {
-  onSignUp: (payload: User & { password: string }) => Promise<void>;
+export interface EditUserFormProps {
+  currentUser: User;
+  onEditUser: (payload: User & { password?: string }) => Promise<void>;
 }
 
-const SignUpForm: FC<SignUpFormProps> = ({ onSignUp }) => {
+const EditUserForm: FC<EditUserFormProps> = ({ currentUser, onEditUser }) => {
   const formId = useId();
-  const { register, control, formState, handleSubmit } = useForm();
+  const { register, control, formState, handleSubmit } = useForm<FieldValues>({
+    defaultValues: currentUser,
+  });
 
   const onValid = async (fieldValues: FieldValues) => {
-    toast.promise(onSignUp(fieldValues as any), {
-      pending: 'Выполняется регистрация...',
-      error: `При регистрации произошла ошибка`,
+    toast.promise(onEditUser(fieldValues as any), {
+      pending: 'Выполняется редактирование данных...',
+      error: `При редактировании данных произошла ошибка`,
     });
   };
 
@@ -54,7 +56,7 @@ const SignUpForm: FC<SignUpFormProps> = ({ onSignUp }) => {
       onSubmit={handleSubmit(onValid)}
       className="flex w-1/2 min-w-max flex-col gap-2 rounded bg-white p-5 shadow-lg"
     >
-      <h1 className="header mb-5">Регистрация</h1>
+      <h1 className="header mb-5">Редактирование пользователя</h1>
       {formFieldsInfo.map((fieldInfo, index) => (
         <FormField
           key={index}
@@ -67,16 +69,9 @@ const SignUpForm: FC<SignUpFormProps> = ({ onSignUp }) => {
       ))}
 
       <button className="col-span-2" type="submit">
-        Зарегистрироваться
+        Изменить данные
       </button>
-
-      <p className="mb-1 mt-2 text-center">
-        Уже есть аккаунт?{' '}
-        <Link href="/sign-in" className="font-semibold text-teal-600 hover:underline">
-          Войдите
-        </Link>
-      </p>
     </form>
   );
 };
-export default SignUpForm;
+export default EditUserForm;
