@@ -1,23 +1,14 @@
+import SignInForm from '@/components/SignInForm';
 import { signIn } from '@/lib/auth';
 import { FC } from 'react';
 
 const SignInPage: FC = () => (
-  <form
-    action={async (formData) => {
+  <SignInForm
+    onSignIn={async (credentials) => {
       'use server';
-      await signIn('credentials', formData);
+
+      return signIn('credentials', credentials);
     }}
-  >
-    {/* TOD: use form compoenet */}
-    <label>
-      Email
-      <input name="email" type="email" />
-    </label>
-    <label>
-      Password
-      <input name="password" type="password" />
-    </label>
-    <button>Sign In</button>
-  </form>
+  />
 );
 export default SignInPage;

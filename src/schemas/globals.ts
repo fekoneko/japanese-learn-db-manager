@@ -104,7 +104,7 @@ export const UserSchema: Schema = {
     password: {
       type: 'string',
       pattern: passwordRegExp,
-      minLength: 1,
+      minLength: 8,
       maxLength: 256,
       required: true,
     },
