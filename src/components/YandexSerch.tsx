@@ -37,11 +37,11 @@ const YandexSerch: FC = () => {
         target="_self"
         acceptCharset="utf-8"
       >
-        <input type="hidden" name="searchid" value="10700152" />
-        <input type="hidden" name="l10n" value="ru" />
-        <input type="hidden" name="reqenc" value="" />
-        <input type="search" name="text" value="" />
-        <input type="submit" value="Найти" />
+        <input type="hidden" name="searchid" value="10700152" className="hidden" />
+        <input type="hidden" name="l10n" value="ru" className="hidden" />
+        <input type="hidden" name="reqenc" value="" className="hidden" />
+        <input type="search" name="text" value="" className="hidden" />
+        <input type="submit" value="Найти" className="hidden" />
       </form>
     </div>
   );

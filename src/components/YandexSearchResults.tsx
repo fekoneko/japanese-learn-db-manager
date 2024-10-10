@@ -26,7 +26,7 @@ const YandexSearchResults: FC = () => {
     <div
       id="ya-site-results"
       data-bem='{"tld": "ru","language": "ru","encoding": "","htmlcss": "1.x","updatehash": true}'
-      className="py-6"
+      className="w-full !bg-transparent py-6"
     />
   );
 };
