@@ -1,10 +1,3 @@
-'use client';
+import Redirect from '@/components/Redirect';
 
-import useRedirect from '@/hooks/use-redirect';
-import { FC } from 'react';
-
-const SearchPage: FC = () => {
-  useRedirect('/delete/words');
-  return null;
-};
-export default SearchPage;
+export default () => <Redirect to="/delete/words" />;

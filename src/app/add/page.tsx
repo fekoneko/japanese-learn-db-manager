@@ -1,10 +1,3 @@
-'use client';
+import Redirect from '@/components/Redirect';
 
-import useRedirect from '@/hooks/use-redirect';
-import { FC } from 'react';
-
-const AddPage: FC = () => {
-  useRedirect('/add/words');
-  return null;
-};
-export default AddPage;
+export default () => <Redirect to="/add/words" />;

@@ -21,13 +21,7 @@ const Header: FC = () => (
     <div className="flex items-center gap-2">
       <div className="grow" />
       <YandexSerch />
-      <UserButton
-        onSignOut={async () => {
-          'use server';
-
-          await signOut({ redirectTo: '/sign-in' });
-        }}
-      />
+      <UserButton />
     </div>
   </header>
 );
