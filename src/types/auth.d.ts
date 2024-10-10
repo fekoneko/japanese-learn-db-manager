@@ -3,8 +3,8 @@ import 'next-auth';
 declare module 'next-auth' {
   type User = {
     email: string;
-    name?: string;
-    image?: string;
+    name?: string | null;
+    image?: string | null;
   };
 
   interface Session {

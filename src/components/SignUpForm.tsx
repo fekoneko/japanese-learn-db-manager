@@ -20,10 +20,22 @@ const formFieldsInfo: FormFieldInfo[] = [
     label: 'Пароль',
     options: { required: true, minLength: 8, maxLength: 256 },
   },
+  {
+    name: 'name',
+    type: 'text',
+    label: 'Имя',
+    options: { required: false, minLength: 1, maxLength: 32 },
+  },
+  {
+    name: 'image',
+    type: 'text',
+    label: 'URL аватара',
+    options: { required: false, minLength: 1, maxLength: 2083 },
+  },
 ];
 
 export interface SignUpFormProps {
-  onSignUp: (credentials: User & { email: string; password: string }) => Promise<void>;
+  onSignUp: (credentials: User & { password: string }) => Promise<void>;
 }
 
 const SignUpForm: FC<SignUpFormProps> = ({ onSignUp }) => {
@@ -55,7 +67,7 @@ const SignUpForm: FC<SignUpFormProps> = ({ onSignUp }) => {
       ))}
 
       <button className="col-span-2" type="submit">
-        Войти
+        Зарегистрироваться
       </button>
 
       <p className="mb-1 mt-2 text-center">

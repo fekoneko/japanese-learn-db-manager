@@ -1,6 +1,6 @@
 import SignUpForm from '@/components/SignUpForm';
+import { signIn } from '@/lib/auth';
 import { createUser } from '@/lib/user';
-import { signIn } from 'next-auth/react';
 import { FC } from 'react';
 
 const SignUpPage: FC = () => (
@@ -9,7 +9,11 @@ const SignUpPage: FC = () => (
       onSignUp={async (user) => {
         'use server';
         await createUser(user);
-        await signIn('credentials', { email: user.email, password: user.password });
+        await signIn('credentials', {
+          email: user.email,
+          password: user.password,
+          redirectTo: '/',
+        });
       }}
     />
   </div>
