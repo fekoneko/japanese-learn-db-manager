@@ -23,7 +23,7 @@ const formFieldsInfo: FormFieldInfo[] = [
 ];
 
 export interface SignUpFormProps {
-  onSignUp: (credentials: User & { password: string }) => Promise<void>;
+  onSignUp: (credentials: User & { email: string; password: string }) => Promise<void>;
 }
 
 const SignUpForm: FC<SignUpFormProps> = ({ onSignUp }) => {
