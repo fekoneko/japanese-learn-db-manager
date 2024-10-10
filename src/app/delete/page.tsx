@@ -1,3 +1,6 @@
 import Redirect from '@/components/Redirect';
+import { FC } from 'react';
 
-export default () => <Redirect to="/delete/words" />;
+const DeletePage: FC = () => <Redirect to="/delete/words" />;
+
+export default DeletePage;
