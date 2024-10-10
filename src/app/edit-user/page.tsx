@@ -17,7 +17,7 @@ const EditUserPage: FC = async () => {
           'use server';
 
           if (!session.user) return;
-          await updateUser(session.user.email, payload);
+          await updateUser(session.user.email as string, payload);
           await signIn('credentials', {
             email: payload.email,
             skipPasswordCheck: true,
