@@ -4,6 +4,7 @@ import { FC, useId } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
+import Link from 'next/link';
 
 const formFieldsInfo: FormFieldInfo[] = [
   {
@@ -40,7 +41,7 @@ const SignInForm: FC<SignInFormProps> = ({ onSignIn }) => {
       onSubmit={handleSubmit(onValid)}
       className="flex w-1/2 min-w-max flex-col gap-2 rounded bg-white p-5 shadow-lg"
     >
-      <h1 className="header mb-5">Вход</h1>
+      <h1 className="header mb-5">Вход на сайт</h1>
       {formFieldsInfo.map((fieldInfo, index) => (
         <FormField
           key={index}
@@ -55,6 +56,13 @@ const SignInForm: FC<SignInFormProps> = ({ onSignIn }) => {
       <button className="col-span-2" type="submit">
         Войти
       </button>
+
+      <p className="mb-1 mt-2 text-center">
+        Нет аккаунта?{' '}
+        <Link href="/sign-up" className="font-semibold text-teal-600 hover:underline">
+          Зарегистрируйтесь
+        </Link>
+      </p>
     </form>
   );
 };

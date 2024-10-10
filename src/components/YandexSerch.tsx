@@ -28,7 +28,7 @@ const YandexSerch: FC = () => {
 
   return (
     <div
-      className="ya-site-form ya-site-form_inited_no w-80"
+      className="ya-site-form ya-site-form_inited_no min-w-40 max-w-80"
       data-bem='{"action":"/search","arrow":false,"bg":"transparent","fontsize":12,"fg":"#000000","language":"ru","logo":"rb","publicname":"Поиск по JapaneseLearn DB","suggest":true,"target":"_self","tld":"ru","type":2,"usebigdictionary":true,"searchid":10700152,"input_fg":"#ffffff","input_bg":"#14b8a6","input_fontStyle":"normal","input_fontWeight":"normal","input_placeholder":"Поиск по сайту","input_placeholderColor":"#dddddd","input_borderColor":"#ffffff"}'
     >
       <form

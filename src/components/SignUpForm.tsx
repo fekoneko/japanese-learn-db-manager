@@ -5,6 +5,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import FormField, { FormFieldInfo } from './FormField';
 import { toast } from 'react-toastify';
 import { User } from 'next-auth';
+import Link from 'next/link';
 
 const formFieldsInfo: FormFieldInfo[] = [
   {
@@ -56,6 +57,13 @@ const SignUpForm: FC<SignUpFormProps> = ({ onSignUp }) => {
       <button className="col-span-2" type="submit">
         Войти
       </button>
+
+      <p className="mb-1 mt-2 text-center">
+        Уже есть аккаунт?{' '}
+        <Link href="/sign-in" className="font-semibold text-teal-600 hover:underline">
+          Войдите
+        </Link>
+      </p>
     </form>
   );
 };

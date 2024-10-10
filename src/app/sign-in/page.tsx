@@ -3,12 +3,14 @@ import { signIn } from '@/lib/auth';
 import { FC } from 'react';
 
 const SignInPage: FC = () => (
-  <SignInForm
-    onSignIn={async (credentials) => {
-      'use server';
+  <div className="flex grow items-center justify-center p-5">
+    <SignInForm
+      onSignIn={async (credentials) => {
+        'use server';
 
-      return signIn('credentials', credentials);
-    }}
-  />
+        return signIn('credentials', credentials);
+      }}
+    />
+  </div>
 );
 export default SignInPage;
