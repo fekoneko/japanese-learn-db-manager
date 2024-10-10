@@ -1,5 +1,6 @@
 import ArticlesSection from '@/components/ArticlesSection';
 import DatabaseToolsSection from '@/components/DatabaseToolsSection';
+import LinkButton from '@/components/LinkButton';
 import { FC } from 'react';
 
 const HomePage: FC = () => (
@@ -21,7 +22,15 @@ const HomePage: FC = () => (
     <h2 className="mb-8 mt-10 text-center text-3xl font-semibold text-slate-600">
       Последние статьи
     </h2>
-    <ArticlesSection />
+    <ArticlesSection maxArticles={3} />
+    <div className="grid grid-cols-2 gap-4 px-[10%]">
+      <LinkButton href="/blog" className="border-slate-400 hover:bg-slate-300">
+        Показать все статьи
+      </LinkButton>
+      <LinkButton href="/rss" inNewTab className="border-slate-400 hover:bg-slate-300">
+        Подписаться на RSS-фид
+      </LinkButton>
+    </div>
     <hr className="mx-[10%] mt-14 border-t-[1.5px] border-slate-400" />
 
     <h2 className="mb-8 mt-10 text-center text-3xl font-semibold text-slate-600">
