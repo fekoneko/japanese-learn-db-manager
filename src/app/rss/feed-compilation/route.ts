@@ -1,6 +1,8 @@
 import RSS from 'rss';
 import RssParser from 'rss-parser';
 
+export const revalidate = 60 * 60 * 24;
+
 const siteUrl = 'https://japanese-learn-db-manager.vercel.app';
 
 const sourses = [
