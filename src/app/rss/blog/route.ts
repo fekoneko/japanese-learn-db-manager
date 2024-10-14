@@ -7,7 +7,7 @@ export const GET = async () => {
   const rss = new RSS({
     title: 'Блог Japanese Learn DB',
     description: 'RSS-фид блога Japanese Learn DB',
-    feed_url: `${siteUrl}/rss`,
+    feed_url: `${siteUrl}/rss/blog`,
     site_url: siteUrl,
     language: 'ru',
     pubDate: new Date(),
