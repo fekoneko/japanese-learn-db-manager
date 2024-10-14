@@ -51,6 +51,7 @@ const RssPreview: FC<RssPreviewProps> = ({ src }) => {
           <article key={index}>
             <LinkButton
               href={article.link}
+              inNewTab
               className="size-full border border-slate-500 bg-slate-100 px-6 pb-6 pt-8 text-left transition-all hover:-translate-y-1 hover:bg-slate-200 hover:shadow-md [&:hover_span]:underline"
             >
               <h2 className="mb-2.5 text-2xl font-semibold text-slate-600">{article.title}</h2>
