@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { ButtonHTMLAttributes, FC, MouseEvent } from 'react';
 
 export interface LinkButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  href: string;
+  href?: string;
   inNewTab?: boolean;
 }
 
@@ -13,6 +13,7 @@ const LinkButton: FC<LinkButtonProps> = ({ href, inNewTab, ...buttonProps }) => 
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     buttonProps.onClick?.(e);
+    if (href === undefined) return;
 
     if (inNewTab) window.open(href, '_blank');
     else router.push(href);

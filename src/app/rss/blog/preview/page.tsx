@@ -1,4 +1,5 @@
+import RssPreview from '@/components/RssPreview';
 import { FC } from 'react';
 
-const BlogRssPreviewPage: FC = () => <div>BlogRssPreview</div>;
+const BlogRssPreviewPage: FC = () => <RssPreview src="/rss/blog" />;
 export default BlogRssPreviewPage;

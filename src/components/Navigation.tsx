@@ -49,8 +49,8 @@ const links: (NavigationLink | NavigationGroup)[] = [
     links: [
       { title: 'Мой профиль', href: '/profile' },
       { title: 'Виджеты', href: '/widgets' },
-      { title: 'RSS-фид - блог', href: '/rss/blog/preview' },
-      { title: 'RSS-фид - подборка статей', href: '/rss/feed-compilation/preview' },
+      { title: 'RSS - блог', href: '/rss/blog/preview' },
+      { title: 'RSS - подборка статей', href: '/rss/feed-compilation/preview' },
       { title: 'Префектуры Японии', href: '/prefectures' },
       { title: 'Статистика по БД', href: '/stats' },
     ],
