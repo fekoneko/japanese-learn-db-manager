@@ -28,8 +28,10 @@ export const GET = async () => {
       .map((result) => (result.status === 'fulfilled' ? result.value.items : null))
       .filter((data) => data !== null)
       .flat()
-      .sort((a, b) =>
-        a.isoDate && b.isoDate ? new Date(b.isoDate).getTime() - new Date(a.isoDate).getTime() : 0,
+      .sort((left, right) =>
+        left!.isoDate && right!.isoDate
+          ? new Date(right!.isoDate).getTime() - new Date(left!.isoDate).getTime()
+          : 0,
       ),
   );
 

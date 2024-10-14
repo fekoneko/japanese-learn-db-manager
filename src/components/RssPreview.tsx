@@ -38,7 +38,11 @@ const RssPreview: FC<RssPreviewProps> = ({ src }) => {
       <h1 className="mt-10 text-center text-3xl font-semibold text-slate-600">{rssData.title}</h1>
       <p className="mb-8 text-center text-xl text-slate-400">предпросмотр фида</p>
 
-      <LinkButton href={src} className="mx-[12.5%] mb-6 w-3/4 border-slate-400 hover:bg-slate-300">
+      <LinkButton
+        href={src}
+        inNewTab
+        className="mx-[12.5%] mb-6 w-3/4 border-slate-400 hover:bg-slate-300"
+      >
         Подписаться на RSS-фид
       </LinkButton>
 
