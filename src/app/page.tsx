@@ -27,7 +27,7 @@ const HomePage: FC = () => (
       <LinkButton href="/blog" className="border-slate-400 hover:bg-slate-300">
         Показать все статьи
       </LinkButton>
-      <LinkButton href="/rss/blog/preview" inNewTab className="border-slate-400 hover:bg-slate-300">
+      <LinkButton href="/rss/blog/preview" className="border-slate-400 hover:bg-slate-300">
         Подписаться на RSS-фид блога
       </LinkButton>
     </div>

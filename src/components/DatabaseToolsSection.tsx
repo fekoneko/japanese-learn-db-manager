@@ -51,7 +51,7 @@ const DatabaseToolsSection: FC = () => (
           {group.links.map((link, linkIndex) => (
             <li
               key={linkIndex}
-              className="z-50 flex grow basis-0 justify-center rounded-lg transition-colors hover:bg-slate-200"
+              className="flex grow basis-0 justify-center rounded-lg transition-colors hover:bg-slate-200"
             >
               <Link href={link.href} className="grow p-3 text-center">
                 {link.title}

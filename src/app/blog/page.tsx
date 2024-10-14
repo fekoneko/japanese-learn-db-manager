@@ -17,7 +17,6 @@ const BlogPage: FC = () => (
 
     <LinkButton
       href="/rss/blog/preview"
-      inNewTab
       className="mx-[12.5%] mb-6 w-3/4 border-slate-400 hover:bg-slate-300"
     >
       Подписаться на RSS-фид блога
