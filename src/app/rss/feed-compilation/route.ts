@@ -1,7 +1,15 @@
-import { articles } from '@/data/articles';
 import RSS from 'rss';
+import RssParser from 'rss-parser';
 
 const siteUrl = 'https://japanese-learn-db-manager.vercel.app';
+
+const sourses = [
+  `${siteUrl}/rss/blog`,
+  'https://krakozyabr.ru/feed/',
+  'https://nihongoconteppei.com/feed/podcast',
+];
+
+const rssParser = new RssParser();
 
 export const GET = async () => {
   const rss = new RSS({
@@ -13,12 +21,25 @@ export const GET = async () => {
     pubDate: new Date(),
   });
 
+  const articles = await Promise.allSettled(
+    sourses.map((source) => rssParser.parseURL(source)),
+  ).then((results) =>
+    results
+      .map((result) => (result.status === 'fulfilled' ? result.value.items : null))
+      .filter((data) => data !== null)
+      .flat()
+      .sort((a, b) =>
+        a.isoDate && b.isoDate ? new Date(b.isoDate).getTime() - new Date(a.isoDate).getTime() : 0,
+      ),
+  );
+
   articles.forEach((article) => {
     rss.item({
-      title: article.title,
-      description: `${article.teaser}... Читать далее по ссылке: ${siteUrl + article.url}`,
-      url: siteUrl + article.url,
-      date: article.date,
+      title: article.title ?? 'Без названия',
+      description: article.contentSnippet ?? article.content ?? 'Без описания',
+      url: article.link ?? '#',
+      date: article.isoDate ?? new Date(),
+      enclosure: article.enclosure,
     });
   });
 
