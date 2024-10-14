@@ -37,11 +37,11 @@ export const GET = async () => {
 
   articles.forEach((article) => {
     rss.item({
-      title: article.title ?? 'Без названия',
-      description: article.contentSnippet ?? article.content ?? 'Без описания',
-      url: article.link ?? '#',
-      date: article.isoDate ?? new Date(),
-      enclosure: article.enclosure,
+      title: article!.title ?? 'Без названия',
+      description: article!.contentSnippet ?? article!.content ?? 'Без описания',
+      url: article!.link ?? '#',
+      date: article!.isoDate ?? new Date(),
+      enclosure: article!.enclosure,
     });
   });
 
