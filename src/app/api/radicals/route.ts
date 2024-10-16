@@ -30,6 +30,7 @@ export const DELETE = async (request: NextRequest) => {
     if (isNaN(radicalId))
       return NextResponse.json({ error: 'Provided ID is invalid' }, { status: 400 });
 
+    // TODO: Delete from RadicalsInKanji as well
     await sql`
       DELETE FROM public."Radicals"
       WHERE "RadicalId"=${radicalId}

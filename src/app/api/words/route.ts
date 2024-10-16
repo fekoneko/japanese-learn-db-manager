@@ -42,6 +42,7 @@ export const DELETE = async (request: NextRequest) => {
     if (isNaN(wordId))
       return NextResponse.json({ error: 'Provided ID is invalid' }, { status: 400 });
 
+    // TODO: Delete from KanjiInWords as well
     await sql`
       DELETE FROM public."Words"
       WHERE "WordId"=${wordId}
