@@ -2,9 +2,6 @@ import ArticlesSection from '@/components/ArticlesSection';
 import DatabaseToolsSection from '@/components/DatabaseToolsSection';
 import LinkButton from '@/components/LinkButton';
 import { FC } from 'react';
-import { revalidatePath } from 'next/cache';
-
-revalidatePath('/', 'page');
 
 const HomePage: FC = () => (
   <div>
