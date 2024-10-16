@@ -37,12 +37,10 @@ export const updateUser = async (oldEmail: string, payload: User & { password?: 
 
   if (payload.password) {
     if (!validator.validate(payload.password, PasswordSchema)) throw new Error('Invalid password');
-    query.append`,
-      "PasswordHash" = ${await getHash(payload.password)}
-    `;
+    query.append`,\n"PasswordHash" = ${await getHash(payload.password)}`;
   }
 
-  query.append`WHERE "Email" = ${oldEmail}`;
+  query.append`\nWHERE "Email" = ${oldEmail}`;
 
   await sql(...query.array);
 };
