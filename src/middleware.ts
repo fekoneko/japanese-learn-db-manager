@@ -1,5 +1,6 @@
 import { auth } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
+import { blacklistResponse } from './data/blacklist-response';
 
 const blacklist = ['Validator.nu/LV https://validator.w3.org/services'];
 
