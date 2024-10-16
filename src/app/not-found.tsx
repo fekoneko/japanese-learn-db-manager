@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Metadata } from 'next';
 import { revalidatePath } from 'next/cache';
 
-revalidatePath('/');
+revalidatePath('/', 'page');
 
 export const metadata: Metadata = {
   title: 'Страница не найдена - JapaneseLearn DB',
