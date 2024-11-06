@@ -113,3 +113,22 @@ export const PasswordSchema: Schema = {
   maxLength: 256,
   required: true,
 };
+
+export const CustomPostSchema: Schema = {
+  type: 'object',
+  properties: {
+    title: { type: 'string', minLength: 1, maxLength: 255, required: true },
+    content: { type: 'string', minLength: 1, maxLength: 10000, required: true },
+  },
+};
+
+export const RssSourcesSchema: Schema = {
+  type: 'object',
+  properties: {
+    sources: {
+      type: 'array',
+      items: { type: 'string', minLength: 1, maxLength: 2083 },
+      required: true,
+    },
+  },
+};

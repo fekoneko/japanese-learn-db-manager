@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import RssParser from 'rss-parser';
 import LinkButton from './LinkButton';
@@ -9,11 +9,12 @@ type RssParserOutput = { [key: string]: any } & RssParser.Output<{ [key: string]
 
 export interface RssPreviewProps {
   src: string;
+  section?: ReactNode;
 }
 
 const rssParser = new RssParser();
 
-const RssPreview: FC<RssPreviewProps> = ({ src }) => {
+const RssPreview: FC<RssPreviewProps> = ({ src, section }) => {
   const [rssData, setRssData] = useState<RssParserOutput | null>(null);
 
   useEffect(() => {
@@ -46,13 +47,15 @@ const RssPreview: FC<RssPreviewProps> = ({ src }) => {
         Подписаться на RSS-фид
       </LinkButton>
 
+      {section}
+
       <div className="grid grid-cols-2 gap-4">
         {rssData.items.map((article, index) => (
           <article key={index}>
             <LinkButton
               href={article.link}
               inNewTab
-              className="size-full border border-slate-500 bg-slate-100 px-6 pb-6 pt-8 text-left transition-all hover:-translate-y-1 hover:bg-slate-200 hover:shadow-md [&:hover_span]:underline"
+              className="flex size-full flex-col items-stretch gap-2 overflow-hidden border border-slate-500 bg-slate-100 px-6 pb-6 pt-8 text-left transition-all hover:-translate-y-1 hover:bg-slate-200 hover:shadow-md [&:hover_span]:underline"
             >
               <h2 className="mb-2.5 text-2xl font-semibold text-slate-600">{article.title}</h2>
               <p className="mb-2 overflow-hidden break-words text-justify">{article.content}</p>

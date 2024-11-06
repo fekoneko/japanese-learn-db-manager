@@ -20,7 +20,7 @@ export type GetOptionsFunction = (
 
 export interface FormFieldInfo {
   name: string;
-  type: React.HTMLInputTypeAttribute | 'select';
+  type: React.HTMLInputTypeAttribute | 'select' | 'textarea';
   label: string;
   array?: boolean;
   options?: RegisterOptions;
@@ -53,6 +53,15 @@ const FormInput: FC<FormInputProps> = ({
     {...register(name, options)}
   />
 );
+
+const FormTextArea: FC<Omit<FormInputProps, 'type'>> = ({
+  register,
+  id,
+  name,
+  options,
+  className,
+  disabled,
+}) => <textarea className={className} disabled={disabled} id={id} {...register(name, options)} />;
 
 interface FormSelectProps {
   control: Control;
@@ -183,6 +192,14 @@ const FormFieldPlain: FC<FormFieldProps> = ({
           id={formId + '-' + fieldInfo.name}
           name={fieldInfo.name}
           getOptions={fieldInfo.getOptions}
+          disabled={disabled}
+        />
+      ) : fieldInfo.type === 'textarea' ? (
+        <FormTextArea
+          register={register}
+          id={formId + '-' + fieldInfo.name}
+          name={fieldInfo.name}
+          options={fieldInfo.options}
           disabled={disabled}
         />
       ) : (

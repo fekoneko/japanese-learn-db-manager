@@ -6,7 +6,8 @@
   button {
     @apply rounded border-[1.5px] border-slate-300 px-2 py-1.5 transition-colors hover:bg-slate-200;
   }
-  input {
+  input,
+  textarea {
     @apply rounded border-[1.5px] border-slate-300 px-2 py-1.5 focus:border-slate-500 focus:outline-none;
   }
 

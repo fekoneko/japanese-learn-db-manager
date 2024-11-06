@@ -28,8 +28,6 @@ const getStats = async (): Promise<Stats | null> => {
         ) AS FLOAT) AS "WordsFilled"
     `;
 
-    console.log(dbResponse.rows[0]);
-
     return dbResponse.rows[0];
   } catch (error: any) {
     return null;

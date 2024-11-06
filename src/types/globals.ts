@@ -47,3 +47,9 @@ export interface Article {
   date: Date;
   teaser: string;
 }
+
+export interface CustomPost {
+  title: string;
+  content: string;
+  date: Date;
+}
