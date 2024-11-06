@@ -1,20 +1,10 @@
 import { CustomPostSchema } from '@/schemas/globals';
 import { Validator } from 'jsonschema';
 import { NextRequest, NextResponse } from 'next/server';
-import { CustomPost } from '@/types/globals';
 import { sql } from '@vercel/postgres';
+import { getCustomPosts } from '@/lib/db';
 
 const validator = new Validator();
-
-export const getCustomPosts = async (): Promise<CustomPost[]> => {
-  const dbResponse = await sql`SELECT * FROM public."CustomPosts"`;
-
-  return dbResponse.rows.map((row) => ({
-    title: row.Title,
-    content: row.Content,
-    date: new Date(row.Date),
-  }));
-};
 
 export const POST = async (request: NextRequest) => {
   try {

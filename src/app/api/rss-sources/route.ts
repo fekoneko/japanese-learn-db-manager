@@ -2,14 +2,9 @@ import { RssSourcesSchema } from '@/schemas/globals';
 import { Validator } from 'jsonschema';
 import { NextRequest, NextResponse } from 'next/server';
 import { sql } from '@vercel/postgres';
+import { getRssSources } from '@/lib/db';
 
 const validator = new Validator();
-
-export const getRssSources = async (): Promise<string[]> => {
-  const dbResponse = await sql`SELECT * FROM public."RssSources"`;
-
-  return dbResponse.rows.map((row) => row.Sources).flat();
-};
 
 export const POST = async (request: NextRequest) => {
   try {

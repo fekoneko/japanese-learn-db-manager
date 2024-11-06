@@ -1,5 +1,4 @@
-import { getCustomPosts } from '@/app/api/custom-posts/route';
-import { getRssSources } from '@/app/api/rss-sources/route';
+import { getCustomPosts, getRssSources } from '@/lib/db';
 import RSS, { ItemOptions } from 'rss';
 import RssParser from 'rss-parser';
 
